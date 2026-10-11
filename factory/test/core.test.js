@@ -34,9 +34,11 @@ test('Thresholds require age and observations; external products are never silen
   assert.equal(decision(p, {}, { failedChecks: 3 }, now).action, 'repair');
   assert.equal(decision({ ...p, managed: true }, {}, null, now + 61*86400000).pause, true);
 });
-test('Resource remains unpublished; changes invalidate approval and rendered content is escaped', async () => {
+test('Resource requires exact approval; changes invalidate approval and rendered content is escaped', async () => {
   const digest = await resourceDigest(resource);
-  assert.equal(publicationAllowed(resource, digest), false);
+  assert.equal(publicationAllowed(resource, digest), true);
+  assert.equal(publicationAllowed({ ...resource, publication: 'draft', approval: null }, digest), false);
+  assert.equal(publicationAllowed(resource, await resourceDigest({ ...resource, intro: 'changed' })), false);
   assert.notEqual(await resourceDigest({ ...resource, intro: 'changed' }), digest);
   assert.equal(resourceHTML({ ...resource, title: '<script>alert(1)</script>' }).includes('<script>'), false);
 });

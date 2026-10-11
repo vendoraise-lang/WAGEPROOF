@@ -22,7 +22,8 @@ async function refresh() {
     const job = data.scheduledJob;
     card($('operations'), '15-minute health · daily signal refresh', job ? [`Last run: ${job.completedAt || job.startedAt}`, `Invocation: ${job.invocation || 'initializing'} · ${job.status}`, job.feedError || 'Public source observations refreshed or retained within daily limit.'] : ['Initialization is running. Refresh shortly.']);
     for (const c of data.candidates) card($('approvals'), c.name, [`Status: ${c.publication}`, c.offer, 'Exact-artifact approval required; not publicly served.']);
-    card($('approvals'), data.distributionDraft.title, ['Resource content is withheld pending approval; no outreach or advertising sent.']);
+    const resource = card($('approvals'), data.distributionDraft.title, [data.distributionDraft.publication === 'approved' ? 'Founder-approved educational resource published; no outreach or advertising sent.' : 'Resource content is withheld pending approval; no outreach or advertising sent.']);
+    if (data.distributionDraft.publication === 'approved') { const a = element('a', 'Read the SLA checklist'); a.href = '/resources/sla-checklist'; resource.append(a); }
     card($('economics'), 'USD · live payments disabled', [`Verified transactions: ${data.economics.verifiedPaymentCount}`, `Recorded operating costs: $${(data.economics.recordedCostCents / 100).toFixed(2)} · cost coverage incomplete`, 'Free-tier estimate: $0/month hosting and storage within quota; $0 AI inference. Free quota exhaustion causes failures, not an automated upgrade.', data.economics.limitation]);
     $('status').textContent = `Persisted observations as of ${new Date(data.observedAt).toLocaleString()}. No business results are simulated.`;
   } catch (e) { $('status').textContent = e.message; }

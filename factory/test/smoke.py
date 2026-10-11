@@ -17,7 +17,7 @@ with urllib.request.urlopen(base + '/api/portfolio', timeout=30) as r:
     assert data['candidates'][0]['publication'] == 'draft'
     assert data['products'][0]['testCounts']['reviews'] >= 1
     assert data['products'][0]['testCounts']['downloads'] >= 2
-for path, method, expected in [('/products/sla-preflight', 'GET', 404), ('/resources/sla-checklist', 'GET', 404), ('/api/events', 'POST', 405), ('/api/payments/stripe-test', 'POST', 503)]:
+for path, method, expected in [('/products/sla-preflight', 'GET', 404), ('/api/events', 'POST', 405), ('/api/payments/stripe-test', 'POST', 503)]:
     try:
         urllib.request.urlopen(urllib.request.Request(base + path, method=method), timeout=30)
         raise AssertionError('Unapproved route should be blocked')
@@ -40,13 +40,21 @@ with sync_playwright() as p:
     page.locator('#products article').wait_for()
     assert 'Proposal Preflight' in page.locator('#products').inner_text()
     assert 'Unverified' in page.locator('#summary').inner_text()
-    assert 'content is withheld' in page.locator('#approvals').inner_text()
+    assert 'Founder-approved educational resource published' in page.locator('#approvals').inner_text()
+    assert 'Exact-artifact approval required; not publicly served.' in page.locator('#approvals').inner_text()
     assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
     page.set_viewport_size({'width': 1280, 'height': 900})
     assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
     page.locator('#refresh').click()
     expect(page.locator('#refresh')).to_be_enabled()
     page.screenshot(path='/tmp/business-factory.png', full_page=True)
+    page.get_by_role('link', name='Read the SLA checklist').click()
+    expect(page.get_by_role('heading', name='Five IT SLA commitments worth checking')).to_be_visible()
+    assert page.locator('article h2').count() == 5
+    assert page.locator('a[href="https://proposal-preflight.preflight-f1224675ed.workers.dev/?source=sla-checklist"]').count() == 1
+    assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
+    page.set_viewport_size({'width': 390, 'height': 844})
+    assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
     assert not errors, errors
     browser.close()
 print('PASS: public factory desktop/mobile dashboard, persisted test-event pipeline, revenue honesty, approval gates and read-only interface.')
