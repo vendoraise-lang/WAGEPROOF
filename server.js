@@ -100,7 +100,7 @@ export function createApp({ env = process.env, stripeFetch = fetch, lemonFetch =
       if (lemon) {
         if (url.pathname === '/api/checkout') {
           const token = randomBytes(32).toString('hex');
-          const channel = ['sla-checklist','organic-search','shared-link'].includes(url.searchParams.get('source')) ? url.searchParams.get('source') : 'direct';
+          const channel = ['sla-checklist','organic-search','shared-link','directory-listing'].includes(url.searchParams.get('source')) ? url.searchParams.get('source') : 'direct';
           await paymentStore.reserveTestPurchase({ keyHash: await sha256(token), reportDigest: fingerprint, buyerHash: keyHash(input.buyerKey), storeId: env.LEMON_STORE_ID, variantId: env.LEMON_VARIANT_ID, channel, test: true });
           const checkout = await prepareLemonTestCheckout({ env, reportDigest: fingerprint, buyerKeyHash: keyHash(input.buyerKey), checkoutToken: token, channel, providerFetch: lemonFetch, now: clock() });
           counters.checkouts++; return reply(res, 200, checkout);

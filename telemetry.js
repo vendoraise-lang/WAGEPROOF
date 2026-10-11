@@ -1,6 +1,6 @@
 // Fixed aggregate vocabulary. No document contents, identities or arbitrary URLs.
 export const EVENTS = ['pageviews', 'reviews', 'downloads', 'errors', 'supportClicks', 'resourceViews', 'purchaseIntent', 'checkouts'];
-export const CHANNELS = ['direct','sla-checklist','organic-search','shared-link'];
+export const CHANNELS = ['direct','sla-checklist','organic-search','shared-link','directory-listing'];
 export function traffic(request) {
   const test = request.headers.get('X-Factory-Test') === '1';
   const agent = request.headers.get('User-Agent') || '';

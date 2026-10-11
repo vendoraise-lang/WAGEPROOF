@@ -2,12 +2,71 @@
   "targetMarket": "US",
   "policy": "Prepare and monitor only. Exact founder approval and verified site ownership required before authenticated external submissions. No account registration, community posting, paid listing or spending is automated.",
   "submissions": [
-    { "provider": "Google Search Console", "url": "https://business-factory.preflight-f1224675ed.workers.dev/sitemap.xml", "status": "awaiting-founder-approval-and-ownership", "approval": null, "ownershipVerified": false },
-    { "provider": "Google Search Console", "url": "https://proposal-preflight.preflight-f1224675ed.workers.dev/sitemap.xml", "status": "awaiting-founder-approval-and-ownership", "approval": null, "ownershipVerified": false }
+    {
+      "provider": "Google Search Console",
+      "url": "https://business-factory.preflight-f1224675ed.workers.dev/sitemap.xml",
+      "status": "awaiting-founder-approval-and-ownership",
+      "approval": null,
+      "ownershipVerified": false
+    },
+    {
+      "provider": "Google Search Console",
+      "url": "https://proposal-preflight.preflight-f1224675ed.workers.dev/sitemap.xml",
+      "status": "awaiting-founder-approval-and-ownership",
+      "approval": null,
+      "ownershipVerified": false
+    }
   ],
   "directories": [
-    { "name": "G2", "url": "https://sell.g2.com/", "status": "research-candidate-not-approved", "costVerified": false, "fit": "Software vendor profile; eligibility, listing cost and actual category fit need account review. No submission made." },
-    { "name": "Capterra", "url": "https://www.capterra.com/vendors/", "status": "research-candidate-not-approved", "costVerified": false, "fit": "US software buyer directory; acceptance, listing terms and category fit remain unverified. No submission made." }
+    {
+      "name": "G2",
+      "url": "https://sell.g2.com/",
+      "status": "research-candidate-not-approved",
+      "costVerified": false,
+      "fit": "Software vendor profile; eligibility, listing cost and actual category fit need account review. No submission made."
+    },
+    {
+      "name": "Capterra",
+      "url": "https://www.capterra.com/vendors/",
+      "status": "research-candidate-not-approved",
+      "costVerified": false,
+      "fit": "US software buyer directory; acceptance, listing terms and category fit remain unverified. No submission made."
+    }
   ],
-  "organicExperiment": "Only the approved SLA checklist and existing product. Search discoverability is technical eligibility, not verified indexing, rankings, buyers or revenue. Do not create more pages until actual acquisition and utility evidence justify review."
+  "organicExperiment": "Only the approved SLA checklist and existing product. Search discoverability is technical eligibility, not verified indexing, rankings, buyers or revenue. Do not create more pages until actual acquisition and utility evidence justify review.",
+  "revenueExperiment": {
+    "id": "proposal-preflight-g2-listing-v1",
+    "status": "prepared-not-approved-not-submitted",
+    "buyer": "US small IT providers screening a client-facing proposal before submission",
+    "offer": "One self-service review of up to 30 explicit requirements with numerical SLA comparisons, cited passages and HTML/CSV reports. Free three-item preview; proposed $9 one-time report. Live sales disabled.",
+    "hypothesis": "A relevant software listing may reach buyers already evaluating proposal tools. No traffic, acceptance or conversion is assumed.",
+    "officialEvidence": {
+      "source": "https://www.capterra.com/vendors/",
+      "observedAt": "2026-10-11",
+      "observation": "Official vendor page says acquire high-intent software buyers and links Start your journey to G2 product submission. HTTP 200; cost and category acceptance not established.",
+      "submissionUrl": "https://www.g2.com/products/new",
+      "submissionAccess": "HTTP 403 in this environment; authenticated account/editor access not verified.",
+      "freeTermsVerified": false
+    },
+    "listingDraft": {
+      "name": "Proposal Preflight",
+      "categoryRequested": "Proposal Management \u2014 provider must confirm fit; this is a narrow screening utility, not proposal authoring or e-signature software",
+      "website": "https://proposal-preflight.preflight-f1224675ed.workers.dev/?source=directory-listing",
+      "shortDescription": "Check explicit SLA promises in an IT proposal against your supplied requirements. Preview three items free.",
+      "description": "Proposal Preflight compares an English plain-text requirements checklist with a proposal draft. It checks explicit duration and uptime thresholds, missing support coverage and weak process answers, with cited passages and next actions. It does not verify certifications, attachments, service performance or legal compliance. Up to 30 requirements and 16,000 proposal characters; HTML/CSV reports. No server-side document storage. Live sales are disabled during validation; the proposed one-time full-report price is $9. No customer or performance claims.",
+      "pricing": "Free three-item preview. Proposed $9 USD one-time report; live purchases not yet available."
+    },
+    "budgetUSD": 0,
+    "approval": null,
+    "accountConnectionRequired": true,
+    "guard": "Submit only after exact-content founder approval, authenticated listing access and verified free terms. No advertising, trials, paid upgrades or fabricated reviews. Do not silently change category or description.",
+    "window": "30 days after the accepted listing actually becomes public",
+    "stopConditions": [
+      "Provider requires spending or rejects fit: stop this channel.",
+      "Fewer than 10 attributed product-page events after 30 days: stop channel investment.",
+      "At least 10 attributed visits but no non-test reviews or price-interest events: stop scaling and review the offer."
+    ],
+    "scaleCondition": "Only real usage/interest justifies further review; repeatable paid conversion and complete cost records are required to claim profitability.",
+    "firstRevenueTarget": "12 completed non-test $9 orders equal $108 gross before refunds, provider fees and operating costs. This is target arithmetic, not a sales forecast."
+  }
 }

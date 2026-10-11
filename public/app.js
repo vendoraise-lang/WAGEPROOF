@@ -4,7 +4,7 @@ let config = { paymentsAvailable: false }, report = null, active = null, busy = 
 const requestedSource = new URLSearchParams(location.search).get('source');
 let searchReferral = false;
 try { searchReferral = /^(www\.)?(google\.com|bing\.com|duckduckgo\.com|search\.yahoo\.com)$/.test(new URL(document.referrer).hostname); } catch {}
-const source = ['sla-checklist','shared-link','organic-search'].includes(requestedSource) ? requestedSource : searchReferral ? 'organic-search' : null;
+const source = ['sla-checklist','shared-link','organic-search','directory-listing'].includes(requestedSource) ? requestedSource : searchReferral ? 'organic-search' : null;
 let sampleMode = false, intentRecorded = false;
 const message = (text, error = false) => { $('message').textContent = text; $('message').className = `message${error ? ' error' : ''}`; };
 function draft() { return { requirements: $('requirements').value, proposal: $('proposal').value }; }
@@ -38,7 +38,7 @@ function render(value, full = false) {
   $('downloads').hidden = !full;
   // Keep the existing journey working if an edge briefly serves the prior HTML during release.
   if ($('price-interest')) {
-    $('price-interest').hidden = !full || !config.freeBeta;
+    $('price-interest').hidden = config.livePaymentsEnabled === true;
     $('price-interest').disabled = intentRecorded;
   }
   $('checkout').textContent = config.paymentsAvailable ? (config.paymentMode === 'test' ? 'Try test checkout · no charge' : 'Get full report · $9') : 'Checkout not activated yet';
@@ -79,7 +79,7 @@ function download(content, type, name) { const url = URL.createObjectURL(new Blo
 // Anonymous aggregate download event only; never send report or document contents.
 function trackDownload() { api('/api/events', { event: 'download' }).catch(() => {}); }
 $('price-interest')?.addEventListener('click', async () => {
-  if (!report || intentRecorded) return;
+  if (!active || intentRecorded) return;
   $('price-interest').disabled = true;
   try { await api('/api/events', { event: 'intent' }); intentRecorded = true; message('Anonymous price-interest signal recorded. This is not an order or commitment; no payment or contact details were collected.'); }
   catch (e) { $('price-interest').disabled = false; message(e.message, true); }

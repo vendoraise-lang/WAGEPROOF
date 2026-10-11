@@ -85,3 +85,9 @@ test('Test checkout refuses non-USD stores and subscription or live variants bef
     await assert.rejects(() => prepareLemonTestCheckout({ env, ...bindings, providerFetch }));
   }
 });
+
+
+test('Directory listing attribution stays bounded and segregates operator tests', () => {
+  assert.deepEqual(traffic(new Request('https://example.com/?source=directory-listing', { headers: { 'User-Agent': 'Mozilla/5.0', 'X-Factory-Test': '1' } })), { test: true, channel: 'directory-listing' });
+  assert.equal(traffic(new Request('https://example.com/?source=arbitrary-private-url', { headers: { 'User-Agent': 'Mozilla/5.0' } })).channel, 'direct');
+});

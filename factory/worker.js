@@ -84,7 +84,7 @@ export class PortfolioStore extends DurableObject {
       const testChecklistFunnel = Object.fromEntries(EVENTS.map(e => [e, [...this.sql.exec(`SELECT COALESCE(SUM(${e}),0) AS n FROM funnel WHERE day>=? AND product=? AND channel='sla-checklist' AND test=1`, cutoff, p.id)][0].n]));
       return { ...p, counts: total, testCounts: tests, health: health[p.id] || null, decision: decision(p, total, health[p.id]),
         checklistFunnel, testChecklistFunnel,
-        acquisitionChannels: Object.fromEntries(['organic-search','shared-link'].map(channel => [channel, Object.fromEntries(EVENTS.map(e => [e, [...this.sql.exec(`SELECT COALESCE(SUM(${e}),0) AS n FROM funnel WHERE day>=? AND product=? AND channel=? AND test=0`, cutoff, p.id, channel)][0].n]))])),
+        acquisitionChannels: Object.fromEntries(['organic-search','shared-link','directory-listing'].map(channel => [channel, Object.fromEntries(EVENTS.map(e => [e, [...this.sql.exec(`SELECT COALESCE(SUM(${e}),0) AS n FROM funnel WHERE day>=? AND product=? AND channel=? AND test=0`, cutoff, p.id, channel)][0].n]))])),
         resourceReferralPageviews: [...this.sql.exec('SELECT COALESCE(SUM(count),0) AS n FROM channels WHERE day>=? AND product=? AND test=0', cutoff, p.id)][0].n,
         completionEventsPerPageview: total.pageviews ? total.reviews / total.pageviews : null };
     });
