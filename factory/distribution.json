@@ -36,7 +36,7 @@
   "organicExperiment": "Only the approved SLA checklist and existing product. Search discoverability is technical eligibility, not verified indexing, rankings, buyers or revenue. Do not create more pages until actual acquisition and utility evidence justify review.",
   "revenueExperiment": {
     "id": "proposal-preflight-g2-listing-v1",
-    "status": "prepared-not-approved-not-submitted",
+    "status": "approved-awaiting-free-terms-category-and-account-access",
     "buyer": "US small IT providers screening a client-facing proposal before submission",
     "offer": "One self-service review of up to 30 explicit requirements with numerical SLA comparisons, cited passages and HTML/CSV reports. Free three-item preview; proposed $9 one-time report. Live sales disabled.",
     "hypothesis": "A relevant software listing may reach buyers already evaluating proposal tools. No traffic, acceptance or conversion is assumed.",
@@ -45,7 +45,7 @@
       "observedAt": "2026-10-11",
       "observation": "Official vendor page says acquire high-intent software buyers and links Start your journey to G2 product submission. HTTP 200; cost and category acceptance not established.",
       "submissionUrl": "https://www.g2.com/products/new",
-      "submissionAccess": "HTTP 403 in this environment; authenticated account/editor access not verified.",
+      "submissionAccess": "Rechecked: https://www.g2.com/products/new returns HTTP 403; sell.g2.com is denied by this environment network policy. No authenticated G2 connection is available.",
       "freeTermsVerified": false
     },
     "listingDraft": {
@@ -57,7 +57,13 @@
       "pricing": "Free three-item preview. Proposed $9 USD one-time report; live purchases not yet available."
     },
     "budgetUSD": 0,
-    "approval": null,
+    "approval": {
+      "actor": "founder",
+      "approvedAt": "2026-10-11T16:28:53.361229+00:00",
+      "artifactDigest": "f720ed032516c3be66e32e42cfabf425c34f0340f63b242d1f7611c60a1a70f4",
+      "scope": "One exact listing only, contingent on verified free basic terms and appropriate category. No ads, trials, paid upgrades or live payments.",
+      "source": "Explicit user approval in chat"
+    },
     "accountConnectionRequired": true,
     "guard": "Submit only after exact-content founder approval, authenticated listing access and verified free terms. No advertising, trials, paid upgrades or fabricated reviews. Do not silently change category or description.",
     "window": "30 days after the accepted listing actually becomes public",
