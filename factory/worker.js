@@ -162,9 +162,9 @@ export class PortfolioStore extends DurableObject {
     }
     if (this.env.PRODUCT_PAYMENTS) {
       try {
-        if (!this.paymentConfiguration().ready && this.env.LEMON_WEBHOOK_SECRET && Date.now() - this.get('paymentSetupCheckedAt', 0) >= 3600000) {
+        if (!this.paymentConfiguration().ready && this.env.LEMON_WEBHOOK_SECRET && (job?.bootstrapRevision !== this.env.BOOTSTRAP_REVISION || Date.now() - this.get('paymentSetupCheckedAt', 0) >= 3600000)) {
           this.put('paymentSetupCheckedAt', Date.now());
-          try { this.put('paymentConfiguration', await this.env.PRODUCT_PAYMENTS.configure(this.env.LEMON_WEBHOOK_SECRET)); } catch { this.put('paymentConfiguration', { ready: false, merchantEligibilityConfirmed: false, reason: 'Test account, product or API access could not be verified. Live processing remains disabled.' }); }
+          try { this.put('paymentConfiguration', await this.env.PRODUCT_PAYMENTS.configure(this.env.LEMON_WEBHOOK_SECRET)); } catch (error) { this.put('paymentConfiguration', { ready: false, merchantEligibilityConfirmed: false, reason: 'Test account, product or API access could not be verified. Live processing remains disabled.', diagnostic: String(error.message).replace(/Bearer\s+\S+/gi, '[redacted]').replace(/[A-Za-z0-9_-]{32,}/g, '[redacted]').slice(0, 220) }); }
         }
         const pending = this.purchases().filter(p => p.orderId && p.state !== 'revoked').sort((a,b) => Date.parse(a.verifiedAt || 0) - Date.parse(b.verifiedAt || 0)).slice(0, 5);
         const check = await this.env.PRODUCT_PAYMENTS.reconcile(pending);

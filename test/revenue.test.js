@@ -3,10 +3,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHmac } from 'node:crypto';
 import { createApp } from '../server.js';
-import { sha256, testOrder, verifyLemonTestWebhook, reducePurchase, paymentTotals, prepareLemonTestCheckout, configureLemonTestAccount } from '../payments/lemon.js';
+import { sha256, testOrder, verifyLemonTestWebhook, reducePurchase, paymentTotals, prepareLemonTestCheckout, configureLemonTestAccount, paymentEnvironment } from '../payments/lemon.js';
 import { auditSEO, sitemap, submitSitemap, RESOURCE_URL, PRODUCT_ORIGIN, FACTORY_ORIGIN } from '../seo.js';
 import { traffic } from '../telemetry.js';
-const secret = 'local-fixture-not-a-real-key-'.repeat(2);
+const secret = 'local-fixture-'.padEnd(32, 'x');
 const env = { PAYMENT_PROVIDER: 'lemonsqueezy', PAYMENT_MODE: 'test', LEMON_TEST_INTEGRATION_APPROVED: 'true', LEMON_API_KEY: 'offline-fixture', LEMON_STORE_ID: '1', LEMON_VARIANT_ID: '2', APP_SECRET: secret, PUBLIC_BASE_URL: 'https://example.com', FREE_BETA: 'true' };
 const input = { requirements: 'Response within 30 minutes\nUptime at least 99.9%\nProvide 24/7 support\nDescribe incident escalation process', proposal: 'Our response time is 60 minutes. Our uptime commitment is 99.5%. We provide business-hours support. The incident escalation process is excellent.', buyerKey: 'a'.repeat(64) };
 function order(overrides = {}) {
@@ -25,7 +25,7 @@ test('Self-service Lemon test journey verifies signed order, browser and text, f
     if (url.endsWith('/users/me')) return Response.json({ meta: { test_mode: true } });
     if (url.endsWith('/stores/1')) return Response.json({ data: { type: 'stores', id: '1', attributes: { currency: 'USD' } } });
     if (url.endsWith('/variants/2')) return Response.json({ data: { type: 'variants', id: '2', attributes: { test_mode: true, is_subscription: false } } });
-    if (url.endsWith('/checkouts')) { const attributes = JSON.parse(options.body).data.attributes; metadata = attributes.checkout_data.custom; assert.equal(attributes.custom_price, 900); assert.equal(attributes.test_mode, true); assert(!options.body.includes('incident')); return Response.json({ data: { type: 'checkouts', attributes: { test_mode: true, url: 'https://fixture.lemonsqueezy.com/checkout/buy/fixture' } } }); }
+    if (url.endsWith('/checkouts')) { const attributes = JSON.parse(options.body).data.attributes; metadata = attributes.checkout_data.custom; assert.equal(attributes.custom_price, 900); assert.equal(attributes.test_mode, true); assert(!options.body.includes('incident')); return Response.json({ data: { type: 'checkouts', attributes: { custom_price: 900, store_id: 1, variant_id: 2, test_mode: true, url: 'https://fixture.lemonsqueezy.com/checkout/buy/fixture' } } }); }
     assert.equal(url, 'https://api.lemonsqueezy.com/v1/orders/10'); return Response.json({ data: actualOrder });
   };
   const server = createApp({ env, lemonFetch: providerFetch, paymentStore: ledger });
@@ -93,13 +93,13 @@ test('Fixed organic/referral attribution never stores arbitrary URLs or assumes 
 });
 
 
-test('Account connection discovers only one named $9 test product and creates a signed test-only webhook', async () => {
+test('Account connection discovers one named test product with a fixed $9 checkout override and creates a signed test-only webhook', async () => {
   let registered = 0;
   const providerFetch = async (url, options) => {
     if (url.endsWith('/users/me')) return Response.json({ meta: { test_mode: true } });
     if (url.includes('/stores?')) return Response.json({ data: [{ type: 'stores', id: '1', attributes: { currency: 'USD' } }] });
-    if (url.includes('/products?')) return Response.json({ data: [{ type: 'products', id: '3', attributes: { store_id: 1, name: 'Proposal Preflight', test_mode: true } }] });
-    if (url.includes('/variants?')) return Response.json({ data: [{ type: 'variants', id: '2', attributes: { product_id: 3, test_mode: true, is_subscription: false, price: 900 } }] });
+    if (url.includes('/products?')) return Response.json({ data: [{ type: 'products', id: '3', attributes: { store_id: 1, name: 'Proposal Preflight Report', test_mode: true } }] });
+    if (url.includes('/variants?')) return Response.json({ data: [{ type: 'variants', id: '2', attributes: { product_id: 3, test_mode: true, is_subscription: false, price: 9999 } }] });
     if (url.includes('/webhooks?')) return Response.json({ data: [] });
     assert.equal(url, 'https://api.lemonsqueezy.com/v1/webhooks'); registered++;
     const payload = JSON.parse(options.body).data;
@@ -107,8 +107,34 @@ test('Account connection discovers only one named $9 test product and creates a 
     return Response.json({ data: { type: 'webhooks', id: '4', attributes: { ...payload.attributes, store_id: 1 } } });
   };
   const config = await configureLemonTestAccount(env, secret, providerFetch);
-  assert.equal(config.ready, true); assert.equal(config.storeId, '1'); assert.equal(config.variantId, '2'); assert.equal(config.merchantEligibilityConfirmed, false); assert.equal(registered, 1); assert.equal(config.secret, undefined);
+  assert.equal(config.ready, true); assert.equal(config.priceCents, 900); assert.equal(config.variantListPriceCents, 9999); assert.equal(config.currency, 'USD'); assert.equal(config.oneTime, true); assert.equal(config.storeId, '1'); assert.equal(config.variantId, '2'); assert.equal(config.merchantEligibilityConfirmed, false); assert.equal(registered, 1); assert.equal(config.secret, undefined);
+  const nonUSD = async (url, options) => url.includes('/stores?') ? Response.json({ data: [{ type: 'stores', id: '1', attributes: { currency: 'MAD' } }] }) : providerFetch(url, options);
+  const wrongCurrency = await configureLemonTestAccount(env, secret, nonUSD); assert.equal(wrongCurrency.ready, false); assert.equal(wrongCurrency.discovery.variants[0].variantId, '2'); assert.equal(wrongCurrency.webhookConfigured, true); assert.equal(registered, 2);
   const unavailable = await configureLemonTestAccount({ ...env, LEMON_API_KEY: '' }, secret, () => assert.fail('No API call without credentials')); assert.equal(unavailable.ready, false);
   const bad = async (url, options) => url.includes('/products?') ? Response.json({ data: [{ type: 'products', id: '3', attributes: { store_id: 1, name: 'Proposal Preflight', test_mode: false } }] }) : providerFetch(url, options);
-  assert.equal((await configureLemonTestAccount(env, secret, bad)).ready, false); assert.equal(registered, 1);
+  assert.equal((await configureLemonTestAccount(env, secret, bad)).ready, false); assert.equal(registered, 2);
+});
+
+test('Uses the existing encrypted misspelled binding without overriding the standard key', () => {
+  assert.equal(paymentEnvironment({ LEMON_API_KE: 'offline-alias' }).LEMON_API_KEY, 'offline-alias');
+  assert.equal(paymentEnvironment({ LEMON_API_KEY: 'offline-standard', LEMON_API_KE: 'offline-alias' }).LEMON_API_KEY, 'offline-standard');
+});
+
+test('Rejects oversized signing secrets locally instead of sending provider-invalid webhook configuration', async () => {
+  const result = await configureLemonTestAccount(env, 'x'.repeat(64), () => assert.fail('Invalid signing binding must not reach the provider'));
+  assert.equal(result.ready, false);
+});
+
+
+test('Checkout override rejects a provider response with wrong price, store, variant or live mode', async () => {
+  const attributes = { test_mode: true, custom_price: 900, store_id: 1, variant_id: 2, url: 'https://fixture.lemonsqueezy.com/checkout/buy/fixture' };
+  for (const changed of [{ custom_price: 9999 }, { store_id: 3 }, { variant_id: 4 }, { test_mode: false }]) {
+    const providerFetch = async url => {
+      if (url.endsWith('/users/me')) return Response.json({ meta: { test_mode: true } });
+      if (url.endsWith('/stores/1')) return Response.json({ data: { type: 'stores', id: '1', attributes: { currency: 'USD' } } });
+      if (url.endsWith('/variants/2')) return Response.json({ data: { type: 'variants', id: '2', attributes: { test_mode: true, is_subscription: false } } });
+      return Response.json({ data: { type: 'checkouts', attributes: { ...attributes, ...changed } } });
+    };
+    await assert.rejects(() => prepareLemonTestCheckout({ env, reportDigest: 'a'.repeat(64), buyerKeyHash: 'b'.repeat(64), providerFetch }), /unsupported provider response/);
+  }
 });

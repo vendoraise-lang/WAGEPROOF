@@ -1,5 +1,5 @@
 import { WorkerEntrypoint } from 'cloudflare:workers';
-import { verifyLemonTestOrder, configureLemonTestAccount } from './payments/lemon.js';
+import { verifyLemonTestOrder, configureLemonTestAccount, paymentEnvironment } from './payments/lemon.js';
 import { httpServerHandler } from 'cloudflare:node';
 import { createApp } from './server.js';
 import { traffic, productEvent } from './telemetry.js';
@@ -7,6 +7,7 @@ import { traffic, productEvent } from './telemetry.js';
 let handler, origin, configurationKey;
 export default {
   async fetch(request, env, ctx) {
+    env = paymentEnvironment(env);
     const currentOrigin = new URL(request.url).origin;
     const path = new URL(request.url).pathname;
     const eventRequest = path === '/api/events' ? request.clone() : null;
@@ -46,12 +47,16 @@ export default {
 
 // Private scheduled reconciliation; no public payment administration route.
 export class PaymentOperations extends WorkerEntrypoint {
-  async configure(webhookSecret) { return configureLemonTestAccount({ ...this.env, PAYMENT_MODE: 'test' }, webhookSecret); }
+  async configure(webhookSecret) {
+    try { return await configureLemonTestAccount({ ...paymentEnvironment(this.env), PAYMENT_MODE: 'test' }, webhookSecret); }
+    catch (error) { return { ready: false, merchantEligibilityConfirmed: false, reason: 'Test configuration could not be verified; live payments disabled.', providerStatus: error.providerStatus || null, operation: error.operation || null, validationFields: error.validationFields || [] }; }
+  }
   async reconcile(purchases) {
-    if (!this.env.LEMON_API_KEY || this.env.PAYMENT_PROVIDER !== 'lemonsqueezy') return { connected: false, receipts: [] };
+    const env = paymentEnvironment(this.env);
+    if (!env.LEMON_API_KEY || env.PAYMENT_PROVIDER !== 'lemonsqueezy') return { connected: false, receipts: [] };
     const receipts = []; let failures = 0;
     for (const purchase of purchases.slice(0, 5)) {
-      try { receipts.push({ ...await verifyLemonTestOrder({ ...this.env, PAYMENT_MODE: 'test' }, purchase), keyHash: purchase.keyHash }); }
+      try { receipts.push({ ...await verifyLemonTestOrder({ ...env, PAYMENT_MODE: 'test' }, purchase), keyHash: purchase.keyHash }); }
       catch { failures++; }
     }
     return { connected: true, receipts, failures };
