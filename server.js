@@ -113,7 +113,7 @@ export function createApp({ env = process.env, stripeFetch = fetch, lemonFetch =
         const receipt = await verifyLemonTestOrder(env, purchase, lemonFetch);
         const verified = await paymentStore.applyTestOrder({ ...receipt, keyHash: purchase.keyHash });
         if (verified.state !== 'paid') return reply(res, 403, { error: 'No matching paid test order, or access has been revoked.' });
-        counters.reports++; return reply(res, 200, { ...analyze(input), testPayment: true, receiptUrl: receipt.receiptUrl });
+        counters.reports++; return reply(res, 200, { ...analyze(input), testPayment: true, payment: { mode: 'test', orderId: receipt.orderId, currency: 'USD', subtotalCents: receipt.subtotalCents, totalCents: receipt.totalCents }, receiptUrl: receipt.receiptUrl });
       }
       if (url.pathname === '/api/checkout') {
         if (clock() - priceChecked > 300000 || !priceChecked) {

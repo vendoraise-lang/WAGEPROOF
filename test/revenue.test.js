@@ -41,7 +41,7 @@ test('Self-service Lemon test journey verifies signed order, browser and text, f
   const receipt = await verifyLemonTestWebhook(raw, signed(raw), secret);
   await ledger.applyTestOrder(receipt); await ledger.applyTestOrder(receipt);
   const result = await post('/api/report', { ...input, sessionId: checkout.sessionId }); assert.equal(result.status, 200);
-  const full = await result.json(); assert.equal(full.findings.length, 4); assert.equal(full.testPayment, true); assert.match(full.receiptUrl, /^https:\/\/app.lemonsqueezy.com\/my-orders\//);
+  const full = await result.json(); assert.equal(full.findings.length, 4); assert.equal(full.testPayment, true); assert.deepEqual(full.payment, { mode: 'test', orderId: '10', currency: 'USD', subtotalCents: 900, totalCents: 990 }); assert.match(full.receiptUrl, /^https:\/\/app.lemonsqueezy.com\/my-orders\//);
   for (const altered of [{ buyerKey: 'b'.repeat(64) }, { proposal: 'Different draft.' }]) assert.equal((await post('/api/report', { ...input, ...altered, sessionId: checkout.sessionId })).status, 403);
   actualOrder = order({ status: 'refunded', refunded_amount: 990 });
   assert.equal((await post('/api/report', { ...input, sessionId: checkout.sessionId })).status, 403);
