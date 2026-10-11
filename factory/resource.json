@@ -1,0 +1,15 @@
+{
+  "id": "sla-checklist",
+  "title": "Five IT SLA commitments worth checking",
+  "intro": "Before relying on an IT service agreement, compare its explicit promises with your requirements. These five checks help locate questions to resolve; they do not certify a supplier or replace professional review.",
+  "sections": [
+    { "heading": "1. Separate response from resolution", "text": "A 30-minute response target promises an initial response, not a fix in 30 minutes. Check incident severity, coverage hours, when the clock starts and what qualifies as a response. Fictional example: a 60-minute response commitment is outside a stated 30-minute upper bound, assuming identical definitions and scope." },
+    { "heading": "2. Define the uptime calculation", "text": "Ask which service is measured, over what window, and which exclusions apply. For illustration only, 99.9% uptime over exactly 30 days permits 43.2 minutes of downtime before exclusions. A percentage alone cannot establish whether maintenance, a regional outage or your application is covered." },
+    { "heading": "3. Keep RTO and RPO distinct", "text": "A recovery time objective concerns the targeted time to restore operation. A recovery point objective concerns the tolerated data-loss window. A backup schedule is not proof that either recovery objective is achievable. Request recovery-test evidence and verify the relevant workload and assumptions." },
+    { "heading": "4. State support coverage explicitly", "text": "Business-hours support and 24/7 support are different commitments. Confirm time zones, holidays, severity restrictions and who can open an incident. Do not infer 24/7 coverage merely from a promise of continuous monitoring." },
+    { "heading": "5. Ask for operational and independent evidence", "text": "An escalation process should describe triggers, responsibilities and next steps. A certification claim needs independent verification of scope and validity. Automated text checks can locate gaps or conflicting values; they cannot establish whether a claim is true." }
+  ],
+  "toolUrl": "https://proposal-preflight.preflight-f1224675ed.workers.dev/?source=sla-checklist",
+  "publication": "draft",
+  "approval": null
+}

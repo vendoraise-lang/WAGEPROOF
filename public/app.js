@@ -64,15 +64,24 @@ $('checkout').addEventListener('click', async () => {
 const escapeHTML = text => String(text).replace(/[&<>"']/g, x => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[x]);
 const csvCell = text => { let value = String(text); if (/^[\s\u0000-\u001f]*[=+@-]/.test(value)) value = `'${value}`; return `"${value.replaceAll('"', '""')}"`; };
 function download(content, type, name) { const url = URL.createObjectURL(new Blob([content], { type })); const a = document.createElement('a'); a.href = url; a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
+// Anonymous aggregate download event only; never send report or document contents.
+function trackDownload() { api('/api/events', { event: 'download' }).catch(() => {}); }
+$('flag-problem').addEventListener('click', async () => {
+  if (!confirm('Send an anonymous problem signal? No document text or contact details are sent, so we cannot reply individually.')) return;
+  try { await api('/api/events', { event: 'support' }); message('Problem signal recorded. No document text or contact details were sent; individual replies are unavailable.'); }
+  catch (e) { message(e.message, true); }
+});
 $('download-csv').addEventListener('click', () => {
   if (!report) return;
   const rows = [['Requirement', 'Status', 'Missing terms', 'Evidence excerpt', 'Review note', 'Checks', 'Next action'], ...report.findings.map(x => [x.requirement, x.status, x.missing.join('; '), (x.evidence || [{text: x.excerpt}]).map(e => `Passage ${e.passage || ''}: ${e.text}`).join('\n'), x.note, (x.checks || []).map(c => `${c.label}: ${c.required} / ${c.offered}; ${c.result}`).join(' | '), x.nextAction || '']), ['LIMITATION', report.limitation, '', '', '', '', '']];
   download('\uFEFF' + rows.map(row => row.map(csvCell).join(',')).join('\r\n'), 'text/csv;charset=utf-8', 'proposal-preflight.csv');
+  trackDownload();
 });
 $('download-html').addEventListener('click', () => {
   if (!report) return;
   const items = report.findings.map(x => `<article><h2>${x.id}. ${escapeHTML(x.requirement)}</h2><p><strong>${escapeHTML(x.status)}</strong></p><p>Missing terms: ${escapeHTML(x.missing.join(', ') || 'None in this passage')}</p>${(x.evidence || [{ text: x.excerpt || 'No matching passage' }]).map(e => `<blockquote>Passage ${e.passage || ''}: ${escapeHTML(e.text)}</blockquote>`).join('')}${(x.checks || []).map(c => `<p>${escapeHTML(`${c.label}: required ${c.required}; found ${c.offered}. ${c.result}. ${c.assumption || ''}`)}</p>`).join('')}<p><strong>Next action:</strong> ${escapeHTML(x.nextAction || '')}</p><p>${escapeHTML(x.note)}</p></article>`).join('');
   download(`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"><title>Proposal Preflight report</title><style>body{font:16px/1.6 system-ui;max-width:900px;margin:40px auto;padding:20px;color:#172c27}article{border-top:1px solid #ddd;padding:20px 0}h2{font-size:19px}blockquote{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f5ec;padding:16px;margin:0}</style><h1>Proposal Preflight</h1><p>${escapeHTML(report.limitation)}</p>${items}</html>`, 'text/html;charset=utf-8', 'proposal-preflight.html');
+  trackDownload();
 });
 async function initialize() {
   try {

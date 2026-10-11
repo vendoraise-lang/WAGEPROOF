@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "products": [{
+    "id": "proposal-preflight",
+    "name": "Proposal Preflight",
+    "url": "https://proposal-preflight.preflight-f1224675ed.workers.dev",
+    "template": "requirements-review-v1",
+    "launchedAt": "2026-10-11T00:00:00Z",
+    "publication": "approved-existing",
+    "approval": "Founder explicitly authorized the free Proposal Preflight launch; factory does not authorize additional products.",
+    "managed": true,
+    "thresholds": { "reviewDays": 30, "maximumDays": 60, "minimumPageviews": 100, "minimumReviews": 3, "maximumFailedChecks": 3 }
+  }],
+  "candidates": [{
+    "id": "sla-preflight",
+    "name": "SLA Preflight",
+    "template": "requirements-review-v1",
+    "publication": "draft",
+    "offer": "Compare a short IT service agreement with explicit response, uptime and recovery requirements.",
+    "approval": null
+  }],
+  "costs": [],
+  "costCoverageComplete": false,
+  "paymentsEnabled": false,
+  "maximumProducts": 1
+}

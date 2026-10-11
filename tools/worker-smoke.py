@@ -29,6 +29,7 @@ with sync_playwright() as p:
         def relay(route):
             request = route.request
             headers = {k: v for k, v in request.headers.items() if k.lower() not in ['host', 'content-length', 'accept-encoding']}
+            headers['X-Factory-Test'] = '1'
             req = urllib.request.Request(request.url, data=request.post_data_buffer, headers=headers, method=request.method)
             try:
                 response = urllib.request.urlopen(req, timeout=30)
@@ -65,5 +66,8 @@ with sync_playwright() as p:
     assert not page.locator('#proposal').input_value()
     assert page.evaluate('sessionStorage.getItem("preflight-draft-v1")') is None
     assert not errors, errors
+    page.once('dialog', lambda dialog: dialog.accept())
+    page.locator('#flag-problem').click()
+    page.wait_for_function('() => document.getElementById("message").textContent.includes("Problem signal recorded")')
     browser.close()
 print('PASS: Worker headers, disabled payments, desktop/mobile analysis, structured findings, full downloads and clear-data journey.')

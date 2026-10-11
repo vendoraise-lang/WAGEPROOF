@@ -72,10 +72,14 @@ export function createApp({ env = process.env, stripeFetch = fetch, clock = Date
         const content = readStatic ? await readStatic(file) : await readFile(ROOT + file);
         res.writeHead(200, { ...headers, 'Content-Type': type }); return res.end(content);
       }
-      if (req.method !== 'POST' || !['/api/preview', '/api/checkout', '/api/report'].includes(url.pathname)) return reply(res, 404, { error: 'Not found.' });
+      if (req.method !== 'POST' || !['/api/preview', '/api/checkout', '/api/report', '/api/events'].includes(url.pathname)) return reply(res, 404, { error: 'Not found.' });
       if (req.headers.origin && req.headers.origin !== base) return reply(res, 403, { error: 'Origin not permitted.' });
       if (!rate(req, url.pathname)) { res.setHeader('Retry-After', '600'); return reply(res, 429, { error: 'Usage limit reached. Please wait ten minutes.' }); }
       const input = await body(req);
+      if (url.pathname === '/api/events') {
+        if (!['download', 'support'].includes(input?.event) || Object.keys(input).length !== 1) return reply(res, 400, { error: 'Invalid aggregate event.' });
+        return reply(res, 200, { ok: true });
+      }
       validate(input);
       if (url.pathname === '/api/preview') {
         const report = analyze(input); counters.previews++;
