@@ -19,10 +19,12 @@ function render(value, full = false) {
   $('result-count').textContent = `${value.findings.length} of ${value.total} requirements`;
   for (const finding of value.findings) {
     const article = document.createElement('article'); article.className = 'finding';
-    article.append(node('span', finding.status, `tag${finding.status !== 'Terms located' ? ' warning' : ''}`));
+    article.append(node('span', finding.status, `tag${finding.severity !== 'info' ? ' warning' : ''}`));
     article.append(node('h3', `${finding.id}. ${finding.requirement}`));
     if (finding.missing.length) article.append(node('p', `Terms not in this passage: ${finding.missing.join(', ')}`));
-    if (finding.excerpt) article.append(node('blockquote', finding.excerpt));
+    for (const evidence of finding.evidence || [{ passage: '', text: finding.excerpt }]) if (evidence.text) article.append(node('blockquote', `Passage ${evidence.passage}: ${evidence.text}`));
+    for (const check of finding.checks || []) article.append(node('p', `${check.label}: required ${check.required}; found ${check.offered}. ${check.result}. ${check.assumption || ''}`));
+    if (finding.nextAction) article.append(node('p', `Next action: ${finding.nextAction}`, 'action-note'));
     article.append(node('p', finding.note, 'small')); $('findings').append(article);
   }
   $('purchase').hidden = full;
@@ -41,13 +43,13 @@ $('review-form').addEventListener('submit', async event => {
   setBusy(true); message('Checking terminology…');
   try {
     active = { ...draft(), buyerKey: browserKey() }; remember(active);
-    const result = await api('/api/preview', active); render(result); message('Preview ready. Inspect the excerpts before deciding whether a complete report is useful.');
+    const result = await api('/api/preview', active); render(result, !!result.freeBeta); message(result.freeBeta ? 'Free beta report ready. Review the findings and download your report; no payment is taken.' : 'Preview ready. Inspect the findings before deciding whether a complete report is useful.');
   } catch (e) { message(e.message, true); } finally { setBusy(false); $('checkout').disabled = !config.paymentsAvailable; }
 });
 $('sample').addEventListener('click', () => {
   if ($('requirements').value || $('proposal').value) if (!confirm('Replace the current text with a fictional example?')) return;
-  invalidate(); $('requirements').value = 'Provide 24/7 support\nMaintain SOC 2 Type II certification\nDescribe the incident escalation process\nProvide a 30 minute response time';
-  $('proposal').value = 'FICTIONAL EXAMPLE — not a real vendor or certification.\nOur team provides 24/7 support.\nWe cannot claim SOC 2 Type II certification.\nThe incident escalation process routes urgent tickets to the duty engineer.\nOur response time is 60 minutes.'; $('consent').checked = true;
+  invalidate(); $('requirements').value = 'Provide a response within 30 minutes\nMaintain uptime of at least 99.9%\nDescribe the incident escalation process\nMaintain SOC 2 Type II certification\nProvide 24/7 support';
+  $('proposal').value = 'FICTIONAL EXAMPLE — not a real vendor or certification.\nOur response time is 60 minutes.\nOur uptime commitment is 99.5%.\nOur incident escalation process is excellent.\nWe cannot claim SOC 2 Type II certification.\nOur team provides business-hours support.'; $('consent').checked = true;
 });
 $('clear').addEventListener('click', () => {
   if (!confirm('Clear the draft and browser checkout data? Download a paid report first.')) return;
@@ -64,18 +66,19 @@ const csvCell = text => { let value = String(text); if (/^[\s\u0000-\u001f]*[=+@
 function download(content, type, name) { const url = URL.createObjectURL(new Blob([content], { type })); const a = document.createElement('a'); a.href = url; a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
 $('download-csv').addEventListener('click', () => {
   if (!report) return;
-  const rows = [['Requirement', 'Status', 'Missing terms', 'Evidence excerpt', 'Review note'], ...report.findings.map(x => [x.requirement, x.status, x.missing.join('; '), x.excerpt, x.note]), ['LIMITATION', report.limitation, '', '', '']];
+  const rows = [['Requirement', 'Status', 'Missing terms', 'Evidence excerpt', 'Review note', 'Checks', 'Next action'], ...report.findings.map(x => [x.requirement, x.status, x.missing.join('; '), (x.evidence || [{text: x.excerpt}]).map(e => `Passage ${e.passage || ''}: ${e.text}`).join('\n'), x.note, (x.checks || []).map(c => `${c.label}: ${c.required} / ${c.offered}; ${c.result}`).join(' | '), x.nextAction || '']), ['LIMITATION', report.limitation, '', '', '', '', '']];
   download('\uFEFF' + rows.map(row => row.map(csvCell).join(',')).join('\r\n'), 'text/csv;charset=utf-8', 'proposal-preflight.csv');
 });
 $('download-html').addEventListener('click', () => {
   if (!report) return;
-  const items = report.findings.map(x => `<article><h2>${x.id}. ${escapeHTML(x.requirement)}</h2><p><strong>${escapeHTML(x.status)}</strong></p><p>Missing terms: ${escapeHTML(x.missing.join(', ') || 'None in this passage')}</p><blockquote>${escapeHTML(x.excerpt || 'No matching passage')}</blockquote><p>${escapeHTML(x.note)}</p></article>`).join('');
+  const items = report.findings.map(x => `<article><h2>${x.id}. ${escapeHTML(x.requirement)}</h2><p><strong>${escapeHTML(x.status)}</strong></p><p>Missing terms: ${escapeHTML(x.missing.join(', ') || 'None in this passage')}</p>${(x.evidence || [{ text: x.excerpt || 'No matching passage' }]).map(e => `<blockquote>Passage ${e.passage || ''}: ${escapeHTML(e.text)}</blockquote>`).join('')}${(x.checks || []).map(c => `<p>${escapeHTML(`${c.label}: required ${c.required}; found ${c.offered}. ${c.result}. ${c.assumption || ''}`)}</p>`).join('')}<p><strong>Next action:</strong> ${escapeHTML(x.nextAction || '')}</p><p>${escapeHTML(x.note)}</p></article>`).join('');
   download(`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"><title>Proposal Preflight report</title><style>body{font:16px/1.6 system-ui;max-width:900px;margin:40px auto;padding:20px;color:#172c27}article{border-top:1px solid #ddd;padding:20px 0}h2{font-size:19px}blockquote{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f5ec;padding:16px;margin:0}</style><h1>Proposal Preflight</h1><p>${escapeHTML(report.limitation)}</p>${items}</html>`, 'text/html;charset=utf-8', 'proposal-preflight.html');
 });
 async function initialize() {
   try {
     const response = await fetch('/api/config'); if (!response.ok) throw new Error('Configuration unavailable.'); config = await response.json();
-    $('payment-status').hidden = !config.paymentsAvailable || config.paymentMode !== 'test';
+    $('payment-status').hidden = !(config.freeBeta || (config.paymentsAvailable && config.paymentMode === 'test'));
+    if (config.freeBeta) { $('payment-status').textContent = 'Free beta: complete analysis and downloads are available. Live payments are disabled.'; $('hero-price').textContent = 'Free beta · complete reports · no card required'; $('preview').textContent = 'Run free preflight'; }
     const saved = sessionStorage.getItem(STORAGE);
     if (saved) { active = JSON.parse(saved); $('requirements').value = active.requirements || ''; $('proposal').value = active.proposal || ''; }
     const sessionId = new URLSearchParams(location.search).get('checkout');

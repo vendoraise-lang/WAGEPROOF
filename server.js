@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { analyze, digest, keyHash, validate } from './checker.js';
 
-const ROOT = fileURLToPath(new URL('./public/', import.meta.url));
+const ROOT = typeof import.meta.url === 'string' && import.meta.url.startsWith('file:') ? fileURLToPath(new URL('./public/', import.meta.url)) : '';
 const BODY_LIMIT = 256000;
 const FILES = { '/': ['index.html', 'text/html; charset=utf-8'], '/app.js': ['app.js', 'text/javascript; charset=utf-8'], '/style.css': ['style.css', 'text/css; charset=utf-8'], '/legal': ['legal.html', 'text/html; charset=utf-8'] };
 const SECURITY = {
@@ -12,12 +12,13 @@ const SECURITY = {
   'Permissions-Policy': 'camera=(), microphone=(), geolocation=()', 'Cache-Control': 'no-store'
 };
 
-export function createApp({ env = process.env, stripeFetch = fetch, clock = Date.now } = {}) {
+export function createApp({ env = process.env, stripeFetch = fetch, clock = Date.now, readStatic, clientIP } = {}) {
   const counters = { previews: 0, checkouts: 0, reports: 0, errors: 0 };
   const buckets = new Map();
   let priceChecked = 0;
   const base = (env.PUBLIC_BASE_URL || 'http://localhost:3000').replace(/\/$/, '');
   const paymentMode = env.PAYMENT_MODE || 'test';
+  const freeBeta = env.FREE_BETA === 'true' && paymentMode === 'test';
   const liveAllowed = env.LIVE_PAYMENTS_APPROVED === 'true' && !!env.OPERATOR_NAME && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(env.SUPPORT_EMAIL || '') && !!env.BUSINESS_JURISDICTION;
   const ready = !!(env.STRIPE_SECRET_KEY && env.STRIPE_PRICE_ID && env.APP_SECRET?.length >= 32 && env.PUBLIC_BASE_URL && (paymentMode === 'test' || (paymentMode === 'live' && liveAllowed)));
   const production = base.startsWith('https://');
@@ -46,7 +47,7 @@ export function createApp({ env = process.env, stripeFetch = fetch, clock = Date
   }
   function rate(req, route) {
     const forwarded = env.TRUST_PROXY === 'true' ? req.headers['x-forwarded-for']?.split(',').at(-1).trim() : '';
-    const ip = forwarded || req.socket.remoteAddress;
+    const ip = clientIP ? clientIP(req) : forwarded || req.socket.remoteAddress;
     const key = `${ip}:${route}`;
     const now = clock();
     for (const [k, v] of buckets) if (now - v.since > 600000) buckets.delete(k);
@@ -61,14 +62,14 @@ export function createApp({ env = process.env, stripeFetch = fetch, clock = Date
     try {
       const url = new URL(req.url, base);
       if (req.method === 'GET' && url.pathname === '/health') return reply(res, 200, { ok: true });
-      if (req.method === 'GET' && url.pathname === '/api/config') return reply(res, 200, { paymentsAvailable: ready, paymentMode, priceUSD: 9, previewRows: 3 });
+      if (req.method === 'GET' && url.pathname === '/api/config') return reply(res, 200, { paymentsAvailable: ready, paymentMode, freeBeta, priceUSD: 9, previewRows: 3 });
       if (req.method === 'GET' && url.pathname === '/api/metrics') {
         if (!env.METRICS_TOKEN || req.headers.authorization !== `Bearer ${env.METRICS_TOKEN}`) return reply(res, 404, { error: 'Not found.' });
         return reply(res, 200, counters);
       }
       if (req.method === 'GET' && FILES[url.pathname]) {
         const [file, type] = FILES[url.pathname];
-        const content = await readFile(ROOT + file);
+        const content = readStatic ? await readStatic(file) : await readFile(ROOT + file);
         res.writeHead(200, { ...headers, 'Content-Type': type }); return res.end(content);
       }
       if (req.method !== 'POST' || !['/api/preview', '/api/checkout', '/api/report'].includes(url.pathname)) return reply(res, 404, { error: 'Not found.' });
@@ -78,7 +79,7 @@ export function createApp({ env = process.env, stripeFetch = fetch, clock = Date
       validate(input);
       if (url.pathname === '/api/preview') {
         const report = analyze(input); counters.previews++;
-        return reply(res, 200, { total: report.total, findings: report.findings.slice(0, 3), limitation: report.limitation });
+        return reply(res, 200, freeBeta ? { ...report, freeBeta: true } : { total: report.total, findings: report.findings.slice(0, 3), limitation: report.limitation });
       }
       if (!ready) return reply(res, 503, { error: 'Checkout is not activated yet. The free preview is available.' });
       if (!/^[a-f0-9]{64}$/.test(input.buyerKey || '')) throw new Error('Browser checkout key is missing. Run the preview again.');
@@ -117,7 +118,7 @@ export function createApp({ env = process.env, stripeFetch = fetch, clock = Date
   });
 }
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
+if (typeof import.meta.url === 'string' && import.meta.url.startsWith('file:') && process.argv[1] === fileURLToPath(import.meta.url)) {
   const server = createApp();
   server.requestTimeout = 20000;
   server.headersTimeout = 15000;

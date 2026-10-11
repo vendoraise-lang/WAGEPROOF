@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "proposal-preflight",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "assets": { "directory": "./public", "binding": "ASSETS", "run_worker_first": true },
+  "vars": { "FREE_BETA": "true", "PAYMENT_MODE": "test", "LIVE_PAYMENTS_APPROVED": "false", "BUSINESS_JURISDICTION": "Morocco" }
+}

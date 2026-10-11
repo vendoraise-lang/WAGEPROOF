@@ -40,13 +40,13 @@ with sync_playwright() as p:
  page.locator('#requirements').fill(page.locator('#requirements').input_value()+'\n=HYPERLINK("https://evil.example")\n<script>alert(1)</script>')
  page.locator('#preview').click();page.locator('.finding').nth(2).wait_for();page.locator('#checkout').click()
  page.wait_for_url('**/?checkout=**');page.locator('#downloads').wait_for(state='visible')
- assert page.locator('.finding').count()==6
+ assert page.locator('.finding').count()==7
  assert page.locator('#message').inner_text().startswith('Test payment verified')
  with page.expect_download() as d:page.locator('#download-html').click()
  html=Path(d.value.path()).read_text();assert '&lt;script&gt;' in html;assert '<script>alert' not in html
  with page.expect_download() as d:page.locator('#download-csv').click()
  csv=Path(d.value.path()).read_text();assert "' =HYPERLINK" not in csv;assert "'=HYPERLINK" in csv
- page.reload();page.locator('#downloads').wait_for(state='visible');assert page.locator('.finding').count()==6
+ page.reload();page.locator('#downloads').wait_for(state='visible');assert page.locator('.finding').count()==7
  assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth')
  page.once('dialog',lambda d:d.accept());page.locator('#clear').click();assert page.locator('#proposal').input_value()==''
  assert page.evaluate('sessionStorage.getItem("preflight-draft-v1")') is None

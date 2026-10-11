@@ -26,14 +26,16 @@ async function app(t, options = {}) {
 test('Core review finds terminology, negation and a missing numeric threshold', () => {
   const result = analyze(input);
   assert.equal(result.total, 4);
-  assert.equal(result.findings[0].status, 'Terms located');
-  assert.equal(result.findings[1].status, 'Review possible negation');
-  assert.equal(result.findings[2].status, 'Terms located');
-  assert(result.findings[3].missing.includes('30'));
+  assert.equal(result.findings[0].status, 'Coverage found — verify');
+  assert.equal(result.findings[1].status, 'Possible contradictory commitment');
+  assert.equal(result.findings[2].status, 'Coverage found — verify');
+  assert.equal(result.findings[3].status, 'Numeric requirement mismatch');
+  assert.equal(result.findings[3].checks[0].required, '30 minute');
+  assert.equal(result.findings[3].checks[0].offered, '60 minutes');
   assert(result.findings[3].excerpt.includes('60'));
 });
 test('Checks alternate wording honestly and rejects malformed/oversized inputs', () => {
-  assert.equal(analyze({ requirements: 'Provide telephone assistance', proposal: 'We offer phone support.' }).findings[0].status, 'Terms not located');
+  assert.equal(analyze({ requirements: 'Provide telephone assistance', proposal: 'We offer phone support.' }).findings[0].status, 'No relevant answer located');
   assert.equal(analyze({ requirements: 'Must provide', proposal: 'Hello' }).findings[0].status, 'Needs a clearer requirement');
   for (const value of [{}, { requirements: 'r', proposal: '' }, { requirements: Array(31).fill('Support').join('\n'), proposal: 'Support' }, { requirements: 'x'.repeat(601), proposal: 'x' }, { requirements: 'test', proposal: 'x'.repeat(180001) }]) assert.throws(() => analyze(value));
 });
@@ -113,4 +115,11 @@ test('Live payments cannot activate without explicit approval and operator detai
 test('Live prices cannot be used in the default test mode', async t => {
   const { post } = await app(t, { stripeFetch: async () => Response.json({ active: true, livemode: true, currency: 'usd', unit_amount: 900, type: 'one_time' }) });
   assert.equal((await post('/api/checkout')).status, 503);
+});
+test('Free beta completes the report journey without enabling payments', async t => {
+  const { base, post } = await app(t, { env: { FREE_BETA: 'true', PAYMENT_MODE: 'test' } });
+  const config = await (await fetch(base + '/api/config')).json();
+  assert.equal(config.freeBeta, true); assert.equal(config.paymentsAvailable, false);
+  const result = await (await post('/api/preview')).json();
+  assert.equal(result.findings.length, 4); assert.equal(result.freeBeta, true);
 });
