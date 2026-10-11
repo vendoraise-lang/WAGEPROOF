@@ -23,3 +23,13 @@ services:
         sync: false
       - key: TRUST_PROXY
         value: "false"
+      - key: PAYMENT_MODE
+        value: test
+      - key: LIVE_PAYMENTS_APPROVED
+        value: "false"
+      - key: BUSINESS_JURISDICTION
+        value: Morocco
+      - key: OPERATOR_NAME
+        sync: false
+      - key: SUPPORT_EMAIL
+        sync: false

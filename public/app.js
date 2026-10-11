@@ -27,7 +27,7 @@ function render(value, full = false) {
   }
   $('purchase').hidden = full;
   $('downloads').hidden = !full;
-  $('checkout').textContent = config.paymentsAvailable ? 'Get full report · $9' : 'Checkout not activated yet';
+  $('checkout').textContent = config.paymentsAvailable ? (config.paymentMode === 'test' ? 'Try test checkout · no charge' : 'Get full report · $9') : 'Checkout not activated yet';
   $('checkout').disabled = !config.paymentsAvailable || busy;
 }
 function remember(value) {
@@ -75,13 +75,14 @@ $('download-html').addEventListener('click', () => {
 async function initialize() {
   try {
     const response = await fetch('/api/config'); if (!response.ok) throw new Error('Configuration unavailable.'); config = await response.json();
+    $('payment-status').hidden = !config.paymentsAvailable || config.paymentMode !== 'test';
     const saved = sessionStorage.getItem(STORAGE);
     if (saved) { active = JSON.parse(saved); $('requirements').value = active.requirements || ''; $('proposal').value = active.proposal || ''; }
     const sessionId = new URLSearchParams(location.search).get('checkout');
     if (sessionId) {
       if (!active?.buyerKey) { message('The original draft is missing from this tab. Use your Stripe receipt to request help or a refund; do not send proposal contents.', true); return; }
       setBusy(true); message('Verifying your payment…');
-      const result = await api('/api/report', { ...active, sessionId }); render(result, true); message('Payment verified. Download your report before closing or clearing this tab.');
+      const result = await api('/api/report', { ...active, sessionId }); render(result, true); message(`${config.paymentMode === 'test' ? 'Test payment verified. No real charge.' : 'Payment verified.'} Download your report before closing or clearing this tab.`);
       $('results').scrollIntoView({ behavior: 'smooth' });
     } else if (new URLSearchParams(location.search).has('cancelled')) message('Checkout cancelled. Your draft is still here.');
   } catch (e) { message(e.message || 'Unable to load. Please refresh.', true); }

@@ -9,10 +9,10 @@ const sessionId = 'cs_test_fixture1234567890';
 function stripeMock({ paid = true, refund = false, price = 900, metadata, capture = [] } = {}) {
   return async (url, options) => {
     capture.push({ url, options });
-    if (url.includes('/prices/')) return Response.json({ active: true, currency: 'usd', unit_amount: price, type: 'one_time' });
+    if (url.includes('/prices/')) return Response.json({ active: true, livemode: false, currency: 'usd', unit_amount: price, type: 'one_time' });
     if (url.includes('/charges?')) return Response.json({ data: [{ amount_refunded: refund ? 900 : 0, disputed: false }] });
     if (options.method === 'POST') return Response.json({ id: sessionId, url: `https://checkout.stripe.com/c/pay/${sessionId}` });
-    return Response.json({ mode: 'payment', payment_status: paid ? 'paid' : 'unpaid', status: 'complete', amount_total: 900, currency: 'usd', payment_intent: 'pi_fixture', metadata: metadata || { product: 'proposal-preflight-v1', report_digest: digest(input, env.APP_SECRET), buyer_key_hash: keyHash(input.buyerKey) } });
+    return Response.json({ mode: 'payment', livemode: false, payment_status: paid ? 'paid' : 'unpaid', status: 'complete', amount_total: 900, currency: 'usd', payment_intent: 'pi_fixture', metadata: metadata || { product: 'proposal-preflight-v1', report_digest: digest(input, env.APP_SECRET), buyer_key_hash: keyHash(input.buyerKey) } });
   };
 }
 async function app(t, options = {}) {
@@ -102,4 +102,15 @@ test('Provider outages return an actionable safe error', async t => {
 test('Oversized JSON is rejected before analysis or provider calls', async t => {
   const { post } = await app(t);
   assert.equal((await post('/api/preview', { ...input, proposal: 'x'.repeat(260000) })).status, 413);
+});
+test('Live payments cannot activate without explicit approval and operator details', async t => {
+  for (const config of [{ PAYMENT_MODE: 'live' }, { PAYMENT_MODE: 'live', LIVE_PAYMENTS_APPROVED: 'true' }, { PAYMENT_MODE: 'unexpected' }]) {
+    const { base, post } = await app(t, { env: { ...env, ...config } });
+    assert.equal((await (await fetch(base + '/api/config')).json()).paymentsAvailable, false);
+    assert.equal((await post('/api/checkout')).status, 503);
+  }
+});
+test('Live prices cannot be used in the default test mode', async t => {
+  const { post } = await app(t, { stripeFetch: async () => Response.json({ active: true, livemode: true, currency: 'usd', unit_amount: 900, type: 'one_time' }) });
+  assert.equal((await post('/api/checkout')).status, 503);
 });

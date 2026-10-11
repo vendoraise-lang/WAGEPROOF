@@ -17,7 +17,9 @@ export function createApp({ env = process.env, stripeFetch = fetch, clock = Date
   const buckets = new Map();
   let priceChecked = 0;
   const base = (env.PUBLIC_BASE_URL || 'http://localhost:3000').replace(/\/$/, '');
-  const ready = !!(env.STRIPE_SECRET_KEY && env.STRIPE_PRICE_ID && env.APP_SECRET?.length >= 32 && env.PUBLIC_BASE_URL);
+  const paymentMode = env.PAYMENT_MODE || 'test';
+  const liveAllowed = env.LIVE_PAYMENTS_APPROVED === 'true' && !!env.OPERATOR_NAME && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(env.SUPPORT_EMAIL || '') && !!env.BUSINESS_JURISDICTION;
+  const ready = !!(env.STRIPE_SECRET_KEY && env.STRIPE_PRICE_ID && env.APP_SECRET?.length >= 32 && env.PUBLIC_BASE_URL && (paymentMode === 'test' || (paymentMode === 'live' && liveAllowed)));
   const production = base.startsWith('https://');
   const headers = { ...SECURITY, ...(production ? { 'Strict-Transport-Security': 'max-age=31536000' } : {}) };
   const reply = (res, status, value) => { res.writeHead(status, { ...headers, 'Content-Type': 'application/json; charset=utf-8' }); res.end(JSON.stringify(value)); };
@@ -59,7 +61,7 @@ export function createApp({ env = process.env, stripeFetch = fetch, clock = Date
     try {
       const url = new URL(req.url, base);
       if (req.method === 'GET' && url.pathname === '/health') return reply(res, 200, { ok: true });
-      if (req.method === 'GET' && url.pathname === '/api/config') return reply(res, 200, { paymentsAvailable: ready, priceUSD: 9, previewRows: 3 });
+      if (req.method === 'GET' && url.pathname === '/api/config') return reply(res, 200, { paymentsAvailable: ready, paymentMode, priceUSD: 9, previewRows: 3 });
       if (req.method === 'GET' && url.pathname === '/api/metrics') {
         if (!env.METRICS_TOKEN || req.headers.authorization !== `Bearer ${env.METRICS_TOKEN}`) return reply(res, 404, { error: 'Not found.' });
         return reply(res, 200, counters);
@@ -84,7 +86,7 @@ export function createApp({ env = process.env, stripeFetch = fetch, clock = Date
       if (url.pathname === '/api/checkout') {
         if (clock() - priceChecked > 300000 || !priceChecked) {
           const price = await stripe(`prices/${encodeURIComponent(env.STRIPE_PRICE_ID)}`);
-          if (!price.active || price.currency !== 'usd' || price.unit_amount !== 900 || price.type !== 'one_time') return reply(res, 503, { error: 'Checkout price configuration needs attention.' });
+          if (!price.active || price.currency !== 'usd' || price.unit_amount !== 900 || price.type !== 'one_time' || price.livemode !== (paymentMode === 'live')) return reply(res, 503, { error: 'Checkout price or payment-mode configuration needs attention.' });
           priceChecked = clock();
         }
         const session = await stripe('checkout/sessions', {
@@ -98,7 +100,7 @@ export function createApp({ env = process.env, stripeFetch = fetch, clock = Date
       }
       if (!/^cs_(?:test_|live_)?[A-Za-z0-9_]{10,240}$/.test(input.sessionId || '')) throw new Error('Invalid checkout reference.');
       const session = await stripe(`checkout/sessions/${encodeURIComponent(input.sessionId)}`);
-      if (session.mode !== 'payment' || session.payment_status !== 'paid' || session.status !== 'complete' || session.amount_total !== 900 || session.currency !== 'usd' || session.metadata?.product !== 'proposal-preflight-v1' || session.metadata.report_digest !== fingerprint || session.metadata.buyer_key_hash !== keyHash(input.buyerKey)) return reply(res, 403, { error: 'No matching completed payment. Retry after payment completes, using the original text and browser.' });
+      if (session.livemode !== (paymentMode === 'live') || session.mode !== 'payment' || session.payment_status !== 'paid' || session.status !== 'complete' || session.amount_total !== 900 || session.currency !== 'usd' || session.metadata?.product !== 'proposal-preflight-v1' || session.metadata.report_digest !== fingerprint || session.metadata.buyer_key_hash !== keyHash(input.buyerKey)) return reply(res, 403, { error: 'No matching completed payment. Retry after payment completes, using the original text and browser.' });
       // Check refunds before each download; a refunded checkout must not unlock new reports.
       if (session.payment_intent) {
         const charges = await stripe(`charges?payment_intent=${encodeURIComponent(session.payment_intent)}&limit=1`);

@@ -41,7 +41,7 @@ with sync_playwright() as p:
  page.locator('#preview').click();page.locator('.finding').nth(2).wait_for();page.locator('#checkout').click()
  page.wait_for_url('**/?checkout=**');page.locator('#downloads').wait_for(state='visible')
  assert page.locator('.finding').count()==6
- assert page.locator('#message').inner_text().startswith('Payment verified')
+ assert page.locator('#message').inner_text().startswith('Test payment verified')
  with page.expect_download() as d:page.locator('#download-html').click()
  html=Path(d.value.path()).read_text();assert '&lt;script&gt;' in html;assert '<script>alert' not in html
  with page.expect_download() as d:page.locator('#download-csv').click()
