@@ -3,9 +3,10 @@
   "main": "worker.js",
   "compatibility_date": "2026-10-01",
   "workers_dev": true,
-  "vars": { "BOOTSTRAP_REVISION": "factory-mvp-5" },
+  "vars": { "BOOTSTRAP_REVISION": "factory-mvp-7" },
   "assets": { "directory": "./public", "binding": "ASSETS", "run_worker_first": true },
   "durable_objects": { "bindings": [{ "name": "PORTFOLIO", "class_name": "PortfolioStore" }] },
   "migrations": [{ "tag": "v1", "new_sqlite_classes": ["PortfolioStore"] }],
+  "services": [{ "binding": "PRODUCT_PAYMENTS", "service": "proposal-preflight", "entrypoint": "PaymentOperations" }],
   "triggers": { "crons": ["*/15 * * * *"] }
 }

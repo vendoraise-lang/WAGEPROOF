@@ -17,15 +17,24 @@ with urllib.request.urlopen(base + '/api/portfolio', timeout=30) as r:
     assert data['candidates'][0]['publication'] == 'draft'
     assert len(data['commercialOpportunities']) == 3
     assert sum(o['selected'] for o in data['commercialOpportunities']) == 1
+    assert data['payments']['verifiedLiveRevenueCents'] == 0
+    assert data['payments']['testOrderCount'] == 0
     before = data['products'][0]
     assert data['products'][0]['testCounts']['reviews'] >= 1
     assert data['products'][0]['testCounts']['downloads'] >= 2
-for path, method, expected in [('/products/sla-preflight', 'GET', 404), ('/api/events', 'POST', 405), ('/api/payments/stripe-test', 'POST', 503)]:
+for path, method, expected in [('/products/sla-preflight', 'GET', 404), ('/api/events', 'POST', 405), ('/api/payments/stripe-test', 'POST', 503), ('/api/payments/lemon-test', 'POST', 503)]:
     try:
         urllib.request.urlopen(urllib.request.Request(base + path, method=method), timeout=30)
         raise AssertionError('Unapproved route should be blocked')
     except urllib.error.HTTPError as e:
         assert e.code == expected
+for origin, canonical in [(base, base + '/resources/sla-checklist'), ('https://proposal-preflight.preflight-f1224675ed.workers.dev', 'https://proposal-preflight.preflight-f1224675ed.workers.dev/')]:
+    with urllib.request.urlopen(origin + '/robots.txt', timeout=30) as r:
+        assert (origin + '/sitemap.xml').encode() in r.read()
+    with urllib.request.urlopen(origin + '/sitemap.xml', timeout=30) as r:
+        xml = r.read().decode(); assert '<loc>' + canonical + '</loc>' in xml; assert 'products/sla-preflight' not in xml; assert '?checkout=' not in xml
+    with urllib.request.urlopen(canonical, timeout=30) as r:
+        assert ('rel="canonical" href="' + canonical + '"').encode() in r.read()
 with sync_playwright() as p:
     browser = p.chromium.launch(executable_path='/usr/bin/chromium', headless=True, args=['--no-sandbox'])
     page = browser.new_page(viewport={'width': 390, 'height': 844})

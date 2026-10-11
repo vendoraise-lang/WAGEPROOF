@@ -1,10 +1,14 @@
 // Fixed aggregate vocabulary. No document contents, identities or arbitrary URLs.
 export const EVENTS = ['pageviews', 'reviews', 'downloads', 'errors', 'supportClicks', 'resourceViews', 'purchaseIntent', 'checkouts'];
+export const CHANNELS = ['direct','sla-checklist','organic-search','shared-link'];
 export function traffic(request) {
   const test = request.headers.get('X-Factory-Test') === '1';
   const agent = request.headers.get('User-Agent') || '';
   if (!test && (!agent || /bot|crawl|spider|headless|uptime|BusinessFactory|Smoke|python|curl|wget/i.test(agent))) return null;
-  return { test, channel: new URL(request.url).searchParams.get('source') === 'sla-checklist' ? 'sla-checklist' : 'direct' };
+  const source = new URL(request.url).searchParams.get('source');
+  let channel = CHANNELS.includes(source) ? source : 'direct';
+  if (channel === 'direct') try { if (/^(www\.)?(google\.com|bing\.com|duckduckgo\.com|search\.yahoo\.com)$/.test(new URL(request.headers.get('Referer')).hostname)) channel = 'organic-search'; } catch {}
+  return { test, channel };
 }
 export function productEvent(request, response, value) {
   const path = new URL(request.url).pathname;

@@ -1,4 +1,7 @@
 import http from 'node:http';
+import { randomBytes } from 'node:crypto';
+import { prepareLemonTestCheckout, sha256, verifyLemonTestOrder } from './payments/lemon.js';
+import { productSitemap, robots } from './seo.js';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { analyze, digest, keyHash, validate } from './checker.js';
@@ -12,15 +15,16 @@ const SECURITY = {
   'Permissions-Policy': 'camera=(), microphone=(), geolocation=()', 'Cache-Control': 'no-store'
 };
 
-export function createApp({ env = process.env, stripeFetch = fetch, clock = Date.now, readStatic, clientIP } = {}) {
+export function createApp({ env = process.env, stripeFetch = fetch, lemonFetch = fetch, paymentStore, clock = Date.now, readStatic, clientIP } = {}) {
   const counters = { previews: 0, checkouts: 0, reports: 0, errors: 0 };
   const buckets = new Map();
   let priceChecked = 0;
   const base = (env.PUBLIC_BASE_URL || 'http://localhost:3000').replace(/\/$/, '');
   const paymentMode = env.PAYMENT_MODE || 'test';
-  const freeBeta = env.FREE_BETA === 'true' && paymentMode === 'test';
-  const liveAllowed = env.LIVE_PAYMENTS_APPROVED === 'true' && !!env.OPERATOR_NAME && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(env.SUPPORT_EMAIL || '') && !!env.BUSINESS_JURISDICTION;
-  const ready = !!(env.STRIPE_SECRET_KEY && env.STRIPE_PRICE_ID && env.APP_SECRET?.length >= 32 && env.PUBLIC_BASE_URL && (paymentMode === 'test' || (paymentMode === 'live' && liveAllowed)));
+  const lemon = env.PAYMENT_PROVIDER === 'lemonsqueezy';
+  const lemonReady = lemon && paymentMode === 'test' && env.LEMON_TEST_INTEGRATION_APPROVED === 'true' && !!(env.LEMON_API_KEY && env.LEMON_STORE_ID && env.LEMON_VARIANT_ID && env.APP_SECRET?.length >= 32 && paymentStore);
+  const freeBeta = env.FREE_BETA === 'true' && paymentMode === 'test' && !lemonReady;
+  const ready = lemon ? lemonReady : !!(env.STRIPE_SECRET_KEY && env.STRIPE_PRICE_ID && env.APP_SECRET?.length >= 32 && env.PUBLIC_BASE_URL && paymentMode === 'test');
   const production = base.startsWith('https://');
   const headers = { ...SECURITY, ...(production ? { 'Strict-Transport-Security': 'max-age=31536000' } : {}) };
   const reply = (res, status, value) => { res.writeHead(status, { ...headers, 'Content-Type': 'application/json; charset=utf-8' }); res.end(JSON.stringify(value)); };
@@ -62,15 +66,20 @@ export function createApp({ env = process.env, stripeFetch = fetch, clock = Date
     try {
       const url = new URL(req.url, base);
       if (req.method === 'GET' && url.pathname === '/health') return reply(res, 200, { ok: true });
-      if (req.method === 'GET' && url.pathname === '/api/config') return reply(res, 200, { paymentsAvailable: ready, paymentMode, freeBeta, priceUSD: 9, previewRows: 3 });
+      if (req.method === 'GET' && url.pathname === '/api/config') return reply(res, 200, { paymentsAvailable: ready, paymentMode, livePaymentsEnabled: false, paymentProvider: lemon ? 'lemonsqueezy' : 'stripe', freeBeta, priceUSD: 9, previewRows: 3 });
       if (req.method === 'GET' && url.pathname === '/api/metrics') {
         if (!env.METRICS_TOKEN || req.headers.authorization !== `Bearer ${env.METRICS_TOKEN}`) return reply(res, 404, { error: 'Not found.' });
         return reply(res, 200, counters);
       }
+      if (req.method === 'GET' && ['/robots.txt', '/sitemap.xml'].includes(url.pathname)) {
+        res.writeHead(200, { ...headers, 'Content-Type': url.pathname === '/robots.txt' ? 'text/plain; charset=utf-8' : 'application/xml; charset=utf-8' });
+        return res.end(url.pathname === '/robots.txt' ? robots(base) : productSitemap(base));
+      }
       if (req.method === 'GET' && FILES[url.pathname]) {
         const [file, type] = FILES[url.pathname];
-        const content = readStatic ? await readStatic(file) : await readFile(ROOT + file);
-        res.writeHead(200, { ...headers, 'Content-Type': type }); return res.end(content);
+        let content = readStatic ? await readStatic(file) : await readFile(ROOT + file);
+        if (file === 'index.html') content = Buffer.from(content).toString().replace('<!-- CANONICAL -->', `<link rel="canonical" href="${base}/">`);
+        res.writeHead(200, { ...headers, ...(url.searchParams.has('checkout') || file === 'legal.html' ? { 'X-Robots-Tag': 'noindex' } : {}), 'Content-Type': type }); return res.end(content);
       }
       if (req.method !== 'POST' || !['/api/preview', '/api/checkout', '/api/report', '/api/events'].includes(url.pathname)) return reply(res, 404, { error: 'Not found.' });
       if (req.headers.origin && req.headers.origin !== base) return reply(res, 403, { error: 'Origin not permitted.' });
@@ -88,6 +97,24 @@ export function createApp({ env = process.env, stripeFetch = fetch, clock = Date
       if (!ready) return reply(res, 503, { error: 'Checkout is not activated yet. The free preview is available.' });
       if (!/^[a-f0-9]{64}$/.test(input.buyerKey || '')) throw new Error('Browser checkout key is missing. Run the preview again.');
       const fingerprint = digest(input, env.APP_SECRET);
+      if (lemon) {
+        if (url.pathname === '/api/checkout') {
+          const token = randomBytes(32).toString('hex');
+          const channel = ['sla-checklist','organic-search','shared-link'].includes(url.searchParams.get('source')) ? url.searchParams.get('source') : 'direct';
+          await paymentStore.reserveTestPurchase({ keyHash: await sha256(token), reportDigest: fingerprint, buyerHash: keyHash(input.buyerKey), storeId: env.LEMON_STORE_ID, variantId: env.LEMON_VARIANT_ID, channel, test: true });
+          const checkout = await prepareLemonTestCheckout({ env, reportDigest: fingerprint, buyerKeyHash: keyHash(input.buyerKey), checkoutToken: token, channel, providerFetch: lemonFetch, now: clock() });
+          counters.checkouts++; return reply(res, 200, checkout);
+        }
+        if (!/^ls_test_[a-f0-9]{64}$/.test(input.sessionId || '')) throw new Error('Invalid test checkout reference.');
+        const purchase = await paymentStore.lookupTestPurchase(await sha256(input.sessionId.slice(8)), keyHash(input.buyerKey), fingerprint);
+        if (!purchase) return reply(res, 403, { error: 'Checkout does not match this browser and draft.' });
+        if (purchase.state === 'revoked') return reply(res, 403, { error: 'This test order has been refunded or revoked.' });
+        if (!purchase.orderId) return reply(res, 409, { error: 'Awaiting verified payment notification. Retry verification in this tab shortly.' });
+        const receipt = await verifyLemonTestOrder(env, purchase, lemonFetch);
+        const verified = await paymentStore.applyTestOrder({ ...receipt, keyHash: purchase.keyHash });
+        if (verified.state !== 'paid') return reply(res, 403, { error: 'No matching paid test order, or access has been revoked.' });
+        counters.reports++; return reply(res, 200, { ...analyze(input), testPayment: true, receiptUrl: receipt.receiptUrl });
+      }
       if (url.pathname === '/api/checkout') {
         if (clock() - priceChecked > 300000 || !priceChecked) {
           const price = await stripe(`prices/${encodeURIComponent(env.STRIPE_PRICE_ID)}`);

@@ -1,7 +1,10 @@
 const $ = id => document.getElementById(id);
 const STORAGE = 'preflight-draft-v1';
 let config = { paymentsAvailable: false }, report = null, active = null, busy = false;
-const source = new URLSearchParams(location.search).get('source') === 'sla-checklist' ? 'sla-checklist' : null;
+const requestedSource = new URLSearchParams(location.search).get('source');
+let searchReferral = false;
+try { searchReferral = /^(www\.)?(google\.com|bing\.com|duckduckgo\.com|search\.yahoo\.com)$/.test(new URL(document.referrer).hostname); } catch {}
+const source = ['sla-checklist','shared-link','organic-search'].includes(requestedSource) ? requestedSource : searchReferral ? 'organic-search' : null;
 let sampleMode = false, intentRecorded = false;
 const message = (text, error = false) => { $('message').textContent = text; $('message').className = `message${error ? ' error' : ''}`; };
 function draft() { return { requirements: $('requirements').value, proposal: $('proposal').value }; }
@@ -66,7 +69,7 @@ $('clear').addEventListener('click', () => {
 });
 $('checkout').addEventListener('click', async () => {
   if (!active || busy || !config.paymentsAvailable) return;
-  setBusy(true); message('Opening secure Stripe checkout…');
+  setBusy(true); message('Opening secure test checkout…');
   try { remember(active); const result = await api('/api/checkout', active); location.assign(result.url); }
   catch (e) { message(e.message, true); setBusy(false); }
 });
@@ -98,6 +101,20 @@ $('download-html').addEventListener('click', () => {
   download(`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"><title>Proposal Preflight report</title><style>body{font:16px/1.6 system-ui;max-width:900px;margin:40px auto;padding:20px;color:#172c27}article{border-top:1px solid #ddd;padding:20px 0}h2{font-size:19px}blockquote{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f5ec;padding:16px;margin:0}</style><h1>Proposal Preflight</h1><p>${escapeHTML(report.limitation)}</p>${items}</html>`, 'text/html;charset=utf-8', 'proposal-preflight.html');
   trackDownload();
 });
+$('share-tool')?.addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(`${location.origin}/?source=shared-link`); message('Tool link copied. Share only where useful and welcome.'); } catch { message('Unable to copy. The tool URL is ' + location.origin); }
+});
+async function recoverCheckout(sessionId) {
+  setBusy(true); message('Verifying test payment…');
+  try {
+    const result = await api('/api/report', { ...active, sessionId }); render(result, true);
+    message('Test payment verified. No revenue recorded. Download your report before closing or clearing this tab.');
+    if (result.receiptUrl) { const a = node('a', 'View test receipt'); a.href = result.receiptUrl; a.target = '_blank'; a.rel = 'noopener noreferrer'; $('message').append(document.createTextNode(' '), a); }
+    $('results').scrollIntoView({ behavior: 'smooth' });
+  } catch (e) {
+    message(e.message, true); const retry = node('button', 'Retry verification'); retry.type = 'button'; retry.addEventListener('click', () => recoverCheckout(sessionId)); $('message').append(retry);
+  } finally { setBusy(false); $('checkout').disabled = !config.paymentsAvailable; }
+}
 async function initialize() {
   try {
     const response = await fetch('/api/config'); if (!response.ok) throw new Error('Configuration unavailable.'); config = await response.json();
@@ -107,10 +124,8 @@ async function initialize() {
     if (saved) { active = JSON.parse(saved); $('requirements').value = active.requirements || ''; $('proposal').value = active.proposal || ''; }
     const sessionId = new URLSearchParams(location.search).get('checkout');
     if (sessionId) {
-      if (!active?.buyerKey) { message('The original draft is missing from this tab. Use your Stripe receipt to request help or a refund; do not send proposal contents.', true); return; }
-      setBusy(true); message('Verifying your payment…');
-      const result = await api('/api/report', { ...active, sessionId }); render(result, true); message(`${config.paymentMode === 'test' ? 'Test payment verified. No real charge.' : 'Payment verified.'} Download your report before closing or clearing this tab.`);
-      $('results').scrollIntoView({ behavior: 'smooth' });
+      if (!active?.buyerKey) { message('The original draft is missing from this tab. Use your payment-provider receipt to request help or a refund; do not send proposal contents.', true); return; }
+      await recoverCheckout(sessionId);
     } else if (new URLSearchParams(location.search).has('cancelled')) message('Checkout cancelled. Your draft is still here.');
   } catch (e) { message(e.message || 'Unable to load. Please refresh.', true); }
   finally { setBusy(false); $('checkout').disabled = !config.paymentsAvailable; }

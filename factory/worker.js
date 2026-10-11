@@ -1,8 +1,11 @@
 import { DurableObject, WorkerEntrypoint } from 'cloudflare:workers';
+import { verifyLemonTestWebhook, reducePurchase, paymentTotals } from '../payments/lemon.js';
+import { auditSEO, sitemap, robots, RESOURCE_URL, PRODUCT_ORIGIN, FACTORY_ORIGIN, submitSitemap } from '../seo.js';
 import registry from './registry.json';
 import resource from './resource.json';
 import commercial from './commercial.json';
-import { traffic, experimentDecision } from '../telemetry.js';
+import distributionPlan from './distribution.json';
+import { traffic, experimentDecision, CHANNELS } from '../telemetry.js';
 import { resourceDigest, resourceHTML } from './resource.js';
 import { verifyTestReceipt } from './accounting.js';
 import { EVENTS, FEED, FALLBACK_FEED, safeEvent, evidenceFromFeed, evidenceFromGithub, rankOpportunity, economics, decision, resourceDraft, publicationAllowed } from './core.js';
@@ -23,6 +26,7 @@ export class PortfolioStore extends DurableObject {
     this.sql.exec(`CREATE TABLE IF NOT EXISTS funnel (day TEXT, product TEXT, channel TEXT, test INTEGER, ${EVENTS.map(e => `${e} INTEGER DEFAULT 0`).join(', ')}, PRIMARY KEY(day,product,channel,test))`);
     this.sql.exec('CREATE TABLE IF NOT EXISTS state (key TEXT PRIMARY KEY, value TEXT NOT NULL)');
     this.sql.exec('CREATE TABLE IF NOT EXISTS test_receipts (id TEXT PRIMARY KEY, product TEXT, amountCents INTEGER, verifiedAt TEXT)');
+    this.sql.exec('CREATE TABLE IF NOT EXISTS lemon_purchases (key_hash TEXT PRIMARY KEY, order_id TEXT UNIQUE, value TEXT NOT NULL)');
     this.sql.exec('CREATE TABLE IF NOT EXISTS channels (day TEXT, product TEXT, channel TEXT, test INTEGER, count INTEGER DEFAULT 0, PRIMARY KEY(day,product,channel,test))');
   }
   get(key, fallback) { const rows = [...this.sql.exec('SELECT value FROM state WHERE key = ?', key)]; return rows[0] ? JSON.parse(rows[0].value) : fallback; }
@@ -30,7 +34,7 @@ export class PortfolioStore extends DurableObject {
   record(value) {
     const e = safeEvent(value, registry), day = new Date().toISOString().slice(0, 10);
     this.sql.exec(`INSERT INTO events(day,product,test,${e.event}) VALUES (?,?,?,1) ON CONFLICT(day,product,test) DO UPDATE SET ${e.event}=${e.event}+1`, day, e.product, Number(e.test));
-    const channel = value.channel === 'sla-checklist' ? 'sla-checklist' : 'direct';
+    const channel = CHANNELS.includes(value.channel) ? value.channel : 'direct';
     this.sql.exec(`INSERT INTO funnel(day,product,channel,test,${e.event}) VALUES (?,?,?,?,1) ON CONFLICT(day,product,channel,test) DO UPDATE SET ${e.event}=${e.event}+1`, day, e.product, channel, Number(e.test));
     if (e.event === 'pageviews' && value.channel === 'sla-checklist') this.sql.exec('INSERT INTO channels(day,product,channel,test,count) VALUES (?,?,?, ?,1) ON CONFLICT(day,product,channel,test) DO UPDATE SET count=count+1', day, e.product, 'sla-checklist', Number(e.test));
     return { recorded: true };
@@ -47,6 +51,27 @@ export class PortfolioStore extends DurableObject {
     this.sql.exec('INSERT OR IGNORE INTO test_receipts(id,product,amountCents,verifiedAt) VALUES (?,?,?,?)', receipt.id, receipt.product, receipt.amountCents, receipt.verifiedAt);
     return { accepted: true, testOnly: true };
   }
+  reserveTestPurchase(purchase) {
+    if (purchase.test !== true || !['keyHash','reportDigest','buyerHash'].every(k => /^[a-f0-9]{64}$/.test(purchase[k] || '')) || !['storeId','variantId'].every(k => /^[1-9]\d*$/.test(purchase[k] || ''))) throw new Error('Invalid test purchase reservation.');
+    if ([...this.sql.exec('SELECT COUNT(*) AS n FROM lemon_purchases')][0].n >= 500) throw new Error('Test ledger capacity reached; checkout paused.');
+    const value = { keyHash: purchase.keyHash, reportDigest: purchase.reportDigest, buyerHash: purchase.buyerHash, storeId: purchase.storeId, variantId: purchase.variantId, channel: CHANNELS.includes(purchase.channel) ? purchase.channel : 'direct', test: true, state: 'pending', createdAt: new Date().toISOString(), orderId: null };
+    this.sql.exec('INSERT INTO lemon_purchases(key_hash,value) VALUES (?,?)', value.keyHash, JSON.stringify(value));
+    return { reserved: true, testOnly: true };
+  }
+  lookupTestPurchase(key, buyer, report) {
+    const row = [...this.sql.exec('SELECT value FROM lemon_purchases WHERE key_hash=?', key)][0];
+    const p = row && JSON.parse(row.value);
+    return p && p.buyerHash === buyer && p.reportDigest === report ? p : null;
+  }
+  applyTestOrder(receipt) {
+    const row = [...this.sql.exec('SELECT value FROM lemon_purchases WHERE key_hash=?', receipt.keyHash)][0];
+    if (!row) throw new Error('Payment not reserved by this product.');
+    const next = reducePurchase(JSON.parse(row.value), receipt);
+    this.sql.exec('UPDATE lemon_purchases SET order_id=?,value=? WHERE key_hash=?', next.orderId, JSON.stringify(next), receipt.keyHash);
+    return next;
+  }
+  paymentConfiguration() { return this.get('paymentConfiguration', { ready: false, reason: 'Operator-owned Lemon Squeezy test account not connected.', merchantEligibilityConfirmed: false }); }
+  purchases() { return [...this.sql.exec('SELECT value FROM lemon_purchases')].map(r => JSON.parse(r.value)); }
   snapshot() {
     const cutoff = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
     const rows = [...this.sql.exec('SELECT * FROM events WHERE day >= ? ORDER BY day', cutoff)];
@@ -59,6 +84,7 @@ export class PortfolioStore extends DurableObject {
       const testChecklistFunnel = Object.fromEntries(EVENTS.map(e => [e, [...this.sql.exec(`SELECT COALESCE(SUM(${e}),0) AS n FROM funnel WHERE day>=? AND product=? AND channel='sla-checklist' AND test=1`, cutoff, p.id)][0].n]));
       return { ...p, counts: total, testCounts: tests, health: health[p.id] || null, decision: decision(p, total, health[p.id]),
         checklistFunnel, testChecklistFunnel,
+        acquisitionChannels: Object.fromEntries(['organic-search','shared-link'].map(channel => [channel, Object.fromEntries(EVENTS.map(e => [e, [...this.sql.exec(`SELECT COALESCE(SUM(${e}),0) AS n FROM funnel WHERE day>=? AND product=? AND channel=? AND test=0`, cutoff, p.id, channel)][0].n]))])),
         resourceReferralPageviews: [...this.sql.exec('SELECT COALESCE(SUM(count),0) AS n FROM channels WHERE day>=? AND product=? AND test=0', cutoff, p.id)][0].n,
         completionEventsPerPageview: total.pageviews ? total.reviews / total.pageviews : null };
     });
@@ -67,6 +93,7 @@ export class PortfolioStore extends DurableObject {
     const experiment = { ...commercial.experiment, metrics: products[0].checklistFunnel, decision: experimentDecision(commercial.experiment, products[0].checklistFunnel), indexingVerified: false };
     return { observedAt: new Date().toISOString(), products, targetMarket: registry.targetMarket, operator: registry.operator, annualRevenueTarget: registry.annualRevenueTarget, researchPolicy: registry.researchPolicy, monetization: commercial.monetization, opportunityQueue: [opportunity], commercialOpportunities: commercial.opportunities, experiment,
       candidates: registry.candidates, distributionDraft: { title: draft.title, publication: draft.publication }, economics: { ...economics(registry), verifiedTestReceiptCount: [...this.sql.exec('SELECT COUNT(*) AS n FROM test_receipts')][0].n }, scheduledJob: job,
+      payments: { ...paymentTotals(this.purchases()), connection: this.paymentConfiguration(), monitoring: this.get('paymentMonitoring', null) }, seo: this.get('seo', null), distribution: this.get('distribution', distributionPlan), periodicReport: this.get('periodicReport', null),
       measurement: 'Rolling 30-day event counts, not unique people, sessions or customers. Checklist funnel measured since 2026-10-11; earlier pageviews may include untagged operator traffic. Known bots, samples and tagged tests excluded. Repeat/spoofed events remain possible; intent is nonbinding, not a sale.',
       costs: { estimatedMonthlyPlatformUSD: 0, aiInferenceUSD: 0, paidServicesEnabled: false, quotaBehavior: 'Free limits fail closed; no upgrade automation.', unallocated: ['Codex development credits', 'Founder time'] } };
   }
@@ -82,12 +109,12 @@ export class PortfolioStore extends DurableObject {
         const r = await fetch(p.url + '/health', { signal: AbortSignal.timeout(10000), headers: { 'User-Agent': 'BusinessFactoryHealth/1.0', 'X-Factory-Test': '1' } });
         status = r.status; ok = r.ok && (await r.json()).ok === true;
         const c = await fetch(p.url + '/api/config', { signal: AbortSignal.timeout(10000), headers: { 'User-Agent': 'BusinessFactoryHealth/1.0', 'X-Factory-Test': '1' } });
-        const config = await c.json(); paymentsDisabled = c.ok && !config.paymentsAvailable && config.paymentMode === 'test';
+        const config = await c.json(); paymentsDisabled = c.ok && config.livePaymentsEnabled === false && config.paymentMode === 'test';
         ok = ok && paymentsDisabled;
         if (ok && this.access(p.id).allowed) {
           const probe = await fetch(p.url + '/api/preview', { method: 'POST', signal: AbortSignal.timeout(10000), headers: { 'User-Agent': 'BusinessFactoryHealth/1.0', 'Content-Type': 'application/json', 'Origin': p.url, 'X-Factory-Test': '1' }, body: JSON.stringify({ requirements: 'Provide response within 30 minutes', proposal: 'SYNTHETIC MONITORING CHECK. Our response time is 60 minutes.' }) });
           const report = await probe.json();
-          coreAnalysisWorks = probe.ok && report.freeBeta === true && report.findings?.[0]?.status === 'Numeric requirement mismatch';
+          coreAnalysisWorks = probe.ok && report.findings?.[0]?.status === 'Numeric requirement mismatch';
           ok = ok && coreAnalysisWorks;
         }
       } catch { ok = false; }
@@ -128,6 +155,30 @@ export class PortfolioStore extends DurableObject {
         feedError += ' Public GitHub issue fallback collected; these are adjacent interest signals only.';
       } catch { feedError += ' Fallback unavailable; prior evidence retained. No signals invented.'; }
     }
+    if (job?.bootstrapRevision !== this.env.BOOTSTRAP_REVISION || Date.now() - this.get('seoCheckedAt', 0) >= 86400000) {
+      const urls = [PRODUCT_ORIGIN + '/'];
+      if (publicationAllowed(resource, await resourceDigest(resource))) urls.push(RESOURCE_URL);
+      this.put('seo', await auditSEO(urls)); this.put('seoCheckedAt', Date.now());
+    }
+    if (this.env.PRODUCT_PAYMENTS) {
+      try {
+        if (!this.paymentConfiguration().ready && this.env.LEMON_WEBHOOK_SECRET && Date.now() - this.get('paymentSetupCheckedAt', 0) >= 3600000) {
+          this.put('paymentSetupCheckedAt', Date.now());
+          try { this.put('paymentConfiguration', await this.env.PRODUCT_PAYMENTS.configure(this.env.LEMON_WEBHOOK_SECRET)); } catch { this.put('paymentConfiguration', { ready: false, merchantEligibilityConfirmed: false, reason: 'Test account, product or API access could not be verified. Live processing remains disabled.' }); }
+        }
+        const pending = this.purchases().filter(p => p.orderId && p.state !== 'revoked').sort((a,b) => Date.parse(a.verifiedAt || 0) - Date.parse(b.verifiedAt || 0)).slice(0, 5);
+        const check = await this.env.PRODUCT_PAYMENTS.reconcile(pending);
+        for (const receipt of check.receipts) this.applyTestOrder(receipt);
+        this.put('paymentMonitoring', { checkedAt: new Date().toISOString(), connected: check.connected, failures: check.failures || 0 });
+      } catch { this.put('paymentMonitoring', { checkedAt: new Date().toISOString(), connected: null, error: 'Reconciliation unavailable; new fulfillment still requires fresh provider verification.' }); }
+    }
+    // Only explicit founder-approved exact sitemap tasks can execute; a draft is never approval.
+    const distribution = this.get('distribution', structuredClone(distributionPlan));
+    for (const task of distribution.submissions || []) if (!task.result?.submitted && (!task.retryAt || Date.now() >= task.retryAt)) {
+      try { task.result = await submitSitemap(task, this.env.GOOGLE_SEARCH_CONSOLE_TOKEN); } catch { task.result = { submitted: false, reason: 'Authenticated submission unavailable.' }; }
+      task.retryAt = Date.now() + 86400000;
+    }
+    if (distribution.submissions?.length) this.put('distribution', distribution);
     this.put('health', health);
     // Perform intelligence, drafting and optimization on the timer, not only dashboard reads.
     const opportunity = rankOpportunity(this.get('evidence', []));
@@ -136,12 +187,15 @@ export class PortfolioStore extends DurableObject {
     this.put('distributionDraft', resourceDraft(opportunity));
     this.put('optimization', registry.products.map(p => ({ product: p.id, ...this.access(p.id) })));
     const snapshot = this.snapshot();
+    const week = Math.floor(Date.now() / (7 * 86400000));
+    if (this.get('reportWeek', null) !== week || this.get('periodicReport', {})?.bootstrapRevision !== this.env.BOOTSTRAP_REVISION) { this.put('periodicReport', { bootstrapRevision: this.env.BOOTSTRAP_REVISION, generatedAt: new Date().toISOString(), products: snapshot.products.map(p => ({ id: p.id, counts: p.counts, health: p.health, decision: p.decision, acquisitionChannels: p.acquisitionChannels })), payments: snapshot.payments, economics: snapshot.economics, experiment: snapshot.experiment.decision, seo: snapshot.seo, actualRevenueCents: 0, disclaimer: 'Event counts are not unique buyers. Test payments never count as revenue. Actual operating costs remain incomplete.' }); this.put('reportWeek', week); }
+    this.sql.exec("DELETE FROM lemon_purchases WHERE order_id IS NULL AND json_extract(value, '$.createdAt') < ?", new Date(Date.now() - 7 * 86400000).toISOString());
     this.put('experiment', { checkedAt: new Date().toISOString(), ...snapshot.experiment });
     this.sql.exec('DELETE FROM events WHERE day < ?', new Date(Date.now() - 90 * 86400000).toISOString().slice(0, 10));
     this.sql.exec('DELETE FROM channels WHERE day < ?', new Date(Date.now() - 90 * 86400000).toISOString().slice(0, 10));
     this.sql.exec('DELETE FROM funnel WHERE day < ?', new Date(Date.now() - 90 * 86400000).toISOString().slice(0, 10));
     const result = { startedAt, completedAt: new Date().toISOString(), invocation, bootstrapRevision: this.env.BOOTSTRAP_REVISION, status: feedError ? 'partial' : 'completed', feedError,
-      source: this.get('evidenceSource', FEED), sourceQuotaRemaining: this.get('feedQuota', null), experimentDecision: snapshot.experiment.decision, automation: ['health checks', 'public signal refresh', 'ranking', 'aggregate retention', 'threshold recommendations', 'attributed funnel monitoring', 'unpublished resource draft'],
+      source: this.get('evidenceSource', FEED), sourceQuotaRemaining: this.get('feedQuota', null), experimentDecision: snapshot.experiment.decision, automation: ['technical SEO audit', 'test refund reconciliation', 'weekly persisted report', 'approved sitemap submission', 'health checks', 'public signal refresh', 'ranking', 'aggregate retention', 'threshold recommendations', 'attributed funnel monitoring', 'unpublished resource draft'],
       requiresApproval: ['new product publication', 'distribution publication', 'code deployment', 'live payments', 'spending', 'retiring independent products'] };
     this.put('job', result); return result;
   }
@@ -149,6 +203,10 @@ export class PortfolioStore extends DurableObject {
 
 // RPC is accessible only through an account-owned service binding, never the public HTTP router.
 export class Analytics extends WorkerEntrypoint {
+  async paymentConfiguration() { return store(this.env).paymentConfiguration(); }
+  async reserveTestPurchase(value) { return store(this.env).reserveTestPurchase(value); }
+  async lookupTestPurchase(key, buyer, report) { return store(this.env).lookupTestPurchase(key, buyer, report); }
+  async applyTestOrder(receipt) { return store(this.env).applyTestOrder(receipt); }
   async record(value) { return store(this.env).record(value); }
   async access(product) { return store(this.env).access(product); }
 }
@@ -158,6 +216,18 @@ export class Operations extends WorkerEntrypoint {
 export default {
   async fetch(request, env, ctx) {
     const path = new URL(request.url).pathname;
+    if (request.method === 'POST' && path === '/api/payments/lemon-test') {
+      if (!env.LEMON_WEBHOOK_SECRET || !(await store(env).paymentConfiguration()).ready) return json({ error: 'Test merchant connection pending. Live payments disabled.' }, 503);
+      try {
+        if (Number(request.headers.get('Content-Length') || 0) > 40000 || !request.body) return json({ error: 'Invalid receipt size.' }, 413);
+        const reader = request.body.getReader(); let total = 0, chunks = [];
+        while (true) { const { value, done } = await reader.read(); if (done) break; total += value.length; if (total > 40000) { await reader.cancel(); return json({ error: 'Receipt too large.' }, 413); } chunks.push(value); }
+        const body = new Uint8Array(total); let offset = 0; for (const chunk of chunks) { body.set(chunk, offset); offset += chunk.length; }
+        const receipt = await verifyLemonTestWebhook(new TextDecoder('utf-8', { fatal: true }).decode(body), request.headers.get('X-Signature'), env.LEMON_WEBHOOK_SECRET);
+        await store(env).applyTestOrder(receipt);
+        return json({ accepted: true, testOnly: true });
+      } catch { return json({ error: 'Unsigned, live, unbound or unsupported test receipt rejected.' }, 400); }
+    }
     if (request.method === 'POST' && path === '/api/payments/stripe-test') {
       if (!env.STRIPE_WEBHOOK_SECRET) return json({ error: 'Payment receipt adapter not configured. Live payments disabled.' }, 503);
       if (Number(request.headers.get('Content-Length') || 0) > 40000) return json({ error: 'Receipt too large.' }, 413);
@@ -171,10 +241,12 @@ export default {
     }
     if (request.method !== 'GET') return json({ error: 'Read-only public interface.' }, 405);
     try {
+      if (path === '/robots.txt') return new Response('User-agent: *\nDisallow: /api/\nDisallow: /health\nDisallow: /$\nSitemap: ' + FACTORY_ORIGIN + '/sitemap.xml\n', { headers: { ...headers, 'Content-Type': 'text/plain; charset=utf-8' } });
+      if (path === '/sitemap.xml') return new Response(sitemap(publicationAllowed(resource, await resourceDigest(resource)) ? [RESOURCE_URL] : []), { headers: { ...headers, 'Content-Type': 'application/xml; charset=utf-8' } });
       if (path === '/health') return json({ ok: true, paymentsEnabled: false });
       if (path === '/resources/sla-checklist' && publicationAllowed(resource, await resourceDigest(resource))) {
         const measurement = traffic(request);
-        if (measurement) ctx.waitUntil(store(env).record({ product: 'proposal-preflight', event: 'resourceViews', ...measurement, channel: 'sla-checklist' }).catch(() => {}));
+        if (measurement) ctx.waitUntil(store(env).record({ product: 'proposal-preflight', event: 'resourceViews', ...measurement, channel: measurement.channel === 'direct' ? 'sla-checklist' : measurement.channel }).catch(() => {}));
         return new Response(resourceHTML(resource), { headers: { ...headers, 'Content-Type': 'text/html; charset=utf-8' } });
       }
       if (path === '/api/portfolio') {
@@ -184,7 +256,7 @@ export default {
       }
       if (['/', '/dashboard.js', '/style.css'].includes(path)) {
         const r = await env.ASSETS.fetch(request);
-        return new Response(r.body, { status: r.status, headers: { ...Object.fromEntries(r.headers), ...headers, 'Content-Type': r.headers.get('Content-Type') } });
+        return new Response(r.body, { status: r.status, headers: { ...Object.fromEntries(r.headers), ...headers, 'X-Robots-Tag': 'noindex', 'Content-Type': r.headers.get('Content-Type') } });
       }
       return json({ error: 'Not published. New product and distribution assets require founder approval.' }, 404);
     } catch { return json({ error: 'Portfolio temporarily unavailable.' }, 503); }

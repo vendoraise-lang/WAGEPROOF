@@ -1,0 +1,13 @@
+{
+  "targetMarket": "US",
+  "policy": "Prepare and monitor only. Exact founder approval and verified site ownership required before authenticated external submissions. No account registration, community posting, paid listing or spending is automated.",
+  "submissions": [
+    { "provider": "Google Search Console", "url": "https://business-factory.preflight-f1224675ed.workers.dev/sitemap.xml", "status": "awaiting-founder-approval-and-ownership", "approval": null, "ownershipVerified": false },
+    { "provider": "Google Search Console", "url": "https://proposal-preflight.preflight-f1224675ed.workers.dev/sitemap.xml", "status": "awaiting-founder-approval-and-ownership", "approval": null, "ownershipVerified": false }
+  ],
+  "directories": [
+    { "name": "G2", "url": "https://sell.g2.com/", "status": "research-candidate-not-approved", "costVerified": false, "fit": "Software vendor profile; eligibility, listing cost and actual category fit need account review. No submission made." },
+    { "name": "Capterra", "url": "https://www.capterra.com/vendors/", "status": "research-candidate-not-approved", "costVerified": false, "fit": "US software buyer directory; acceptance, listing terms and category fit remain unverified. No submission made." }
+  ],
+  "organicExperiment": "Only the approved SLA checklist and existing product. Search discoverability is technical eligibility, not verified indexing, rankings, buyers or revenue. Do not create more pages until actual acquisition and utility evidence justify review."
+}
