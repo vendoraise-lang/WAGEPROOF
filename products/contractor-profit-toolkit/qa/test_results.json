@@ -1,0 +1,101 @@
+{
+  "engine": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+  "scenarios": [
+    {
+      "scenario": "blank",
+      "result": "PASS",
+      "asserted_metrics": {
+        "6": 0,
+        "10": 0,
+        "15": 0,
+        "18": 0,
+        "24": 0,
+        "12": null,
+        "17": null
+      }
+    },
+    {
+      "scenario": "markup_vs_margin",
+      "result": "PASS",
+      "asserted_metrics": {
+        "4": 1250,
+        "7": 1000,
+        "11": 250,
+        "12": 0.2
+      }
+    },
+    {
+      "scenario": "overhead_change_actuals",
+      "result": "PASS",
+      "asserted_metrics": {
+        "4": 10000,
+        "5": 2000,
+        "6": 12000,
+        "8": 1200,
+        "10": 10200,
+        "11": 1800,
+        "12": 0.15,
+        "13": 9750,
+        "15": 10650,
+        "16": 1350,
+        "18": 8000,
+        "19": 4000,
+        "20": -2650,
+        "21": -450,
+        "22": 1020
+      }
+    },
+    {
+      "scenario": "deductive_change_refund",
+      "result": "PASS",
+      "asserted_metrics": {
+        "6": 900,
+        "10": 750,
+        "11": 150,
+        "18": 900,
+        "19": 0
+      }
+    },
+    {
+      "scenario": "zero_revenue_costs",
+      "result": "PASS",
+      "asserted_metrics": {
+        "6": 0,
+        "15": 200,
+        "16": -200,
+        "12": null,
+        "17": null
+      }
+    },
+    {
+      "scenario": "rounding",
+      "result": "PASS",
+      "asserted_metrics": {
+        "7": 1.01,
+        "4": 1.26,
+        "13": 1.01
+      }
+    },
+    {
+      "scenario": "last_rows_overpayment",
+      "result": "PASS",
+      "asserted_metrics": {
+        "6": 150,
+        "15": 110,
+        "18": 200,
+        "19": -50
+      }
+    },
+    {
+      "scenario": "incomplete_entries",
+      "result": "PASS",
+      "asserted_metrics": {
+        "24": 4
+      }
+    }
+  ],
+  "formula_count_per_workbook": 521,
+  "errors": 0,
+  "macro_external_link_scan": "PASS",
+  "note": "Recalculated in LibreOffice. Microsoft Excel UI not available; compatibility not independently verified in Excel."
+}

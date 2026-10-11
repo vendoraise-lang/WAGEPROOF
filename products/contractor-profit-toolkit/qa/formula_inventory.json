@@ -1,0 +1,2607 @@
+[
+  {
+    "sheet": "Estimate",
+    "cell": "E4",
+    "formula": "=IF(OR(C4=\"\",D4=\"\"),\"\",ROUND(C4*D4,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G4",
+    "formula": "=IF(E4=\"\",\"\",ROUND(E4*(1+IF(F4=\"\",0,F4)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E5",
+    "formula": "=IF(OR(C5=\"\",D5=\"\"),\"\",ROUND(C5*D5,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G5",
+    "formula": "=IF(E5=\"\",\"\",ROUND(E5*(1+IF(F5=\"\",0,F5)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E6",
+    "formula": "=IF(OR(C6=\"\",D6=\"\"),\"\",ROUND(C6*D6,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G6",
+    "formula": "=IF(E6=\"\",\"\",ROUND(E6*(1+IF(F6=\"\",0,F6)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E7",
+    "formula": "=IF(OR(C7=\"\",D7=\"\"),\"\",ROUND(C7*D7,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G7",
+    "formula": "=IF(E7=\"\",\"\",ROUND(E7*(1+IF(F7=\"\",0,F7)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E8",
+    "formula": "=IF(OR(C8=\"\",D8=\"\"),\"\",ROUND(C8*D8,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G8",
+    "formula": "=IF(E8=\"\",\"\",ROUND(E8*(1+IF(F8=\"\",0,F8)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E9",
+    "formula": "=IF(OR(C9=\"\",D9=\"\"),\"\",ROUND(C9*D9,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G9",
+    "formula": "=IF(E9=\"\",\"\",ROUND(E9*(1+IF(F9=\"\",0,F9)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E10",
+    "formula": "=IF(OR(C10=\"\",D10=\"\"),\"\",ROUND(C10*D10,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G10",
+    "formula": "=IF(E10=\"\",\"\",ROUND(E10*(1+IF(F10=\"\",0,F10)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E11",
+    "formula": "=IF(OR(C11=\"\",D11=\"\"),\"\",ROUND(C11*D11,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G11",
+    "formula": "=IF(E11=\"\",\"\",ROUND(E11*(1+IF(F11=\"\",0,F11)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E12",
+    "formula": "=IF(OR(C12=\"\",D12=\"\"),\"\",ROUND(C12*D12,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G12",
+    "formula": "=IF(E12=\"\",\"\",ROUND(E12*(1+IF(F12=\"\",0,F12)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E13",
+    "formula": "=IF(OR(C13=\"\",D13=\"\"),\"\",ROUND(C13*D13,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G13",
+    "formula": "=IF(E13=\"\",\"\",ROUND(E13*(1+IF(F13=\"\",0,F13)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E14",
+    "formula": "=IF(OR(C14=\"\",D14=\"\"),\"\",ROUND(C14*D14,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G14",
+    "formula": "=IF(E14=\"\",\"\",ROUND(E14*(1+IF(F14=\"\",0,F14)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E15",
+    "formula": "=IF(OR(C15=\"\",D15=\"\"),\"\",ROUND(C15*D15,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G15",
+    "formula": "=IF(E15=\"\",\"\",ROUND(E15*(1+IF(F15=\"\",0,F15)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E16",
+    "formula": "=IF(OR(C16=\"\",D16=\"\"),\"\",ROUND(C16*D16,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G16",
+    "formula": "=IF(E16=\"\",\"\",ROUND(E16*(1+IF(F16=\"\",0,F16)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E17",
+    "formula": "=IF(OR(C17=\"\",D17=\"\"),\"\",ROUND(C17*D17,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G17",
+    "formula": "=IF(E17=\"\",\"\",ROUND(E17*(1+IF(F17=\"\",0,F17)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E18",
+    "formula": "=IF(OR(C18=\"\",D18=\"\"),\"\",ROUND(C18*D18,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G18",
+    "formula": "=IF(E18=\"\",\"\",ROUND(E18*(1+IF(F18=\"\",0,F18)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E19",
+    "formula": "=IF(OR(C19=\"\",D19=\"\"),\"\",ROUND(C19*D19,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G19",
+    "formula": "=IF(E19=\"\",\"\",ROUND(E19*(1+IF(F19=\"\",0,F19)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E20",
+    "formula": "=IF(OR(C20=\"\",D20=\"\"),\"\",ROUND(C20*D20,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G20",
+    "formula": "=IF(E20=\"\",\"\",ROUND(E20*(1+IF(F20=\"\",0,F20)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E21",
+    "formula": "=IF(OR(C21=\"\",D21=\"\"),\"\",ROUND(C21*D21,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G21",
+    "formula": "=IF(E21=\"\",\"\",ROUND(E21*(1+IF(F21=\"\",0,F21)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E22",
+    "formula": "=IF(OR(C22=\"\",D22=\"\"),\"\",ROUND(C22*D22,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G22",
+    "formula": "=IF(E22=\"\",\"\",ROUND(E22*(1+IF(F22=\"\",0,F22)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E23",
+    "formula": "=IF(OR(C23=\"\",D23=\"\"),\"\",ROUND(C23*D23,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G23",
+    "formula": "=IF(E23=\"\",\"\",ROUND(E23*(1+IF(F23=\"\",0,F23)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E24",
+    "formula": "=IF(OR(C24=\"\",D24=\"\"),\"\",ROUND(C24*D24,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G24",
+    "formula": "=IF(E24=\"\",\"\",ROUND(E24*(1+IF(F24=\"\",0,F24)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E25",
+    "formula": "=IF(OR(C25=\"\",D25=\"\"),\"\",ROUND(C25*D25,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G25",
+    "formula": "=IF(E25=\"\",\"\",ROUND(E25*(1+IF(F25=\"\",0,F25)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E26",
+    "formula": "=IF(OR(C26=\"\",D26=\"\"),\"\",ROUND(C26*D26,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G26",
+    "formula": "=IF(E26=\"\",\"\",ROUND(E26*(1+IF(F26=\"\",0,F26)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E27",
+    "formula": "=IF(OR(C27=\"\",D27=\"\"),\"\",ROUND(C27*D27,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G27",
+    "formula": "=IF(E27=\"\",\"\",ROUND(E27*(1+IF(F27=\"\",0,F27)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E28",
+    "formula": "=IF(OR(C28=\"\",D28=\"\"),\"\",ROUND(C28*D28,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G28",
+    "formula": "=IF(E28=\"\",\"\",ROUND(E28*(1+IF(F28=\"\",0,F28)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E29",
+    "formula": "=IF(OR(C29=\"\",D29=\"\"),\"\",ROUND(C29*D29,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G29",
+    "formula": "=IF(E29=\"\",\"\",ROUND(E29*(1+IF(F29=\"\",0,F29)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E30",
+    "formula": "=IF(OR(C30=\"\",D30=\"\"),\"\",ROUND(C30*D30,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G30",
+    "formula": "=IF(E30=\"\",\"\",ROUND(E30*(1+IF(F30=\"\",0,F30)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E31",
+    "formula": "=IF(OR(C31=\"\",D31=\"\"),\"\",ROUND(C31*D31,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G31",
+    "formula": "=IF(E31=\"\",\"\",ROUND(E31*(1+IF(F31=\"\",0,F31)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E32",
+    "formula": "=IF(OR(C32=\"\",D32=\"\"),\"\",ROUND(C32*D32,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G32",
+    "formula": "=IF(E32=\"\",\"\",ROUND(E32*(1+IF(F32=\"\",0,F32)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E33",
+    "formula": "=IF(OR(C33=\"\",D33=\"\"),\"\",ROUND(C33*D33,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G33",
+    "formula": "=IF(E33=\"\",\"\",ROUND(E33*(1+IF(F33=\"\",0,F33)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E34",
+    "formula": "=IF(OR(C34=\"\",D34=\"\"),\"\",ROUND(C34*D34,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G34",
+    "formula": "=IF(E34=\"\",\"\",ROUND(E34*(1+IF(F34=\"\",0,F34)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E35",
+    "formula": "=IF(OR(C35=\"\",D35=\"\"),\"\",ROUND(C35*D35,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G35",
+    "formula": "=IF(E35=\"\",\"\",ROUND(E35*(1+IF(F35=\"\",0,F35)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E36",
+    "formula": "=IF(OR(C36=\"\",D36=\"\"),\"\",ROUND(C36*D36,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G36",
+    "formula": "=IF(E36=\"\",\"\",ROUND(E36*(1+IF(F36=\"\",0,F36)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E37",
+    "formula": "=IF(OR(C37=\"\",D37=\"\"),\"\",ROUND(C37*D37,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G37",
+    "formula": "=IF(E37=\"\",\"\",ROUND(E37*(1+IF(F37=\"\",0,F37)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E38",
+    "formula": "=IF(OR(C38=\"\",D38=\"\"),\"\",ROUND(C38*D38,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G38",
+    "formula": "=IF(E38=\"\",\"\",ROUND(E38*(1+IF(F38=\"\",0,F38)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E39",
+    "formula": "=IF(OR(C39=\"\",D39=\"\"),\"\",ROUND(C39*D39,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G39",
+    "formula": "=IF(E39=\"\",\"\",ROUND(E39*(1+IF(F39=\"\",0,F39)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E40",
+    "formula": "=IF(OR(C40=\"\",D40=\"\"),\"\",ROUND(C40*D40,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G40",
+    "formula": "=IF(E40=\"\",\"\",ROUND(E40*(1+IF(F40=\"\",0,F40)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E41",
+    "formula": "=IF(OR(C41=\"\",D41=\"\"),\"\",ROUND(C41*D41,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G41",
+    "formula": "=IF(E41=\"\",\"\",ROUND(E41*(1+IF(F41=\"\",0,F41)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E42",
+    "formula": "=IF(OR(C42=\"\",D42=\"\"),\"\",ROUND(C42*D42,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G42",
+    "formula": "=IF(E42=\"\",\"\",ROUND(E42*(1+IF(F42=\"\",0,F42)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E43",
+    "formula": "=IF(OR(C43=\"\",D43=\"\"),\"\",ROUND(C43*D43,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G43",
+    "formula": "=IF(E43=\"\",\"\",ROUND(E43*(1+IF(F43=\"\",0,F43)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E44",
+    "formula": "=IF(OR(C44=\"\",D44=\"\"),\"\",ROUND(C44*D44,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G44",
+    "formula": "=IF(E44=\"\",\"\",ROUND(E44*(1+IF(F44=\"\",0,F44)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E45",
+    "formula": "=IF(OR(C45=\"\",D45=\"\"),\"\",ROUND(C45*D45,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G45",
+    "formula": "=IF(E45=\"\",\"\",ROUND(E45*(1+IF(F45=\"\",0,F45)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E46",
+    "formula": "=IF(OR(C46=\"\",D46=\"\"),\"\",ROUND(C46*D46,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G46",
+    "formula": "=IF(E46=\"\",\"\",ROUND(E46*(1+IF(F46=\"\",0,F46)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E47",
+    "formula": "=IF(OR(C47=\"\",D47=\"\"),\"\",ROUND(C47*D47,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G47",
+    "formula": "=IF(E47=\"\",\"\",ROUND(E47*(1+IF(F47=\"\",0,F47)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E48",
+    "formula": "=IF(OR(C48=\"\",D48=\"\"),\"\",ROUND(C48*D48,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G48",
+    "formula": "=IF(E48=\"\",\"\",ROUND(E48*(1+IF(F48=\"\",0,F48)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E49",
+    "formula": "=IF(OR(C49=\"\",D49=\"\"),\"\",ROUND(C49*D49,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G49",
+    "formula": "=IF(E49=\"\",\"\",ROUND(E49*(1+IF(F49=\"\",0,F49)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E50",
+    "formula": "=IF(OR(C50=\"\",D50=\"\"),\"\",ROUND(C50*D50,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G50",
+    "formula": "=IF(E50=\"\",\"\",ROUND(E50*(1+IF(F50=\"\",0,F50)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E51",
+    "formula": "=IF(OR(C51=\"\",D51=\"\"),\"\",ROUND(C51*D51,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G51",
+    "formula": "=IF(E51=\"\",\"\",ROUND(E51*(1+IF(F51=\"\",0,F51)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E52",
+    "formula": "=IF(OR(C52=\"\",D52=\"\"),\"\",ROUND(C52*D52,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G52",
+    "formula": "=IF(E52=\"\",\"\",ROUND(E52*(1+IF(F52=\"\",0,F52)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E53",
+    "formula": "=IF(OR(C53=\"\",D53=\"\"),\"\",ROUND(C53*D53,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G53",
+    "formula": "=IF(E53=\"\",\"\",ROUND(E53*(1+IF(F53=\"\",0,F53)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E54",
+    "formula": "=IF(OR(C54=\"\",D54=\"\"),\"\",ROUND(C54*D54,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G54",
+    "formula": "=IF(E54=\"\",\"\",ROUND(E54*(1+IF(F54=\"\",0,F54)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E55",
+    "formula": "=IF(OR(C55=\"\",D55=\"\"),\"\",ROUND(C55*D55,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G55",
+    "formula": "=IF(E55=\"\",\"\",ROUND(E55*(1+IF(F55=\"\",0,F55)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E56",
+    "formula": "=IF(OR(C56=\"\",D56=\"\"),\"\",ROUND(C56*D56,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G56",
+    "formula": "=IF(E56=\"\",\"\",ROUND(E56*(1+IF(F56=\"\",0,F56)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E57",
+    "formula": "=IF(OR(C57=\"\",D57=\"\"),\"\",ROUND(C57*D57,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G57",
+    "formula": "=IF(E57=\"\",\"\",ROUND(E57*(1+IF(F57=\"\",0,F57)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E58",
+    "formula": "=IF(OR(C58=\"\",D58=\"\"),\"\",ROUND(C58*D58,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G58",
+    "formula": "=IF(E58=\"\",\"\",ROUND(E58*(1+IF(F58=\"\",0,F58)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E59",
+    "formula": "=IF(OR(C59=\"\",D59=\"\"),\"\",ROUND(C59*D59,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G59",
+    "formula": "=IF(E59=\"\",\"\",ROUND(E59*(1+IF(F59=\"\",0,F59)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E60",
+    "formula": "=IF(OR(C60=\"\",D60=\"\"),\"\",ROUND(C60*D60,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G60",
+    "formula": "=IF(E60=\"\",\"\",ROUND(E60*(1+IF(F60=\"\",0,F60)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E61",
+    "formula": "=IF(OR(C61=\"\",D61=\"\"),\"\",ROUND(C61*D61,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G61",
+    "formula": "=IF(E61=\"\",\"\",ROUND(E61*(1+IF(F61=\"\",0,F61)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E62",
+    "formula": "=IF(OR(C62=\"\",D62=\"\"),\"\",ROUND(C62*D62,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G62",
+    "formula": "=IF(E62=\"\",\"\",ROUND(E62*(1+IF(F62=\"\",0,F62)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E63",
+    "formula": "=IF(OR(C63=\"\",D63=\"\"),\"\",ROUND(C63*D63,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G63",
+    "formula": "=IF(E63=\"\",\"\",ROUND(E63*(1+IF(F63=\"\",0,F63)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E64",
+    "formula": "=IF(OR(C64=\"\",D64=\"\"),\"\",ROUND(C64*D64,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G64",
+    "formula": "=IF(E64=\"\",\"\",ROUND(E64*(1+IF(F64=\"\",0,F64)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E65",
+    "formula": "=IF(OR(C65=\"\",D65=\"\"),\"\",ROUND(C65*D65,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G65",
+    "formula": "=IF(E65=\"\",\"\",ROUND(E65*(1+IF(F65=\"\",0,F65)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E66",
+    "formula": "=IF(OR(C66=\"\",D66=\"\"),\"\",ROUND(C66*D66,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G66",
+    "formula": "=IF(E66=\"\",\"\",ROUND(E66*(1+IF(F66=\"\",0,F66)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E67",
+    "formula": "=IF(OR(C67=\"\",D67=\"\"),\"\",ROUND(C67*D67,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G67",
+    "formula": "=IF(E67=\"\",\"\",ROUND(E67*(1+IF(F67=\"\",0,F67)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E68",
+    "formula": "=IF(OR(C68=\"\",D68=\"\"),\"\",ROUND(C68*D68,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G68",
+    "formula": "=IF(E68=\"\",\"\",ROUND(E68*(1+IF(F68=\"\",0,F68)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E69",
+    "formula": "=IF(OR(C69=\"\",D69=\"\"),\"\",ROUND(C69*D69,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G69",
+    "formula": "=IF(E69=\"\",\"\",ROUND(E69*(1+IF(F69=\"\",0,F69)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E70",
+    "formula": "=IF(OR(C70=\"\",D70=\"\"),\"\",ROUND(C70*D70,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G70",
+    "formula": "=IF(E70=\"\",\"\",ROUND(E70*(1+IF(F70=\"\",0,F70)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E71",
+    "formula": "=IF(OR(C71=\"\",D71=\"\"),\"\",ROUND(C71*D71,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G71",
+    "formula": "=IF(E71=\"\",\"\",ROUND(E71*(1+IF(F71=\"\",0,F71)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E72",
+    "formula": "=IF(OR(C72=\"\",D72=\"\"),\"\",ROUND(C72*D72,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G72",
+    "formula": "=IF(E72=\"\",\"\",ROUND(E72*(1+IF(F72=\"\",0,F72)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E73",
+    "formula": "=IF(OR(C73=\"\",D73=\"\"),\"\",ROUND(C73*D73,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G73",
+    "formula": "=IF(E73=\"\",\"\",ROUND(E73*(1+IF(F73=\"\",0,F73)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E74",
+    "formula": "=IF(OR(C74=\"\",D74=\"\"),\"\",ROUND(C74*D74,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G74",
+    "formula": "=IF(E74=\"\",\"\",ROUND(E74*(1+IF(F74=\"\",0,F74)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E75",
+    "formula": "=IF(OR(C75=\"\",D75=\"\"),\"\",ROUND(C75*D75,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G75",
+    "formula": "=IF(E75=\"\",\"\",ROUND(E75*(1+IF(F75=\"\",0,F75)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E76",
+    "formula": "=IF(OR(C76=\"\",D76=\"\"),\"\",ROUND(C76*D76,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G76",
+    "formula": "=IF(E76=\"\",\"\",ROUND(E76*(1+IF(F76=\"\",0,F76)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E77",
+    "formula": "=IF(OR(C77=\"\",D77=\"\"),\"\",ROUND(C77*D77,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G77",
+    "formula": "=IF(E77=\"\",\"\",ROUND(E77*(1+IF(F77=\"\",0,F77)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E78",
+    "formula": "=IF(OR(C78=\"\",D78=\"\"),\"\",ROUND(C78*D78,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G78",
+    "formula": "=IF(E78=\"\",\"\",ROUND(E78*(1+IF(F78=\"\",0,F78)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E79",
+    "formula": "=IF(OR(C79=\"\",D79=\"\"),\"\",ROUND(C79*D79,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G79",
+    "formula": "=IF(E79=\"\",\"\",ROUND(E79*(1+IF(F79=\"\",0,F79)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E80",
+    "formula": "=IF(OR(C80=\"\",D80=\"\"),\"\",ROUND(C80*D80,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G80",
+    "formula": "=IF(E80=\"\",\"\",ROUND(E80*(1+IF(F80=\"\",0,F80)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E81",
+    "formula": "=IF(OR(C81=\"\",D81=\"\"),\"\",ROUND(C81*D81,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G81",
+    "formula": "=IF(E81=\"\",\"\",ROUND(E81*(1+IF(F81=\"\",0,F81)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E82",
+    "formula": "=IF(OR(C82=\"\",D82=\"\"),\"\",ROUND(C82*D82,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G82",
+    "formula": "=IF(E82=\"\",\"\",ROUND(E82*(1+IF(F82=\"\",0,F82)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E83",
+    "formula": "=IF(OR(C83=\"\",D83=\"\"),\"\",ROUND(C83*D83,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G83",
+    "formula": "=IF(E83=\"\",\"\",ROUND(E83*(1+IF(F83=\"\",0,F83)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E84",
+    "formula": "=IF(OR(C84=\"\",D84=\"\"),\"\",ROUND(C84*D84,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G84",
+    "formula": "=IF(E84=\"\",\"\",ROUND(E84*(1+IF(F84=\"\",0,F84)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E85",
+    "formula": "=IF(OR(C85=\"\",D85=\"\"),\"\",ROUND(C85*D85,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G85",
+    "formula": "=IF(E85=\"\",\"\",ROUND(E85*(1+IF(F85=\"\",0,F85)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E86",
+    "formula": "=IF(OR(C86=\"\",D86=\"\"),\"\",ROUND(C86*D86,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G86",
+    "formula": "=IF(E86=\"\",\"\",ROUND(E86*(1+IF(F86=\"\",0,F86)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E87",
+    "formula": "=IF(OR(C87=\"\",D87=\"\"),\"\",ROUND(C87*D87,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G87",
+    "formula": "=IF(E87=\"\",\"\",ROUND(E87*(1+IF(F87=\"\",0,F87)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E88",
+    "formula": "=IF(OR(C88=\"\",D88=\"\"),\"\",ROUND(C88*D88,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G88",
+    "formula": "=IF(E88=\"\",\"\",ROUND(E88*(1+IF(F88=\"\",0,F88)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E89",
+    "formula": "=IF(OR(C89=\"\",D89=\"\"),\"\",ROUND(C89*D89,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G89",
+    "formula": "=IF(E89=\"\",\"\",ROUND(E89*(1+IF(F89=\"\",0,F89)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E90",
+    "formula": "=IF(OR(C90=\"\",D90=\"\"),\"\",ROUND(C90*D90,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G90",
+    "formula": "=IF(E90=\"\",\"\",ROUND(E90*(1+IF(F90=\"\",0,F90)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E91",
+    "formula": "=IF(OR(C91=\"\",D91=\"\"),\"\",ROUND(C91*D91,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G91",
+    "formula": "=IF(E91=\"\",\"\",ROUND(E91*(1+IF(F91=\"\",0,F91)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E92",
+    "formula": "=IF(OR(C92=\"\",D92=\"\"),\"\",ROUND(C92*D92,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G92",
+    "formula": "=IF(E92=\"\",\"\",ROUND(E92*(1+IF(F92=\"\",0,F92)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E93",
+    "formula": "=IF(OR(C93=\"\",D93=\"\"),\"\",ROUND(C93*D93,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G93",
+    "formula": "=IF(E93=\"\",\"\",ROUND(E93*(1+IF(F93=\"\",0,F93)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E94",
+    "formula": "=IF(OR(C94=\"\",D94=\"\"),\"\",ROUND(C94*D94,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G94",
+    "formula": "=IF(E94=\"\",\"\",ROUND(E94*(1+IF(F94=\"\",0,F94)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E95",
+    "formula": "=IF(OR(C95=\"\",D95=\"\"),\"\",ROUND(C95*D95,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G95",
+    "formula": "=IF(E95=\"\",\"\",ROUND(E95*(1+IF(F95=\"\",0,F95)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E96",
+    "formula": "=IF(OR(C96=\"\",D96=\"\"),\"\",ROUND(C96*D96,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G96",
+    "formula": "=IF(E96=\"\",\"\",ROUND(E96*(1+IF(F96=\"\",0,F96)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E97",
+    "formula": "=IF(OR(C97=\"\",D97=\"\"),\"\",ROUND(C97*D97,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G97",
+    "formula": "=IF(E97=\"\",\"\",ROUND(E97*(1+IF(F97=\"\",0,F97)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E98",
+    "formula": "=IF(OR(C98=\"\",D98=\"\"),\"\",ROUND(C98*D98,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G98",
+    "formula": "=IF(E98=\"\",\"\",ROUND(E98*(1+IF(F98=\"\",0,F98)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E99",
+    "formula": "=IF(OR(C99=\"\",D99=\"\"),\"\",ROUND(C99*D99,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G99",
+    "formula": "=IF(E99=\"\",\"\",ROUND(E99*(1+IF(F99=\"\",0,F99)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E100",
+    "formula": "=IF(OR(C100=\"\",D100=\"\"),\"\",ROUND(C100*D100,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G100",
+    "formula": "=IF(E100=\"\",\"\",ROUND(E100*(1+IF(F100=\"\",0,F100)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E101",
+    "formula": "=IF(OR(C101=\"\",D101=\"\"),\"\",ROUND(C101*D101,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G101",
+    "formula": "=IF(E101=\"\",\"\",ROUND(E101*(1+IF(F101=\"\",0,F101)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E102",
+    "formula": "=IF(OR(C102=\"\",D102=\"\"),\"\",ROUND(C102*D102,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G102",
+    "formula": "=IF(E102=\"\",\"\",ROUND(E102*(1+IF(F102=\"\",0,F102)),2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "E103",
+    "formula": "=IF(OR(C103=\"\",D103=\"\"),\"\",ROUND(C103*D103,2))"
+  },
+  {
+    "sheet": "Estimate",
+    "cell": "G103",
+    "formula": "=IF(E103=\"\",\"\",ROUND(E103*(1+IF(F103=\"\",0,F103)),2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F4",
+    "formula": "=IF(OR(D4=\"\",E4=\"\"),\"\",ROUND(D4*E4,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F5",
+    "formula": "=IF(OR(D5=\"\",E5=\"\"),\"\",ROUND(D5*E5,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F6",
+    "formula": "=IF(OR(D6=\"\",E6=\"\"),\"\",ROUND(D6*E6,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F7",
+    "formula": "=IF(OR(D7=\"\",E7=\"\"),\"\",ROUND(D7*E7,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F8",
+    "formula": "=IF(OR(D8=\"\",E8=\"\"),\"\",ROUND(D8*E8,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F9",
+    "formula": "=IF(OR(D9=\"\",E9=\"\"),\"\",ROUND(D9*E9,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F10",
+    "formula": "=IF(OR(D10=\"\",E10=\"\"),\"\",ROUND(D10*E10,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F11",
+    "formula": "=IF(OR(D11=\"\",E11=\"\"),\"\",ROUND(D11*E11,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F12",
+    "formula": "=IF(OR(D12=\"\",E12=\"\"),\"\",ROUND(D12*E12,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F13",
+    "formula": "=IF(OR(D13=\"\",E13=\"\"),\"\",ROUND(D13*E13,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F14",
+    "formula": "=IF(OR(D14=\"\",E14=\"\"),\"\",ROUND(D14*E14,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F15",
+    "formula": "=IF(OR(D15=\"\",E15=\"\"),\"\",ROUND(D15*E15,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F16",
+    "formula": "=IF(OR(D16=\"\",E16=\"\"),\"\",ROUND(D16*E16,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F17",
+    "formula": "=IF(OR(D17=\"\",E17=\"\"),\"\",ROUND(D17*E17,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F18",
+    "formula": "=IF(OR(D18=\"\",E18=\"\"),\"\",ROUND(D18*E18,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F19",
+    "formula": "=IF(OR(D19=\"\",E19=\"\"),\"\",ROUND(D19*E19,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F20",
+    "formula": "=IF(OR(D20=\"\",E20=\"\"),\"\",ROUND(D20*E20,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F21",
+    "formula": "=IF(OR(D21=\"\",E21=\"\"),\"\",ROUND(D21*E21,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F22",
+    "formula": "=IF(OR(D22=\"\",E22=\"\"),\"\",ROUND(D22*E22,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F23",
+    "formula": "=IF(OR(D23=\"\",E23=\"\"),\"\",ROUND(D23*E23,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F24",
+    "formula": "=IF(OR(D24=\"\",E24=\"\"),\"\",ROUND(D24*E24,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F25",
+    "formula": "=IF(OR(D25=\"\",E25=\"\"),\"\",ROUND(D25*E25,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F26",
+    "formula": "=IF(OR(D26=\"\",E26=\"\"),\"\",ROUND(D26*E26,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F27",
+    "formula": "=IF(OR(D27=\"\",E27=\"\"),\"\",ROUND(D27*E27,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F28",
+    "formula": "=IF(OR(D28=\"\",E28=\"\"),\"\",ROUND(D28*E28,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F29",
+    "formula": "=IF(OR(D29=\"\",E29=\"\"),\"\",ROUND(D29*E29,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F30",
+    "formula": "=IF(OR(D30=\"\",E30=\"\"),\"\",ROUND(D30*E30,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F31",
+    "formula": "=IF(OR(D31=\"\",E31=\"\"),\"\",ROUND(D31*E31,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F32",
+    "formula": "=IF(OR(D32=\"\",E32=\"\"),\"\",ROUND(D32*E32,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F33",
+    "formula": "=IF(OR(D33=\"\",E33=\"\"),\"\",ROUND(D33*E33,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F34",
+    "formula": "=IF(OR(D34=\"\",E34=\"\"),\"\",ROUND(D34*E34,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F35",
+    "formula": "=IF(OR(D35=\"\",E35=\"\"),\"\",ROUND(D35*E35,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F36",
+    "formula": "=IF(OR(D36=\"\",E36=\"\"),\"\",ROUND(D36*E36,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F37",
+    "formula": "=IF(OR(D37=\"\",E37=\"\"),\"\",ROUND(D37*E37,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F38",
+    "formula": "=IF(OR(D38=\"\",E38=\"\"),\"\",ROUND(D38*E38,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F39",
+    "formula": "=IF(OR(D39=\"\",E39=\"\"),\"\",ROUND(D39*E39,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F40",
+    "formula": "=IF(OR(D40=\"\",E40=\"\"),\"\",ROUND(D40*E40,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F41",
+    "formula": "=IF(OR(D41=\"\",E41=\"\"),\"\",ROUND(D41*E41,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F42",
+    "formula": "=IF(OR(D42=\"\",E42=\"\"),\"\",ROUND(D42*E42,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F43",
+    "formula": "=IF(OR(D43=\"\",E43=\"\"),\"\",ROUND(D43*E43,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F44",
+    "formula": "=IF(OR(D44=\"\",E44=\"\"),\"\",ROUND(D44*E44,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F45",
+    "formula": "=IF(OR(D45=\"\",E45=\"\"),\"\",ROUND(D45*E45,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F46",
+    "formula": "=IF(OR(D46=\"\",E46=\"\"),\"\",ROUND(D46*E46,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F47",
+    "formula": "=IF(OR(D47=\"\",E47=\"\"),\"\",ROUND(D47*E47,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F48",
+    "formula": "=IF(OR(D48=\"\",E48=\"\"),\"\",ROUND(D48*E48,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F49",
+    "formula": "=IF(OR(D49=\"\",E49=\"\"),\"\",ROUND(D49*E49,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F50",
+    "formula": "=IF(OR(D50=\"\",E50=\"\"),\"\",ROUND(D50*E50,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F51",
+    "formula": "=IF(OR(D51=\"\",E51=\"\"),\"\",ROUND(D51*E51,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F52",
+    "formula": "=IF(OR(D52=\"\",E52=\"\"),\"\",ROUND(D52*E52,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F53",
+    "formula": "=IF(OR(D53=\"\",E53=\"\"),\"\",ROUND(D53*E53,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F54",
+    "formula": "=IF(OR(D54=\"\",E54=\"\"),\"\",ROUND(D54*E54,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F55",
+    "formula": "=IF(OR(D55=\"\",E55=\"\"),\"\",ROUND(D55*E55,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F56",
+    "formula": "=IF(OR(D56=\"\",E56=\"\"),\"\",ROUND(D56*E56,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F57",
+    "formula": "=IF(OR(D57=\"\",E57=\"\"),\"\",ROUND(D57*E57,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F58",
+    "formula": "=IF(OR(D58=\"\",E58=\"\"),\"\",ROUND(D58*E58,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F59",
+    "formula": "=IF(OR(D59=\"\",E59=\"\"),\"\",ROUND(D59*E59,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F60",
+    "formula": "=IF(OR(D60=\"\",E60=\"\"),\"\",ROUND(D60*E60,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F61",
+    "formula": "=IF(OR(D61=\"\",E61=\"\"),\"\",ROUND(D61*E61,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F62",
+    "formula": "=IF(OR(D62=\"\",E62=\"\"),\"\",ROUND(D62*E62,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F63",
+    "formula": "=IF(OR(D63=\"\",E63=\"\"),\"\",ROUND(D63*E63,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F64",
+    "formula": "=IF(OR(D64=\"\",E64=\"\"),\"\",ROUND(D64*E64,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F65",
+    "formula": "=IF(OR(D65=\"\",E65=\"\"),\"\",ROUND(D65*E65,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F66",
+    "formula": "=IF(OR(D66=\"\",E66=\"\"),\"\",ROUND(D66*E66,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F67",
+    "formula": "=IF(OR(D67=\"\",E67=\"\"),\"\",ROUND(D67*E67,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F68",
+    "formula": "=IF(OR(D68=\"\",E68=\"\"),\"\",ROUND(D68*E68,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F69",
+    "formula": "=IF(OR(D69=\"\",E69=\"\"),\"\",ROUND(D69*E69,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F70",
+    "formula": "=IF(OR(D70=\"\",E70=\"\"),\"\",ROUND(D70*E70,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F71",
+    "formula": "=IF(OR(D71=\"\",E71=\"\"),\"\",ROUND(D71*E71,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F72",
+    "formula": "=IF(OR(D72=\"\",E72=\"\"),\"\",ROUND(D72*E72,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F73",
+    "formula": "=IF(OR(D73=\"\",E73=\"\"),\"\",ROUND(D73*E73,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F74",
+    "formula": "=IF(OR(D74=\"\",E74=\"\"),\"\",ROUND(D74*E74,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F75",
+    "formula": "=IF(OR(D75=\"\",E75=\"\"),\"\",ROUND(D75*E75,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F76",
+    "formula": "=IF(OR(D76=\"\",E76=\"\"),\"\",ROUND(D76*E76,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F77",
+    "formula": "=IF(OR(D77=\"\",E77=\"\"),\"\",ROUND(D77*E77,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F78",
+    "formula": "=IF(OR(D78=\"\",E78=\"\"),\"\",ROUND(D78*E78,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F79",
+    "formula": "=IF(OR(D79=\"\",E79=\"\"),\"\",ROUND(D79*E79,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F80",
+    "formula": "=IF(OR(D80=\"\",E80=\"\"),\"\",ROUND(D80*E80,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F81",
+    "formula": "=IF(OR(D81=\"\",E81=\"\"),\"\",ROUND(D81*E81,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F82",
+    "formula": "=IF(OR(D82=\"\",E82=\"\"),\"\",ROUND(D82*E82,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F83",
+    "formula": "=IF(OR(D83=\"\",E83=\"\"),\"\",ROUND(D83*E83,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F84",
+    "formula": "=IF(OR(D84=\"\",E84=\"\"),\"\",ROUND(D84*E84,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F85",
+    "formula": "=IF(OR(D85=\"\",E85=\"\"),\"\",ROUND(D85*E85,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F86",
+    "formula": "=IF(OR(D86=\"\",E86=\"\"),\"\",ROUND(D86*E86,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F87",
+    "formula": "=IF(OR(D87=\"\",E87=\"\"),\"\",ROUND(D87*E87,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F88",
+    "formula": "=IF(OR(D88=\"\",E88=\"\"),\"\",ROUND(D88*E88,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F89",
+    "formula": "=IF(OR(D89=\"\",E89=\"\"),\"\",ROUND(D89*E89,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F90",
+    "formula": "=IF(OR(D90=\"\",E90=\"\"),\"\",ROUND(D90*E90,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F91",
+    "formula": "=IF(OR(D91=\"\",E91=\"\"),\"\",ROUND(D91*E91,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F92",
+    "formula": "=IF(OR(D92=\"\",E92=\"\"),\"\",ROUND(D92*E92,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F93",
+    "formula": "=IF(OR(D93=\"\",E93=\"\"),\"\",ROUND(D93*E93,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F94",
+    "formula": "=IF(OR(D94=\"\",E94=\"\"),\"\",ROUND(D94*E94,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F95",
+    "formula": "=IF(OR(D95=\"\",E95=\"\"),\"\",ROUND(D95*E95,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F96",
+    "formula": "=IF(OR(D96=\"\",E96=\"\"),\"\",ROUND(D96*E96,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F97",
+    "formula": "=IF(OR(D97=\"\",E97=\"\"),\"\",ROUND(D97*E97,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F98",
+    "formula": "=IF(OR(D98=\"\",E98=\"\"),\"\",ROUND(D98*E98,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F99",
+    "formula": "=IF(OR(D99=\"\",E99=\"\"),\"\",ROUND(D99*E99,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F100",
+    "formula": "=IF(OR(D100=\"\",E100=\"\"),\"\",ROUND(D100*E100,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F101",
+    "formula": "=IF(OR(D101=\"\",E101=\"\"),\"\",ROUND(D101*E101,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F102",
+    "formula": "=IF(OR(D102=\"\",E102=\"\"),\"\",ROUND(D102*E102,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F103",
+    "formula": "=IF(OR(D103=\"\",E103=\"\"),\"\",ROUND(D103*E103,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F104",
+    "formula": "=IF(OR(D104=\"\",E104=\"\"),\"\",ROUND(D104*E104,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F105",
+    "formula": "=IF(OR(D105=\"\",E105=\"\"),\"\",ROUND(D105*E105,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F106",
+    "formula": "=IF(OR(D106=\"\",E106=\"\"),\"\",ROUND(D106*E106,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F107",
+    "formula": "=IF(OR(D107=\"\",E107=\"\"),\"\",ROUND(D107*E107,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F108",
+    "formula": "=IF(OR(D108=\"\",E108=\"\"),\"\",ROUND(D108*E108,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F109",
+    "formula": "=IF(OR(D109=\"\",E109=\"\"),\"\",ROUND(D109*E109,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F110",
+    "formula": "=IF(OR(D110=\"\",E110=\"\"),\"\",ROUND(D110*E110,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F111",
+    "formula": "=IF(OR(D111=\"\",E111=\"\"),\"\",ROUND(D111*E111,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F112",
+    "formula": "=IF(OR(D112=\"\",E112=\"\"),\"\",ROUND(D112*E112,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F113",
+    "formula": "=IF(OR(D113=\"\",E113=\"\"),\"\",ROUND(D113*E113,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F114",
+    "formula": "=IF(OR(D114=\"\",E114=\"\"),\"\",ROUND(D114*E114,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F115",
+    "formula": "=IF(OR(D115=\"\",E115=\"\"),\"\",ROUND(D115*E115,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F116",
+    "formula": "=IF(OR(D116=\"\",E116=\"\"),\"\",ROUND(D116*E116,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F117",
+    "formula": "=IF(OR(D117=\"\",E117=\"\"),\"\",ROUND(D117*E117,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F118",
+    "formula": "=IF(OR(D118=\"\",E118=\"\"),\"\",ROUND(D118*E118,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F119",
+    "formula": "=IF(OR(D119=\"\",E119=\"\"),\"\",ROUND(D119*E119,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F120",
+    "formula": "=IF(OR(D120=\"\",E120=\"\"),\"\",ROUND(D120*E120,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F121",
+    "formula": "=IF(OR(D121=\"\",E121=\"\"),\"\",ROUND(D121*E121,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F122",
+    "formula": "=IF(OR(D122=\"\",E122=\"\"),\"\",ROUND(D122*E122,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F123",
+    "formula": "=IF(OR(D123=\"\",E123=\"\"),\"\",ROUND(D123*E123,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F124",
+    "formula": "=IF(OR(D124=\"\",E124=\"\"),\"\",ROUND(D124*E124,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F125",
+    "formula": "=IF(OR(D125=\"\",E125=\"\"),\"\",ROUND(D125*E125,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F126",
+    "formula": "=IF(OR(D126=\"\",E126=\"\"),\"\",ROUND(D126*E126,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F127",
+    "formula": "=IF(OR(D127=\"\",E127=\"\"),\"\",ROUND(D127*E127,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F128",
+    "formula": "=IF(OR(D128=\"\",E128=\"\"),\"\",ROUND(D128*E128,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F129",
+    "formula": "=IF(OR(D129=\"\",E129=\"\"),\"\",ROUND(D129*E129,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F130",
+    "formula": "=IF(OR(D130=\"\",E130=\"\"),\"\",ROUND(D130*E130,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F131",
+    "formula": "=IF(OR(D131=\"\",E131=\"\"),\"\",ROUND(D131*E131,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F132",
+    "formula": "=IF(OR(D132=\"\",E132=\"\"),\"\",ROUND(D132*E132,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F133",
+    "formula": "=IF(OR(D133=\"\",E133=\"\"),\"\",ROUND(D133*E133,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F134",
+    "formula": "=IF(OR(D134=\"\",E134=\"\"),\"\",ROUND(D134*E134,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F135",
+    "formula": "=IF(OR(D135=\"\",E135=\"\"),\"\",ROUND(D135*E135,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F136",
+    "formula": "=IF(OR(D136=\"\",E136=\"\"),\"\",ROUND(D136*E136,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F137",
+    "formula": "=IF(OR(D137=\"\",E137=\"\"),\"\",ROUND(D137*E137,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F138",
+    "formula": "=IF(OR(D138=\"\",E138=\"\"),\"\",ROUND(D138*E138,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F139",
+    "formula": "=IF(OR(D139=\"\",E139=\"\"),\"\",ROUND(D139*E139,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F140",
+    "formula": "=IF(OR(D140=\"\",E140=\"\"),\"\",ROUND(D140*E140,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F141",
+    "formula": "=IF(OR(D141=\"\",E141=\"\"),\"\",ROUND(D141*E141,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F142",
+    "formula": "=IF(OR(D142=\"\",E142=\"\"),\"\",ROUND(D142*E142,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F143",
+    "formula": "=IF(OR(D143=\"\",E143=\"\"),\"\",ROUND(D143*E143,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F144",
+    "formula": "=IF(OR(D144=\"\",E144=\"\"),\"\",ROUND(D144*E144,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F145",
+    "formula": "=IF(OR(D145=\"\",E145=\"\"),\"\",ROUND(D145*E145,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F146",
+    "formula": "=IF(OR(D146=\"\",E146=\"\"),\"\",ROUND(D146*E146,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F147",
+    "formula": "=IF(OR(D147=\"\",E147=\"\"),\"\",ROUND(D147*E147,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F148",
+    "formula": "=IF(OR(D148=\"\",E148=\"\"),\"\",ROUND(D148*E148,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F149",
+    "formula": "=IF(OR(D149=\"\",E149=\"\"),\"\",ROUND(D149*E149,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F150",
+    "formula": "=IF(OR(D150=\"\",E150=\"\"),\"\",ROUND(D150*E150,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F151",
+    "formula": "=IF(OR(D151=\"\",E151=\"\"),\"\",ROUND(D151*E151,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F152",
+    "formula": "=IF(OR(D152=\"\",E152=\"\"),\"\",ROUND(D152*E152,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F153",
+    "formula": "=IF(OR(D153=\"\",E153=\"\"),\"\",ROUND(D153*E153,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F154",
+    "formula": "=IF(OR(D154=\"\",E154=\"\"),\"\",ROUND(D154*E154,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F155",
+    "formula": "=IF(OR(D155=\"\",E155=\"\"),\"\",ROUND(D155*E155,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F156",
+    "formula": "=IF(OR(D156=\"\",E156=\"\"),\"\",ROUND(D156*E156,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F157",
+    "formula": "=IF(OR(D157=\"\",E157=\"\"),\"\",ROUND(D157*E157,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F158",
+    "formula": "=IF(OR(D158=\"\",E158=\"\"),\"\",ROUND(D158*E158,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F159",
+    "formula": "=IF(OR(D159=\"\",E159=\"\"),\"\",ROUND(D159*E159,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F160",
+    "formula": "=IF(OR(D160=\"\",E160=\"\"),\"\",ROUND(D160*E160,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F161",
+    "formula": "=IF(OR(D161=\"\",E161=\"\"),\"\",ROUND(D161*E161,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F162",
+    "formula": "=IF(OR(D162=\"\",E162=\"\"),\"\",ROUND(D162*E162,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F163",
+    "formula": "=IF(OR(D163=\"\",E163=\"\"),\"\",ROUND(D163*E163,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F164",
+    "formula": "=IF(OR(D164=\"\",E164=\"\"),\"\",ROUND(D164*E164,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F165",
+    "formula": "=IF(OR(D165=\"\",E165=\"\"),\"\",ROUND(D165*E165,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F166",
+    "formula": "=IF(OR(D166=\"\",E166=\"\"),\"\",ROUND(D166*E166,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F167",
+    "formula": "=IF(OR(D167=\"\",E167=\"\"),\"\",ROUND(D167*E167,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F168",
+    "formula": "=IF(OR(D168=\"\",E168=\"\"),\"\",ROUND(D168*E168,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F169",
+    "formula": "=IF(OR(D169=\"\",E169=\"\"),\"\",ROUND(D169*E169,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F170",
+    "formula": "=IF(OR(D170=\"\",E170=\"\"),\"\",ROUND(D170*E170,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F171",
+    "formula": "=IF(OR(D171=\"\",E171=\"\"),\"\",ROUND(D171*E171,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F172",
+    "formula": "=IF(OR(D172=\"\",E172=\"\"),\"\",ROUND(D172*E172,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F173",
+    "formula": "=IF(OR(D173=\"\",E173=\"\"),\"\",ROUND(D173*E173,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F174",
+    "formula": "=IF(OR(D174=\"\",E174=\"\"),\"\",ROUND(D174*E174,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F175",
+    "formula": "=IF(OR(D175=\"\",E175=\"\"),\"\",ROUND(D175*E175,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F176",
+    "formula": "=IF(OR(D176=\"\",E176=\"\"),\"\",ROUND(D176*E176,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F177",
+    "formula": "=IF(OR(D177=\"\",E177=\"\"),\"\",ROUND(D177*E177,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F178",
+    "formula": "=IF(OR(D178=\"\",E178=\"\"),\"\",ROUND(D178*E178,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F179",
+    "formula": "=IF(OR(D179=\"\",E179=\"\"),\"\",ROUND(D179*E179,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F180",
+    "formula": "=IF(OR(D180=\"\",E180=\"\"),\"\",ROUND(D180*E180,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F181",
+    "formula": "=IF(OR(D181=\"\",E181=\"\"),\"\",ROUND(D181*E181,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F182",
+    "formula": "=IF(OR(D182=\"\",E182=\"\"),\"\",ROUND(D182*E182,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F183",
+    "formula": "=IF(OR(D183=\"\",E183=\"\"),\"\",ROUND(D183*E183,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F184",
+    "formula": "=IF(OR(D184=\"\",E184=\"\"),\"\",ROUND(D184*E184,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F185",
+    "formula": "=IF(OR(D185=\"\",E185=\"\"),\"\",ROUND(D185*E185,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F186",
+    "formula": "=IF(OR(D186=\"\",E186=\"\"),\"\",ROUND(D186*E186,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F187",
+    "formula": "=IF(OR(D187=\"\",E187=\"\"),\"\",ROUND(D187*E187,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F188",
+    "formula": "=IF(OR(D188=\"\",E188=\"\"),\"\",ROUND(D188*E188,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F189",
+    "formula": "=IF(OR(D189=\"\",E189=\"\"),\"\",ROUND(D189*E189,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F190",
+    "formula": "=IF(OR(D190=\"\",E190=\"\"),\"\",ROUND(D190*E190,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F191",
+    "formula": "=IF(OR(D191=\"\",E191=\"\"),\"\",ROUND(D191*E191,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F192",
+    "formula": "=IF(OR(D192=\"\",E192=\"\"),\"\",ROUND(D192*E192,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F193",
+    "formula": "=IF(OR(D193=\"\",E193=\"\"),\"\",ROUND(D193*E193,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F194",
+    "formula": "=IF(OR(D194=\"\",E194=\"\"),\"\",ROUND(D194*E194,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F195",
+    "formula": "=IF(OR(D195=\"\",E195=\"\"),\"\",ROUND(D195*E195,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F196",
+    "formula": "=IF(OR(D196=\"\",E196=\"\"),\"\",ROUND(D196*E196,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F197",
+    "formula": "=IF(OR(D197=\"\",E197=\"\"),\"\",ROUND(D197*E197,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F198",
+    "formula": "=IF(OR(D198=\"\",E198=\"\"),\"\",ROUND(D198*E198,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F199",
+    "formula": "=IF(OR(D199=\"\",E199=\"\"),\"\",ROUND(D199*E199,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F200",
+    "formula": "=IF(OR(D200=\"\",E200=\"\"),\"\",ROUND(D200*E200,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F201",
+    "formula": "=IF(OR(D201=\"\",E201=\"\"),\"\",ROUND(D201*E201,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F202",
+    "formula": "=IF(OR(D202=\"\",E202=\"\"),\"\",ROUND(D202*E202,2))"
+  },
+  {
+    "sheet": "Actual Costs",
+    "cell": "F203",
+    "formula": "=IF(OR(D203=\"\",E203=\"\"),\"\",ROUND(D203*E203,2))"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F4",
+    "formula": "=IF(C4=\"Approved\",IF(OR(D4=\"\",E4=\"\"),\"\",ROUND(D4-E4,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F5",
+    "formula": "=IF(C5=\"Approved\",IF(OR(D5=\"\",E5=\"\"),\"\",ROUND(D5-E5,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F6",
+    "formula": "=IF(C6=\"Approved\",IF(OR(D6=\"\",E6=\"\"),\"\",ROUND(D6-E6,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F7",
+    "formula": "=IF(C7=\"Approved\",IF(OR(D7=\"\",E7=\"\"),\"\",ROUND(D7-E7,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F8",
+    "formula": "=IF(C8=\"Approved\",IF(OR(D8=\"\",E8=\"\"),\"\",ROUND(D8-E8,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F9",
+    "formula": "=IF(C9=\"Approved\",IF(OR(D9=\"\",E9=\"\"),\"\",ROUND(D9-E9,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F10",
+    "formula": "=IF(C10=\"Approved\",IF(OR(D10=\"\",E10=\"\"),\"\",ROUND(D10-E10,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F11",
+    "formula": "=IF(C11=\"Approved\",IF(OR(D11=\"\",E11=\"\"),\"\",ROUND(D11-E11,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F12",
+    "formula": "=IF(C12=\"Approved\",IF(OR(D12=\"\",E12=\"\"),\"\",ROUND(D12-E12,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F13",
+    "formula": "=IF(C13=\"Approved\",IF(OR(D13=\"\",E13=\"\"),\"\",ROUND(D13-E13,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F14",
+    "formula": "=IF(C14=\"Approved\",IF(OR(D14=\"\",E14=\"\"),\"\",ROUND(D14-E14,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F15",
+    "formula": "=IF(C15=\"Approved\",IF(OR(D15=\"\",E15=\"\"),\"\",ROUND(D15-E15,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F16",
+    "formula": "=IF(C16=\"Approved\",IF(OR(D16=\"\",E16=\"\"),\"\",ROUND(D16-E16,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F17",
+    "formula": "=IF(C17=\"Approved\",IF(OR(D17=\"\",E17=\"\"),\"\",ROUND(D17-E17,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F18",
+    "formula": "=IF(C18=\"Approved\",IF(OR(D18=\"\",E18=\"\"),\"\",ROUND(D18-E18,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F19",
+    "formula": "=IF(C19=\"Approved\",IF(OR(D19=\"\",E19=\"\"),\"\",ROUND(D19-E19,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F20",
+    "formula": "=IF(C20=\"Approved\",IF(OR(D20=\"\",E20=\"\"),\"\",ROUND(D20-E20,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F21",
+    "formula": "=IF(C21=\"Approved\",IF(OR(D21=\"\",E21=\"\"),\"\",ROUND(D21-E21,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F22",
+    "formula": "=IF(C22=\"Approved\",IF(OR(D22=\"\",E22=\"\"),\"\",ROUND(D22-E22,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F23",
+    "formula": "=IF(C23=\"Approved\",IF(OR(D23=\"\",E23=\"\"),\"\",ROUND(D23-E23,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F24",
+    "formula": "=IF(C24=\"Approved\",IF(OR(D24=\"\",E24=\"\"),\"\",ROUND(D24-E24,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F25",
+    "formula": "=IF(C25=\"Approved\",IF(OR(D25=\"\",E25=\"\"),\"\",ROUND(D25-E25,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F26",
+    "formula": "=IF(C26=\"Approved\",IF(OR(D26=\"\",E26=\"\"),\"\",ROUND(D26-E26,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F27",
+    "formula": "=IF(C27=\"Approved\",IF(OR(D27=\"\",E27=\"\"),\"\",ROUND(D27-E27,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F28",
+    "formula": "=IF(C28=\"Approved\",IF(OR(D28=\"\",E28=\"\"),\"\",ROUND(D28-E28,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F29",
+    "formula": "=IF(C29=\"Approved\",IF(OR(D29=\"\",E29=\"\"),\"\",ROUND(D29-E29,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F30",
+    "formula": "=IF(C30=\"Approved\",IF(OR(D30=\"\",E30=\"\"),\"\",ROUND(D30-E30,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F31",
+    "formula": "=IF(C31=\"Approved\",IF(OR(D31=\"\",E31=\"\"),\"\",ROUND(D31-E31,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F32",
+    "formula": "=IF(C32=\"Approved\",IF(OR(D32=\"\",E32=\"\"),\"\",ROUND(D32-E32,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F33",
+    "formula": "=IF(C33=\"Approved\",IF(OR(D33=\"\",E33=\"\"),\"\",ROUND(D33-E33,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F34",
+    "formula": "=IF(C34=\"Approved\",IF(OR(D34=\"\",E34=\"\"),\"\",ROUND(D34-E34,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F35",
+    "formula": "=IF(C35=\"Approved\",IF(OR(D35=\"\",E35=\"\"),\"\",ROUND(D35-E35,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F36",
+    "formula": "=IF(C36=\"Approved\",IF(OR(D36=\"\",E36=\"\"),\"\",ROUND(D36-E36,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F37",
+    "formula": "=IF(C37=\"Approved\",IF(OR(D37=\"\",E37=\"\"),\"\",ROUND(D37-E37,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F38",
+    "formula": "=IF(C38=\"Approved\",IF(OR(D38=\"\",E38=\"\"),\"\",ROUND(D38-E38,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F39",
+    "formula": "=IF(C39=\"Approved\",IF(OR(D39=\"\",E39=\"\"),\"\",ROUND(D39-E39,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F40",
+    "formula": "=IF(C40=\"Approved\",IF(OR(D40=\"\",E40=\"\"),\"\",ROUND(D40-E40,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F41",
+    "formula": "=IF(C41=\"Approved\",IF(OR(D41=\"\",E41=\"\"),\"\",ROUND(D41-E41,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F42",
+    "formula": "=IF(C42=\"Approved\",IF(OR(D42=\"\",E42=\"\"),\"\",ROUND(D42-E42,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F43",
+    "formula": "=IF(C43=\"Approved\",IF(OR(D43=\"\",E43=\"\"),\"\",ROUND(D43-E43,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F44",
+    "formula": "=IF(C44=\"Approved\",IF(OR(D44=\"\",E44=\"\"),\"\",ROUND(D44-E44,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F45",
+    "formula": "=IF(C45=\"Approved\",IF(OR(D45=\"\",E45=\"\"),\"\",ROUND(D45-E45,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F46",
+    "formula": "=IF(C46=\"Approved\",IF(OR(D46=\"\",E46=\"\"),\"\",ROUND(D46-E46,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F47",
+    "formula": "=IF(C47=\"Approved\",IF(OR(D47=\"\",E47=\"\"),\"\",ROUND(D47-E47,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F48",
+    "formula": "=IF(C48=\"Approved\",IF(OR(D48=\"\",E48=\"\"),\"\",ROUND(D48-E48,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F49",
+    "formula": "=IF(C49=\"Approved\",IF(OR(D49=\"\",E49=\"\"),\"\",ROUND(D49-E49,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F50",
+    "formula": "=IF(C50=\"Approved\",IF(OR(D50=\"\",E50=\"\"),\"\",ROUND(D50-E50,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F51",
+    "formula": "=IF(C51=\"Approved\",IF(OR(D51=\"\",E51=\"\"),\"\",ROUND(D51-E51,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F52",
+    "formula": "=IF(C52=\"Approved\",IF(OR(D52=\"\",E52=\"\"),\"\",ROUND(D52-E52,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F53",
+    "formula": "=IF(C53=\"Approved\",IF(OR(D53=\"\",E53=\"\"),\"\",ROUND(D53-E53,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F54",
+    "formula": "=IF(C54=\"Approved\",IF(OR(D54=\"\",E54=\"\"),\"\",ROUND(D54-E54,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F55",
+    "formula": "=IF(C55=\"Approved\",IF(OR(D55=\"\",E55=\"\"),\"\",ROUND(D55-E55,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F56",
+    "formula": "=IF(C56=\"Approved\",IF(OR(D56=\"\",E56=\"\"),\"\",ROUND(D56-E56,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F57",
+    "formula": "=IF(C57=\"Approved\",IF(OR(D57=\"\",E57=\"\"),\"\",ROUND(D57-E57,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F58",
+    "formula": "=IF(C58=\"Approved\",IF(OR(D58=\"\",E58=\"\"),\"\",ROUND(D58-E58,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F59",
+    "formula": "=IF(C59=\"Approved\",IF(OR(D59=\"\",E59=\"\"),\"\",ROUND(D59-E59,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F60",
+    "formula": "=IF(C60=\"Approved\",IF(OR(D60=\"\",E60=\"\"),\"\",ROUND(D60-E60,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F61",
+    "formula": "=IF(C61=\"Approved\",IF(OR(D61=\"\",E61=\"\"),\"\",ROUND(D61-E61,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F62",
+    "formula": "=IF(C62=\"Approved\",IF(OR(D62=\"\",E62=\"\"),\"\",ROUND(D62-E62,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F63",
+    "formula": "=IF(C63=\"Approved\",IF(OR(D63=\"\",E63=\"\"),\"\",ROUND(D63-E63,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F64",
+    "formula": "=IF(C64=\"Approved\",IF(OR(D64=\"\",E64=\"\"),\"\",ROUND(D64-E64,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F65",
+    "formula": "=IF(C65=\"Approved\",IF(OR(D65=\"\",E65=\"\"),\"\",ROUND(D65-E65,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F66",
+    "formula": "=IF(C66=\"Approved\",IF(OR(D66=\"\",E66=\"\"),\"\",ROUND(D66-E66,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F67",
+    "formula": "=IF(C67=\"Approved\",IF(OR(D67=\"\",E67=\"\"),\"\",ROUND(D67-E67,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F68",
+    "formula": "=IF(C68=\"Approved\",IF(OR(D68=\"\",E68=\"\"),\"\",ROUND(D68-E68,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F69",
+    "formula": "=IF(C69=\"Approved\",IF(OR(D69=\"\",E69=\"\"),\"\",ROUND(D69-E69,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F70",
+    "formula": "=IF(C70=\"Approved\",IF(OR(D70=\"\",E70=\"\"),\"\",ROUND(D70-E70,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F71",
+    "formula": "=IF(C71=\"Approved\",IF(OR(D71=\"\",E71=\"\"),\"\",ROUND(D71-E71,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F72",
+    "formula": "=IF(C72=\"Approved\",IF(OR(D72=\"\",E72=\"\"),\"\",ROUND(D72-E72,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F73",
+    "formula": "=IF(C73=\"Approved\",IF(OR(D73=\"\",E73=\"\"),\"\",ROUND(D73-E73,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F74",
+    "formula": "=IF(C74=\"Approved\",IF(OR(D74=\"\",E74=\"\"),\"\",ROUND(D74-E74,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F75",
+    "formula": "=IF(C75=\"Approved\",IF(OR(D75=\"\",E75=\"\"),\"\",ROUND(D75-E75,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F76",
+    "formula": "=IF(C76=\"Approved\",IF(OR(D76=\"\",E76=\"\"),\"\",ROUND(D76-E76,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F77",
+    "formula": "=IF(C77=\"Approved\",IF(OR(D77=\"\",E77=\"\"),\"\",ROUND(D77-E77,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F78",
+    "formula": "=IF(C78=\"Approved\",IF(OR(D78=\"\",E78=\"\"),\"\",ROUND(D78-E78,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F79",
+    "formula": "=IF(C79=\"Approved\",IF(OR(D79=\"\",E79=\"\"),\"\",ROUND(D79-E79,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F80",
+    "formula": "=IF(C80=\"Approved\",IF(OR(D80=\"\",E80=\"\"),\"\",ROUND(D80-E80,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F81",
+    "formula": "=IF(C81=\"Approved\",IF(OR(D81=\"\",E81=\"\"),\"\",ROUND(D81-E81,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F82",
+    "formula": "=IF(C82=\"Approved\",IF(OR(D82=\"\",E82=\"\"),\"\",ROUND(D82-E82,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F83",
+    "formula": "=IF(C83=\"Approved\",IF(OR(D83=\"\",E83=\"\"),\"\",ROUND(D83-E83,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F84",
+    "formula": "=IF(C84=\"Approved\",IF(OR(D84=\"\",E84=\"\"),\"\",ROUND(D84-E84,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F85",
+    "formula": "=IF(C85=\"Approved\",IF(OR(D85=\"\",E85=\"\"),\"\",ROUND(D85-E85,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F86",
+    "formula": "=IF(C86=\"Approved\",IF(OR(D86=\"\",E86=\"\"),\"\",ROUND(D86-E86,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F87",
+    "formula": "=IF(C87=\"Approved\",IF(OR(D87=\"\",E87=\"\"),\"\",ROUND(D87-E87,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F88",
+    "formula": "=IF(C88=\"Approved\",IF(OR(D88=\"\",E88=\"\"),\"\",ROUND(D88-E88,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F89",
+    "formula": "=IF(C89=\"Approved\",IF(OR(D89=\"\",E89=\"\"),\"\",ROUND(D89-E89,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F90",
+    "formula": "=IF(C90=\"Approved\",IF(OR(D90=\"\",E90=\"\"),\"\",ROUND(D90-E90,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F91",
+    "formula": "=IF(C91=\"Approved\",IF(OR(D91=\"\",E91=\"\"),\"\",ROUND(D91-E91,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F92",
+    "formula": "=IF(C92=\"Approved\",IF(OR(D92=\"\",E92=\"\"),\"\",ROUND(D92-E92,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F93",
+    "formula": "=IF(C93=\"Approved\",IF(OR(D93=\"\",E93=\"\"),\"\",ROUND(D93-E93,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F94",
+    "formula": "=IF(C94=\"Approved\",IF(OR(D94=\"\",E94=\"\"),\"\",ROUND(D94-E94,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F95",
+    "formula": "=IF(C95=\"Approved\",IF(OR(D95=\"\",E95=\"\"),\"\",ROUND(D95-E95,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F96",
+    "formula": "=IF(C96=\"Approved\",IF(OR(D96=\"\",E96=\"\"),\"\",ROUND(D96-E96,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F97",
+    "formula": "=IF(C97=\"Approved\",IF(OR(D97=\"\",E97=\"\"),\"\",ROUND(D97-E97,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F98",
+    "formula": "=IF(C98=\"Approved\",IF(OR(D98=\"\",E98=\"\"),\"\",ROUND(D98-E98,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F99",
+    "formula": "=IF(C99=\"Approved\",IF(OR(D99=\"\",E99=\"\"),\"\",ROUND(D99-E99,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F100",
+    "formula": "=IF(C100=\"Approved\",IF(OR(D100=\"\",E100=\"\"),\"\",ROUND(D100-E100,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F101",
+    "formula": "=IF(C101=\"Approved\",IF(OR(D101=\"\",E101=\"\"),\"\",ROUND(D101-E101,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F102",
+    "formula": "=IF(C102=\"Approved\",IF(OR(D102=\"\",E102=\"\"),\"\",ROUND(D102-E102,2)),0)"
+  },
+  {
+    "sheet": "Change Orders",
+    "cell": "F103",
+    "formula": "=IF(C103=\"Approved\",IF(OR(D103=\"\",E103=\"\"),\"\",ROUND(D103-E103,2)),0)"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B4",
+    "formula": "=SUM('Estimate'!G4:G103)"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B5",
+    "formula": "=SUMIF('Change Orders'!C4:C103,\"Approved\",'Change Orders'!D4:D103)"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B6",
+    "formula": "=B4+B5"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B7",
+    "formula": "=SUM('Estimate'!E4:E103)"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B8",
+    "formula": "=SUMIF('Change Orders'!C4:C103,\"Approved\",'Change Orders'!E4:E103)"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B9",
+    "formula": "='Project Setup'!B7"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B10",
+    "formula": "=SUM(B7:B9)"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B11",
+    "formula": "=B6-B10"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B12",
+    "formula": "=IF(B6=0,\"\",B11/B6)"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B13",
+    "formula": "=SUM('Actual Costs'!F4:F203)"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B14",
+    "formula": "='Project Setup'!B8"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B15",
+    "formula": "=B13+B14"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B16",
+    "formula": "=B6-B15"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B17",
+    "formula": "=IF(B6=0,\"\",B16/B6)"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B18",
+    "formula": "=SUM('Payments'!C4:C103)"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B19",
+    "formula": "=B6-B18"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B20",
+    "formula": "=B18-B15"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B21",
+    "formula": "=B10-B15"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B22",
+    "formula": "=ROUND(B10*'Project Setup'!B9,2)"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B23",
+    "formula": "='Project Setup'!B13"
+  },
+  {
+    "sheet": "Dashboard",
+    "cell": "B24",
+    "formula": "=SUMPRODUCT(--(Estimate!A4:A103<>\"\"),--(Estimate!C4:C103=\"\"))+SUMPRODUCT(--(Estimate!A4:A103<>\"\"),--(Estimate!D4:D103=\"\"))+SUMPRODUCT(--('Actual Costs'!B4:B203<>\"\"),--('Actual Costs'!D4:D203=\"\"))+SUMPRODUCT(--('Actual Costs'!B4:B203<>\"\"),--('Actual Costs'!E4:E203=\"\"))+SUMPRODUCT(--('Change Orders'!C4:C103=\"Approved\"),--('Change Orders'!D4:D103=\"\"))+SUMPRODUCT(--('Change Orders'!C4:C103=\"Approved\"),--('Change Orders'!E4:E103=\"\"))+SUMPRODUCT(--(Payments!B4:B103<>\"\"),--(Payments!C4:C103=\"\"))"
+  }
+]
