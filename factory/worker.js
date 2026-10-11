@@ -53,7 +53,7 @@ export class PortfolioStore extends DurableObject {
         completionEventsPerPageview: total.pageviews ? total.reviews / total.pageviews : null };
     });
     const opportunity = rankOpportunity(evidence);
-    const draft = resourceDraft(opportunity);
+    const draft = resource;
     return { observedAt: new Date().toISOString(), products, opportunityQueue: [opportunity],
       candidates: registry.candidates, distributionDraft: { title: draft.title, publication: draft.publication }, economics: { ...economics(registry), verifiedTestReceiptCount: [...this.sql.exec('SELECT COUNT(*) AS n FROM test_receipts')][0].n }, scheduledJob: job,
       measurement: 'Rolling 30-day event counts, not unique people or customers. Known bots and tagged test traffic excluded from production counts. Repeat events remain possible.',
@@ -89,6 +89,8 @@ export class PortfolioStore extends DurableObject {
         sourceStatus = r.status;
         if (!r.ok) {
           const detail = await r.json().catch(() => ({}));
+          const retry = String(detail.error_message || '').match(/more requests available in (\d+) seconds/);
+          if (retry) this.put('feedRetryAt', Date.now() + Number(retry[1]) * 1000);
           sourceStatus = `${r.status}: ${String(detail.error_message || detail.error_name || 'request rejected').slice(0, 160)}`;
           throw new Error('Public feed unavailable');
         }
@@ -116,6 +118,12 @@ export class PortfolioStore extends DurableObject {
       } catch { feedError += ' Fallback unavailable; prior evidence retained. No signals invented.'; }
     }
     this.put('health', health);
+    // Perform intelligence, drafting and optimization on the timer, not only dashboard reads.
+    const opportunity = rankOpportunity(this.get('evidence', []));
+    this.put('opportunity', opportunity);
+    this.put('productDraft', { ...registry.candidates[0], generatedAt: startedAt, templateReady: true, deploymentAllowed: false });
+    this.put('distributionDraft', resourceDraft(opportunity));
+    this.put('optimization', registry.products.map(p => ({ product: p.id, ...this.access(p.id) })));
     this.sql.exec('DELETE FROM events WHERE day < ?', new Date(Date.now() - 90 * 86400000).toISOString().slice(0, 10));
     this.sql.exec('DELETE FROM channels WHERE day < ?', new Date(Date.now() - 90 * 86400000).toISOString().slice(0, 10));
     const result = { startedAt, completedAt: new Date().toISOString(), invocation, bootstrapRevision: this.env.BOOTSTRAP_REVISION, status: feedError ? 'partial' : 'completed', feedError,
