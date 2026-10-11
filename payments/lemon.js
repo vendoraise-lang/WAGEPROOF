@@ -1,5 +1,5 @@
 // Prepared against official @lemonsqueezy/lemonsqueezy.js 4.0.0 NewCheckout contract.
-// Not connected to public checkout. Country eligibility/fees and store approval remain unverified.
+// Not connected to public checkout. Morocco bank-payout support and published fees are verified; actual operator/store/product approval remains pending.
 // Deliberately incapable of creating a live checkout; activation needs separate approved work.
 export async function prepareLemonTestCheckout({ env, reportDigest, buyerKeyHash, providerFetch = fetch, now = Date.now() }) {
   if (env.PAYMENT_MODE !== 'test' || env.LEMON_TEST_INTEGRATION_APPROVED !== 'true') throw new Error('Only explicitly configured test checkout preparation is allowed.');

@@ -7,5 +7,5 @@
   "workers_dev": true,
   "services": [{ "binding": "FACTORY", "service": "business-factory", "entrypoint": "Analytics" }],
   "assets": { "directory": "./public", "binding": "ASSETS", "run_worker_first": true },
-  "vars": { "FREE_BETA": "true", "PAYMENT_MODE": "test", "LIVE_PAYMENTS_APPROVED": "false", "BUSINESS_JURISDICTION": "Morocco" }
+  "vars": { "FREE_BETA": "true", "PAYMENT_MODE": "test", "LIVE_PAYMENTS_APPROVED": "false", "BUSINESS_JURISDICTION": "Morocco", "TARGET_MARKET": "US" }
 }

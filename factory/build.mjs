@@ -16,7 +16,7 @@ for (const file of ['checker.js', 'server.js', 'worker.js', 'telemetry.js', 'pub
   files[file] = text;
 }
 files['public/index.html'] = files['public/index.html'].replace('<title>', '<meta name="robots" content="noindex"><title>');
-files['wrangler.jsonc'] = JSON.stringify({ name: candidate.id, main: 'worker.js', compatibility_date: '2026-10-01', compatibility_flags: ['nodejs_compat'], workers_dev: true, services: [{ binding: 'FACTORY', service: 'business-factory', entrypoint: 'Analytics' }], assets: { directory: './public', binding: 'ASSETS', run_worker_first: true }, vars: { FREE_BETA: 'true', PAYMENT_MODE: 'test', LIVE_PAYMENTS_APPROVED: 'false', BUSINESS_JURISDICTION: 'Morocco' } }, null, 2);
+files['wrangler.jsonc'] = JSON.stringify({ name: candidate.id, main: 'worker.js', compatibility_date: '2026-10-01', compatibility_flags: ['nodejs_compat'], workers_dev: true, services: [{ binding: 'FACTORY', service: 'business-factory', entrypoint: 'Analytics' }], assets: { directory: './public', binding: 'ASSETS', run_worker_first: true }, vars: { FREE_BETA: 'true', PAYMENT_MODE: 'test', LIVE_PAYMENTS_APPROVED: 'false', BUSINESS_JURISDICTION: 'Morocco', TARGET_MARKET: 'US' } }, null, 2);
 files['RESOURCE.txt'] = JSON.stringify(resourceDraft(rankOpportunity([])), null, 2);
 const digest = createHash('sha256').update(JSON.stringify(files)).digest('hex');
 const out = root + 'factory/artifacts/' + candidate.id;

@@ -65,7 +65,7 @@ export class PortfolioStore extends DurableObject {
     const opportunity = rankOpportunity(evidence);
     const draft = resource;
     const experiment = { ...commercial.experiment, metrics: products[0].checklistFunnel, decision: experimentDecision(commercial.experiment, products[0].checklistFunnel), indexingVerified: false };
-    return { observedAt: new Date().toISOString(), products, opportunityQueue: [opportunity], commercialOpportunities: commercial.opportunities, experiment,
+    return { observedAt: new Date().toISOString(), products, targetMarket: registry.targetMarket, operator: registry.operator, annualRevenueTarget: registry.annualRevenueTarget, researchPolicy: registry.researchPolicy, monetization: commercial.monetization, opportunityQueue: [opportunity], commercialOpportunities: commercial.opportunities, experiment,
       candidates: registry.candidates, distributionDraft: { title: draft.title, publication: draft.publication }, economics: { ...economics(registry), verifiedTestReceiptCount: [...this.sql.exec('SELECT COUNT(*) AS n FROM test_receipts')][0].n }, scheduledJob: job,
       measurement: 'Rolling 30-day event counts, not unique people, sessions or customers. Checklist funnel measured since 2026-10-11; earlier pageviews may include untagged operator traffic. Known bots, samples and tagged tests excluded. Repeat/spoofed events remain possible; intent is nonbinding, not a sale.',
       costs: { estimatedMonthlyPlatformUSD: 0, aiInferenceUSD: 0, paidServicesEnabled: false, quotaBehavior: 'Free limits fail closed; no upgrade automation.', unallocated: ['Codex development credits', 'Founder time'] } };

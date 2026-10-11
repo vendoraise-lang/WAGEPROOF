@@ -1,26 +1,58 @@
 {
   "schema": 1,
-  "products": [{
-    "id": "proposal-preflight",
-    "name": "Proposal Preflight",
-    "url": "https://proposal-preflight.preflight-f1224675ed.workers.dev",
-    "template": "requirements-review-v1",
-    "launchedAt": "2026-10-11T00:00:00Z",
-    "publication": "approved-existing",
-    "approval": "Founder explicitly authorized the free Proposal Preflight launch; factory does not authorize additional products.",
-    "managed": true,
-    "thresholds": { "reviewDays": 30, "maximumDays": 60, "minimumPageviews": 100, "minimumReviews": 3, "maximumFailedChecks": 3 }
-  }],
-  "candidates": [{
-    "id": "sla-preflight",
-    "name": "SLA Preflight",
-    "template": "requirements-review-v1",
-    "publication": "draft",
-    "offer": "Compare a short IT service agreement with explicit response, uptime and recovery requirements.",
-    "approval": null
-  }],
+  "products": [
+    {
+      "id": "proposal-preflight",
+      "name": "Proposal Preflight",
+      "url": "https://proposal-preflight.preflight-f1224675ed.workers.dev",
+      "template": "requirements-review-v1",
+      "launchedAt": "2026-10-11T00:00:00Z",
+      "publication": "approved-existing",
+      "approval": "Founder explicitly authorized the free Proposal Preflight launch; factory does not authorize additional products.",
+      "managed": true,
+      "thresholds": {
+        "reviewDays": 30,
+        "maximumDays": 60,
+        "minimumPageviews": 100,
+        "minimumReviews": 3,
+        "maximumFailedChecks": 3
+      },
+      "targetMarket": "US"
+    }
+  ],
+  "candidates": [
+    {
+      "id": "sla-preflight",
+      "name": "SLA Preflight",
+      "template": "requirements-review-v1",
+      "publication": "draft",
+      "offer": "Compare a short IT service agreement with explicit response, uptime and recovery requirements.",
+      "approval": null,
+      "targetMarket": "US"
+    }
+  ],
   "costs": [],
   "costCoverageComplete": false,
   "paymentsEnabled": false,
-  "maximumProducts": 1
+  "maximumProducts": 1,
+  "targetMarket": {
+    "countryCode": "US",
+    "name": "United States",
+    "currency": "USD",
+    "language": "en-US"
+  },
+  "operator": {
+    "jurisdictionCode": "MA",
+    "jurisdiction": "Morocco",
+    "legalIdentityVerified": false
+  },
+  "annualRevenueTarget": {
+    "amountUSD": 1000000,
+    "status": "aspirational-not-forecast"
+  },
+  "researchPolicy": {
+    "scope": "US buyers, US-relevant paid solutions, US search intent and distribution channels; revenue models in USD",
+    "evidenceRule": "Global evidence remains labelled global or unknown; it is not verified US demand. No inferred search volumes, conversions or earnings.",
+    "paymentsRule": "Evaluate actual operator jurisdiction separately from buyer market. US targeting never implies a US entity or direct Stripe eligibility."
+  }
 }

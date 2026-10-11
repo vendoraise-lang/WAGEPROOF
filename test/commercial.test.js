@@ -2,7 +2,25 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { traffic, productEvent, experimentDecision } from '../telemetry.js';
 import commercial from '../factory/commercial.json' with { type: 'json' };
+import registry from '../factory/registry.json' with { type: 'json' };
+import { rankOpportunity } from '../factory/core.js';
 import { prepareLemonTestCheckout } from '../payments/lemon.js';
+
+test('US customer market never changes Moroccan operator eligibility or turns global interest into US demand', () => {
+  assert.equal(registry.targetMarket.countryCode, 'US');
+  assert.equal(registry.operator.jurisdictionCode, 'MA');
+  assert.equal(commercial.operatorJurisdiction, 'MA');
+  assert.equal(commercial.experiment.targetMarket, 'US');
+  assert.equal(commercial.experiment.currency, 'USD');
+  assert.ok(commercial.opportunities.every(o => o.targetMarket === 'US'));
+  assert.equal(commercial.monetization.operatorJurisdiction, 'MA');
+  assert.equal(commercial.monetization.buyerMarket, 'US');
+  assert.equal(commercial.monetization.livePaymentsEnabled, false);
+  const ranked = rankOpportunity([{ views: 100000, title: 'Global fixture', url: 'https://example.com' }]);
+  assert.equal(ranked.targetMarket, 'US');
+  assert.equal(ranked.dimensions.demand, 0);
+  assert.equal(ranked.dimensions.revenueEvidence, 0);
+});
 
 test('Bot, operator and health traffic is excluded; tagged tests and checklist attribution remain segregated', () => {
   const req = (agent, test) => new Request('https://example.com/?source=sla-checklist', { headers: { 'User-Agent': agent, ...(test ? { 'X-Factory-Test': '1' } : {}) } });

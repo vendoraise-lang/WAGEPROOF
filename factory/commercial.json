@@ -1,72 +1,81 @@
 {
   "observedAt": "2026-10-11",
-  "limitations": "Official vendor offers and vendor-published customer accounts were retrieved. Independent reviews were blocked or unavailable. No transactions, search volumes, interviews or customer intent invented. GitHub issues are not purchase evidence.",
+  "limitations": "Official vendor offers and vendor-published customer accounts were retrieved. Independent reviews were blocked or unavailable. No transactions, search volumes, interviews or customer intent invented. GitHub issues are not purchase evidence. Commercial focus is US buyers; retrieved global offers are not independently verified US demand. No geographic visitor classification is collected.",
   "opportunities": [
     {
       "id": "it-sla-preflight",
       "title": "IT proposal/SLA commitment preflight",
       "selected": true,
-      "buyer": "Small IT providers checking a client-facing proposal before submission",
+      "buyer": "US small IT providers checking a client-facing proposal before submission",
       "paidDeliverable": "One complete evidence-linked review of up to 30 explicit requirements, with numeric/unit comparisons and HTML/CSV exports. Proposed $9 one-time price is an experiment, not validated willingness to pay.",
-      "organicChannel": "Existing approved SLA checklist for response-versus-resolution search intent; no further publication.",
+      "organicChannel": "US search intent: Existing approved SLA checklist for response-versus-resolution search intent; no further publication.",
       "evidence": [
         {
           "url": "https://www.pandadoc.com/pricing/",
           "kind": "official-paid-offer",
-          "observation": "Rendered Business plan is $49 per seat/month for sales proposals and integrated agreement workflows; billing-toggle selection not independently verified. Adjacent document workflow, not a competing SLA checker."
+          "observation": "Rendered Business plan is $49 per seat/month for sales proposals and integrated agreement workflows; billing-toggle selection not independently verified. Adjacent document workflow, not a competing SLA checker.",
+          "marketEvidence": "global-or-unspecified; US-specific buying intent not verified"
         },
         {
           "url": "https://loopio.com/case-study/how-loopio-helps-allied-universal-respond-to-rfps/",
           "kind": "vendor-published-customer-account",
-          "observation": "Named Allied Universal proposal leader describes manual content maintenance and inaccuracies. Vendor-selected account, not an independent interview or evidence from small IT providers."
+          "observation": "Named Allied Universal proposal leader describes manual content maintenance and inaccuracies. Vendor-selected account, not an independent interview or evidence from small IT providers.",
+          "marketEvidence": "global-or-unspecified; US-specific buying intent not verified"
         }
       ],
       "commercialConfidence": "low",
-      "gap": "No direct buyer-intent signal or verified willingness to pay for this narrower checker. Selected for lowest incremental execution risk using the functioning product, not proven market superiority."
+      "gap": "No direct buyer-intent signal or verified willingness to pay for this narrower checker. Selected for lowest incremental execution risk using the functioning product, not proven market superiority.",
+      "targetMarket": "US"
     },
     {
       "id": "rfp-completeness",
       "title": "RFP response requirement-completeness preflight",
       "selected": false,
-      "buyer": "Small proposal teams submitting recurring RFP responses",
+      "buyer": "US small proposal teams submitting recurring RFP responses",
       "paidDeliverable": "Check explicitly supplied mandatory requirements against a draft and produce a traceable missing-answer report; attachments and submission eligibility require human review. Not built or published.",
-      "organicChannel": "Hypothesis: search for RFP compliance matrix and missing mandatory response checklist. No volume or ranking evidence.",
+      "organicChannel": "US search intent: Hypothesis: search for RFP compliance matrix and missing mandatory response checklist. No volume or ranking evidence.",
       "evidence": [
         {
           "url": "https://www.responsive.io/pricing",
           "kind": "official-paid-offer",
-          "observation": "Emerging Edition advertises starting from $10,000 for structured RFP processes. Billing period is not established from the retrieved page; do not assume annual."
+          "observation": "Emerging Edition advertises starting from $10,000 for structured RFP processes. Billing period is not established from the retrieved page; do not assume annual.",
+          "marketEvidence": "global-or-unspecified; US-specific buying intent not verified"
         },
         {
           "url": "https://loopio.com/pricing/",
           "kind": "official-paid-offer",
-          "observation": "Foundations includes 10 seats and unlimited projects; custom quote, no verified numerical price."
+          "observation": "Foundations includes 10 seats and unlimited projects; custom quote, no verified numerical price.",
+          "marketEvidence": "global-or-unspecified; US-specific buying intent not verified"
         }
       ],
       "commercialConfidence": "category-supported; narrow-offer-unvalidated",
-      "gap": "Established paid broad workflows do not establish demand for a standalone completeness checker."
+      "gap": "Established paid broad workflows do not establish demand for a standalone completeness checker.",
+      "targetMarket": "US"
     },
     {
       "id": "security-answer-consistency",
       "title": "Security-questionnaire answer consistency review",
       "selected": false,
-      "buyer": "B2B software vendors repeatedly answering customer security questionnaires",
+      "buyer": "US b2B software vendors repeatedly answering customer security questionnaires",
       "paidDeliverable": "Flag contradictory explicitly stated operational commitments against a supplied approved answer sheet; cannot verify security controls or certify compliance. Not built or published.",
-      "organicChannel": "Hypothesis: searches for security questionnaire inconsistent answers and RTO/RPO response review. No volume evidence; no resource authorized.",
+      "organicChannel": "US search intent: Hypothesis: searches for security questionnaire inconsistent answers and RTO/RPO response review. No volume evidence; no resource authorized.",
       "evidence": [
         {
           "url": "https://www.responsive.io/pricing",
           "kind": "official-paid-offer",
-          "observation": "Paid platform lists security questionnaires and a Trust Center for securely sharing prefilled questionnaires. This is category spending evidence only."
+          "observation": "Paid platform lists security questionnaires and a Trust Center for securely sharing prefilled questionnaires. This is category spending evidence only.",
+          "marketEvidence": "global-or-unspecified; US-specific buying intent not verified"
         },
         {
           "url": "https://loopio.com/pricing/",
           "kind": "official-paid-offer",
-          "observation": "Paid response platform expressly covers security questionnaires. No direct purchasing requests for this proposed narrow checker were verified."
+          "observation": "Paid response platform expressly covers security questionnaires. No direct purchasing requests for this proposed narrow checker were verified.",
+          "marketEvidence": "global-or-unspecified; US-specific buying intent not verified"
         }
       ],
       "commercialConfidence": "category-supported; narrow-offer-unvalidated",
-      "gap": "Sensitive inputs, independent control validation and strong incumbents increase risk; do not build before direct demand evidence."
+      "gap": "Sensitive inputs, independent control validation and strong incumbents increase risk; do not build before direct demand evidence.",
+      "targetMarket": "US"
     }
   ],
   "experiment": {
@@ -78,7 +87,7 @@
     "minimumIntent": 3,
     "budgetUSD": 0,
     "resource": "/resources/sla-checklist",
-    "channel": "Organic search: SLA response time vs resolution time; unverified search demand and indexing",
+    "channel": "US English organic search: SLA response time vs resolution time; no verified US search volume or indexing",
     "offer": "Complete self-service report at proposed $9 after beta; free beta and live-payment lock remain in force",
     "publicationScope": "Only founder-approved SLA checklist; no new product or resource publication",
     "intentDefinition": "Anonymous nonbinding consider-$9 click after a completed review; not a lead, order or promise to pay",
@@ -87,6 +96,54 @@
       "live payment activation",
       "any additional publication",
       "any spending"
+    ],
+    "targetMarket": "US",
+    "currency": "USD",
+    "measurementLimit": "Aggregates are not geolocated; measured traffic is not automatically US traffic or unique buyers."
+  },
+  "targetMarket": "US",
+  "operatorJurisdiction": "MA",
+  "monetization": {
+    "recommendedProvider": "Lemon Squeezy \u2014 subject to actual store/product approval",
+    "operatorJurisdiction": "MA",
+    "buyerMarket": "US",
+    "currency": "USD",
+    "livePaymentsEnabled": false,
+    "accountConnected": false,
+    "countryPayoutSupport": "Morocco explicitly listed for bank payouts; individual operator, bank and store approval not yet verified",
+    "verifiedAt": "2026-10-11",
+    "fees": {
+      "basePercent": 5,
+      "baseFixedUSDCents": 50,
+      "calculationBasis": "total order including tax",
+      "outsideUSAdditionalPercent": 1.5,
+      "paypalAdditionalPercent": 1.5,
+      "subscriptionAdditionalPercent": 0.5,
+      "outsideUSBankPayoutPercent": 1,
+      "outsideUSPaypalPayoutPercent": 3,
+      "outsideUSPaypalPayoutCapUSD": 30
+    },
+    "payouts": {
+      "minimumUSD": 50,
+      "createdDays": [
+        1,
+        15
+      ],
+      "availableDays": [
+        14,
+        28
+      ],
+      "holdDays": 13,
+      "bankArrivalDays": "Documentation says 1\u20135 days; not guaranteed",
+      "bankConversion": "USD or conversion to chosen/local currency; actual bank route and FX remain to be verified"
+    },
+    "productApproval": "Software/SaaS is listed as acceptable; external fulfillment generally requires approval and typically subscription/license-key software structure. Explain the actual automated product; do not describe it as consulting or imply approval.",
+    "sources": [
+      "https://docs.lemonsqueezy.com/help/getting-started/supported-countries",
+      "https://docs.lemonsqueezy.com/help/getting-started/fees",
+      "https://docs.lemonsqueezy.com/help/getting-started/getting-paid",
+      "https://docs.lemonsqueezy.com/help/getting-started/activate-your-store",
+      "https://docs.lemonsqueezy.com/help/getting-started/prohibited-products"
     ]
   }
 }

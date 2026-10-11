@@ -19,17 +19,17 @@ export function evidenceFromFeed(data, now = new Date().toISOString()) {
   }));
 }
 export function rankOpportunity(evidence) {
-  const totalViews = evidence.reduce((n, e) => n + e.views, 0);
   const dimensions = {
-    demand: evidence.length ? Math.min(35, 5 + evidence.length * 2 + Math.log10(1 + totalViews) * 3) : 0,
+    // These feeds do not establish buyer geography or purchase intent; never score them as US demand.
+    demand: 0,
     development: 85, acquisition: 15, operatingCost: 95, revenueEvidence: 0
   };
   const weights = { demand: .3, development: .2, acquisition: .2, operatingCost: .15, revenueEvidence: .15 };
-  return { id: 'it-service-commitments', title: 'IT service commitment review', dimensions, weights,
+  return { id: 'it-service-commitments', title: 'US IT service commitment review', targetMarket: 'US', marketEvidence: 'No verified US buyer demand; global discussions are exploratory only.', dimensions, weights,
     score: Math.round(Object.keys(weights).reduce((n, k) => n + dimensions[k] * weights[k], 0)),
     evidence, confidence: 'low', status: 'research', automaticLaunchAllowed: false,
-    assumptions: ['Existing tested analysis template lowers engineering effort.', 'Free hosting assumes remaining free quota.', 'Acquisition and revenue are unvalidated; no paid demand inferred from question views.'],
-    nextExperiment: 'Publish one approved practical SLA checklist, measure attributed visits and completed reviews, then test an eligible paid offer with approval.' };
+    assumptions: ['Existing tested analysis template lowers engineering effort.', 'Free hosting assumes remaining free quota.', 'US acquisition and revenue are unvalidated; global questions establish neither US nor paid demand.'],
+    nextExperiment: 'Measure the sole approved SLA checklist for US English search intent, review attributed usage, then test a US-buyer offer through a provider eligible for the actual Moroccan operator, with approval.' };
 }
 export function evidenceFromGithub(data, now = new Date().toISOString()) {
   if (!Array.isArray(data.items)) throw new Error('Invalid public issue feed');
