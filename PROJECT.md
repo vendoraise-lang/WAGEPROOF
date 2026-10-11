@@ -1,0 +1,49 @@
+# Proposal Preflight
+
+Updated 2026-10-11. New, authorized product built in the previously empty WAGEPROOF checkout. Not the prior claimed payroll application. **Local MVP implemented; public launch and real Stripe checkout not yet verified. No revenue.**
+
+## Product and operation
+
+Small IT providers paste a checklist (30 rows maximum) and a proposal. Backend deterministic matching returns three free rows. $9 USD buys a complete, text-bound report with HTML/CSV download. No AI API or model, no subscriptions, accounts, uploads, server-side document storage or database. This is a terminology screen, not a semantic compliance assessment or professional proposal review. Demand for a $9 self-service report remains unvalidated.
+
+Node >=22, tested on Node 24.19.0; native HTTP/crypto/fetch and static responsive HTML/CSS/JS. No npm dependencies. `npm start`, `npm test`, `npm run check`. Local environment variables: `.env.example`; use `node --env-file=.env server.js` after securely creating an ignored `.env`. Do not commit secrets. Dockerfile and Render blueprint included, neither deployed. There is no bundling/build step; syntax check plus tests validate source deployment.
+
+## Payment and security
+
+Stripe hosted Checkout with a server-fixed active one-time $9 USD Price, card payment only. Checkout metadata contains HMAC input fingerprint and hashed random browser key, not text. Paid-report endpoint retrieves the session from Stripe, checks amount/currency/status/metadata and checks refunds/disputes. No webhook/database is necessary for this one-time stateless delivery. The secret must stay stable between deployments and all instances. Payment receipt authorizes only the original text; edits require another purchase.
+
+Draft lives in the original tab's sessionStorage during checkout. Browser session restoration can retain it; the clear button removes it. Lost draft cannot be recovered server-side; operator must handle refunds. Test buyer recovery and customer email receipts before launch. Changing APP_SECRET invalidates earlier receipts; rotation needs a planned refund/support process. Stripe API outage blocks verification; refresh in the original tab after recovery. No automatic refund flow.
+
+Request size cap 256KB, checklist/proposal text caps, per-route per-IP limits (five checkouts and 30 previews/reports per ten minutes), bounded in-memory limiter, origin checks, CSP, safe text rendering and spreadsheet formula escaping. Only set TRUST_PROXY=true after checking that hosting overwrites the forwarded header and confirming which hop is trustworthy. Leaving it false avoids spoofing but can share limits across visitors behind the host proxy. Add host-level edge limits for production if needed; limits reset on process restart and do not stop distributed abuse. HTML/CSV exports require the paid report.
+
+Aggregate in-memory counters (previews/checkouts/reports/errors), protected `/api/metrics` with METRICS_TOKEN; no persistent visitor tracking or third-party analytics. Sanitized server error events go to stderr. Hosting access logs still need provider-policy review. Health check `/health`. Monitoring totals reset on restart; Stripe dashboard is authoritative for payments. Do not call these counters durable business analytics.
+
+## Deployment activation — exact inputs
+
+1. **Approve public deployment and source publication:** choose Render or another Node host; connect your account and the existing GitHub repository, allowing code publication only as appropriate to repository visibility. This agent has not pushed code. Render blueprint uses a free plan; confirm current commercial-use conditions, quotas, regional availability and cold-start behavior before creation. Do not accept a paid upgrade or add a card/financial commitment without approval. Free hosting can sleep and interrupt timely delivery.
+2. **Stripe account:** business-owned account with required identity, bank/payout and business verification completed; use test mode first. Create product “Proposal Preflight report”, one-time Price **USD 9.00**, no subscription. Turn on customer payment receipts and configure the statement descriptor. Supply STRIPE_SECRET_KEY and matching STRIPE_PRICE_ID in the host's secure environment, never chat or committed files. No publishable key is needed for hosted Checkout. No webhook secret is needed for this flow. Live processing has Stripe fees; approve provider terms/fees before activation.
+3. **Runtime secrets/config:** generate APP_SECRET privately (32+ random bytes, e.g. `openssl rand -hex 32`) and METRICS_TOKEN privately; enter them in host settings. Set PUBLIC_BASE_URL to the assigned HTTPS production origin with no trailing slash. Server port comes from host PORT. PUBLIC_BASE_URL and Price ID are nonsecret; secret-key values must never be printed.
+4. **Business/legal inputs:** operator/business identity, working support email, jurisdiction, and approval of privacy/terms/refund wording. `public/legal.html` currently visibly says prelaunch and checkout inactive; replace with truthful approved details before publishing. Do not invent an address or legal entity. Confirm customer authorization to process texts and host/Stripe data practices. No legal certification is claimed.
+5. **Connectivity:** hosting must reach `api.stripe.com` via verified HTTPS. For agent deployment, enter RENDER_API_KEY in secure Codex environment settings, scoped to `api.render.com`; connect Render to the repository. STRIPE_SECRET_KEY and RENDER_API_KEY requirements, a STRIPE_PRICE_ID variable, and `api.stripe.com`/`api.render.com`/`render.com` network access were saved in the cloud configuration draft. Review/save those changes and publish the cloud environment to activate them; this does not publish the application. No API credentials are currently present here. Enter the actual production Stripe key directly in Render's secret settings too: proxy-backed Codex bindings may be placeholders and must not be copied into another host.
+
+## Launch verification gate
+
+Run all tests/syntax checks, verify HTTPS/security headers and mobile layout at the real URL, run a free preview, complete an authorized Stripe test-mode purchase, return to the same tab, download both formats, refresh/recover the paid report, and check amount/content boundaries. Verify cancellation, mismatch, declined payment, support contact and receipts. Then switch to approved live Stripe settings and verify a real paid transaction/refund only with a specific authorized test amount and buyer. Test-mode or mocked payments are not revenue or proof that live checkout works. Record production URL and results here only when observed.
+
+## First customer — launch assets
+
+Target: owner/sales lead of a small US MSP who is preparing a private-sector managed-services proposal and already has a requirements checklist. Offer: three-row preview free, $9 once for a combined 30-row report. No claims of improved win rate or compliance. Competitor editors are broad; this is a narrow text check. Avoid ads until an actual purchase and useful feedback.
+
+Approved-outreach draft to customize with verified name and published URL:
+
+> Before you send your next managed-services proposal, you can compare a requirements checklist with your draft and inspect matched passages or missing terminology. Proposal Preflight offers a three-row preview free and a complete downloadable report for $9. It is a terminology screen, not a compliance verdict. Would you try the free preview on a non-sensitive draft and tell us whether the excerpts are useful? [verified URL]
+
+Checklist: publish/verify product → prepare one fictional before/after screenshot → select ten verified relevant contacts from permissioned owner networks → approve exact recipients/messages/channel → send individually → record actual previews/feedback/purchases → improve only a demonstrated blocker. Ask community moderators before posting. No outreach is authorized yet and none sent. Success means one real customer payment and report delivery, not visits or praise. Stop buying development if ten qualified users find no useful gaps or no one will pay; fix positioning/scope before adding features.
+
+## Budget and next action
+
+Remaining Codex balance is not exposed. No paid APIs/tools or hosting have been purchased. Dependency-free implementation minimizes maintenance and setup costs. Next action after local checks: obtain only the activation inputs above, then complete approved deployment and live verification. Do not repeat market research or build additional features while connections are missing.
+
+## Verification record
+
+Twelve built-in tests and syntax checks pass. Chromium browser checks passed at desktop and 390px mobile widths: free preview, checkout-disabled state, mocked Stripe redirect and paid report, both downloads, escaped HTML injection, spreadsheet formula protection, report recovery after reload, clear-data action, no horizontal overflow or JavaScript errors. Repeat browser check with `python tools/browser-smoke.py` when Python Playwright/system Chromium are installed; its payment fixture is test-only and must never be deployed. No real Stripe transaction was performed. Container build succeeded and its health, functional preview and unconfigured checkout state were verified while running read-only as a nonroot user with capabilities removed; production deployment remains unexecuted.
