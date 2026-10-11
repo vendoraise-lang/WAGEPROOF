@@ -8,7 +8,7 @@ const candidate = registry.candidates[0];
 if (candidate.template !== 'requirements-review-v1' || !/^[a-z0-9-]{1,40}$/.test(candidate.id) || !/^[A-Za-z0-9 _-]{1,60}$/.test(candidate.name)) throw new Error('Unsupported template');
 // Copy tested, working product code. No dependencies, fabricated testimonials or autonomous AI generation.
 const files = {};
-for (const file of ['checker.js', 'server.js', 'worker.js', 'public/index.html', 'public/app.js', 'public/style.css', 'public/legal.html']) {
+for (const file of ['checker.js', 'server.js', 'worker.js', 'telemetry.js', 'public/index.html', 'public/app.js', 'public/style.css', 'public/legal.html']) {
   let text = await readFile(root + file, 'utf8');
   if (file.startsWith('public/')) text = text.replaceAll('Proposal Preflight', candidate.name).replaceAll('Proposal preflight', candidate.name);
   if (file === 'worker.js') text = text.replaceAll("'proposal-preflight'", JSON.stringify(candidate.id));

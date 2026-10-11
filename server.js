@@ -77,7 +77,7 @@ export function createApp({ env = process.env, stripeFetch = fetch, clock = Date
       if (!rate(req, url.pathname)) { res.setHeader('Retry-After', '600'); return reply(res, 429, { error: 'Usage limit reached. Please wait ten minutes.' }); }
       const input = await body(req);
       if (url.pathname === '/api/events') {
-        if (!['download', 'support'].includes(input?.event) || Object.keys(input).length !== 1) return reply(res, 400, { error: 'Invalid aggregate event.' });
+        if (!['download', 'support', 'intent'].includes(input?.event) || Object.keys(input).length !== 1) return reply(res, 400, { error: 'Invalid aggregate event.' });
         return reply(res, 200, { ok: true });
       }
       validate(input);

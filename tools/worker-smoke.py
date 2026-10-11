@@ -10,7 +10,7 @@ from playwright.sync_api import sync_playwright
 base = sys.argv[1].rstrip('/') if len(sys.argv) > 1 else 'http://127.0.0.1:8787'
 # Cloudflare can reject Python's default agent before forwarding to the Worker.
 opener = urllib.request.build_opener()
-opener.addheaders = [('User-Agent', 'ProposalPreflightSmoke/1.0')]
+opener.addheaders = [('User-Agent', 'ProposalPreflightSmoke/1.0'), ('X-Factory-Test', '1')]
 urllib.request.install_opener(opener)
 with urllib.request.urlopen(base + '/api/config', timeout=60) as response:
     config = json.load(response)
@@ -42,7 +42,7 @@ with sync_playwright() as p:
     errors = []
     page.on('pageerror', lambda e: errors.append(str(e)))
     page.set_default_timeout(15000)
-    page.goto(base)
+    page.goto(base + '/?source=sla-checklist')
     page.locator('#sample').click()
     page.locator('#preview').click()
     page.locator('#downloads').wait_for(state='visible')
@@ -51,6 +51,9 @@ with sync_playwright() as p:
     for term in ['Numeric requirement mismatch', 'Unsupported process claim', 'Missing coverage commitment', 'Next action:']:
         assert term in findings, term
     assert page.locator('#purchase').is_hidden()
+    page.locator('#price-interest').click()
+    page.wait_for_function('() => document.getElementById("message").textContent.includes("price-interest signal recorded")')
+    assert page.locator('#price-interest').is_disabled()
     for button in ['download-html', 'download-csv']:
         with page.expect_download() as result:
             page.locator('#' + button).click()

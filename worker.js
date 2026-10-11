@@ -1,5 +1,6 @@
 import { httpServerHandler } from 'cloudflare:node';
 import { createApp } from './server.js';
+import { traffic, productEvent } from './telemetry.js';
 
 let handler, origin;
 export default {
@@ -27,15 +28,11 @@ export default {
     }
     const response = await handler.fetch(request, env, ctx);
     // Best-effort aggregate telemetry never stores documents or changes product availability.
-    if (env.FACTORY && (request.headers.get('X-Factory-Test') === '1' || !/bot|crawl|spider|headless|uptime/i.test(request.headers.get('User-Agent') || ''))) {
-      let event = request.method === 'GET' && path === '/' && response.ok ? 'pageviews'
-        : request.method === 'POST' && ['/api/preview', '/api/report'].includes(path) && response.ok ? 'reviews'
-        : request.method === 'POST' && response.status >= 400 ? 'errors' : null;
-      if (eventRequest && response.ok) {
-        const value = await eventRequest.json().catch(() => null);
-        event = value?.event === 'download' ? 'downloads' : value?.event === 'support' ? 'supportClicks' : null;
-      }
-      if (event) ctx.waitUntil(env.FACTORY.record({ product: 'proposal-preflight', event, channel: new URL(request.url).searchParams.get('source') === 'sla-checklist' ? 'sla-checklist' : 'direct', test: request.headers.get('X-Factory-Test') === '1' }).catch(() => {}));
+    const measurement = traffic(request);
+    if (env.FACTORY && measurement) {
+      const value = eventRequest && response.ok ? await eventRequest.json().catch(() => null) : null;
+      const event = productEvent(request, response, value);
+      if (event) ctx.waitUntil(env.FACTORY.record({ product: 'proposal-preflight', event, ...measurement }).catch(() => {}));
     }
     return response;
   }

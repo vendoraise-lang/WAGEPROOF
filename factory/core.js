@@ -1,4 +1,5 @@
-export const EVENTS = ['pageviews', 'reviews', 'downloads', 'errors', 'supportClicks'];
+export { EVENTS } from '../telemetry.js';
+import { EVENTS } from '../telemetry.js';
 export const FEED = 'https://api.stackexchange.com/2.3/questions?site=serverfault&tagged=sla&sort=activity&order=desc&pagesize=10&filter=default';
 export const FALLBACK_FEED = 'https://api.github.com/search/issues?q=%22service+level+agreement%22+is%3Aissue+is%3Aopen&per_page=10';
 export function safeEvent(value, registry) {

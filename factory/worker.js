@@ -1,6 +1,8 @@
 import { DurableObject, WorkerEntrypoint } from 'cloudflare:workers';
 import registry from './registry.json';
 import resource from './resource.json';
+import commercial from './commercial.json';
+import { traffic, experimentDecision } from '../telemetry.js';
 import { resourceDigest, resourceHTML } from './resource.js';
 import { verifyTestReceipt } from './accounting.js';
 import { EVENTS, FEED, FALLBACK_FEED, safeEvent, evidenceFromFeed, evidenceFromGithub, rankOpportunity, economics, decision, resourceDraft, publicationAllowed } from './core.js';
@@ -16,6 +18,9 @@ export class PortfolioStore extends DurableObject {
     super(ctx, env);
     this.sql = ctx.storage.sql;
     this.sql.exec('CREATE TABLE IF NOT EXISTS events (day TEXT, product TEXT, test INTEGER, pageviews INTEGER DEFAULT 0, reviews INTEGER DEFAULT 0, downloads INTEGER DEFAULT 0, errors INTEGER DEFAULT 0, supportClicks INTEGER DEFAULT 0, PRIMARY KEY(day, product, test))');
+    const columns = new Set([...this.sql.exec('PRAGMA table_info(events)')].map(c => c.name));
+    for (const event of EVENTS) if (!columns.has(event)) this.sql.exec(`ALTER TABLE events ADD COLUMN ${event} INTEGER DEFAULT 0`);
+    this.sql.exec(`CREATE TABLE IF NOT EXISTS funnel (day TEXT, product TEXT, channel TEXT, test INTEGER, ${EVENTS.map(e => `${e} INTEGER DEFAULT 0`).join(', ')}, PRIMARY KEY(day,product,channel,test))`);
     this.sql.exec('CREATE TABLE IF NOT EXISTS state (key TEXT PRIMARY KEY, value TEXT NOT NULL)');
     this.sql.exec('CREATE TABLE IF NOT EXISTS test_receipts (id TEXT PRIMARY KEY, product TEXT, amountCents INTEGER, verifiedAt TEXT)');
     this.sql.exec('CREATE TABLE IF NOT EXISTS channels (day TEXT, product TEXT, channel TEXT, test INTEGER, count INTEGER DEFAULT 0, PRIMARY KEY(day,product,channel,test))');
@@ -25,6 +30,8 @@ export class PortfolioStore extends DurableObject {
   record(value) {
     const e = safeEvent(value, registry), day = new Date().toISOString().slice(0, 10);
     this.sql.exec(`INSERT INTO events(day,product,test,${e.event}) VALUES (?,?,?,1) ON CONFLICT(day,product,test) DO UPDATE SET ${e.event}=${e.event}+1`, day, e.product, Number(e.test));
+    const channel = value.channel === 'sla-checklist' ? 'sla-checklist' : 'direct';
+    this.sql.exec(`INSERT INTO funnel(day,product,channel,test,${e.event}) VALUES (?,?,?,?,1) ON CONFLICT(day,product,channel,test) DO UPDATE SET ${e.event}=${e.event}+1`, day, e.product, channel, Number(e.test));
     if (e.event === 'pageviews' && value.channel === 'sla-checklist') this.sql.exec('INSERT INTO channels(day,product,channel,test,count) VALUES (?,?,?, ?,1) ON CONFLICT(day,product,channel,test) DO UPDATE SET count=count+1', day, e.product, 'sla-checklist', Number(e.test));
     return { recorded: true };
   }
@@ -47,16 +54,20 @@ export class PortfolioStore extends DurableObject {
     const products = registry.products.map(p => {
       const total = Object.fromEntries(EVENTS.map(e => [e, 0]));
       const tests = Object.fromEntries(EVENTS.map(e => [e, 0]));
-      for (const r of rows.filter(r => r.product === p.id)) for (const e of EVENTS) (r.test ? tests : total)[e] += r[e];
+      for (const r of rows.filter(r => r.product === p.id)) for (const e of EVENTS) (r.test ? tests : total)[e] += r[e] || 0;
+      const checklistFunnel = Object.fromEntries(EVENTS.map(e => [e, [...this.sql.exec(`SELECT COALESCE(SUM(${e}),0) AS n FROM funnel WHERE day>=? AND product=? AND channel='sla-checklist' AND test=0`, cutoff, p.id)][0].n]));
+      const testChecklistFunnel = Object.fromEntries(EVENTS.map(e => [e, [...this.sql.exec(`SELECT COALESCE(SUM(${e}),0) AS n FROM funnel WHERE day>=? AND product=? AND channel='sla-checklist' AND test=1`, cutoff, p.id)][0].n]));
       return { ...p, counts: total, testCounts: tests, health: health[p.id] || null, decision: decision(p, total, health[p.id]),
+        checklistFunnel, testChecklistFunnel,
         resourceReferralPageviews: [...this.sql.exec('SELECT COALESCE(SUM(count),0) AS n FROM channels WHERE day>=? AND product=? AND test=0', cutoff, p.id)][0].n,
         completionEventsPerPageview: total.pageviews ? total.reviews / total.pageviews : null };
     });
     const opportunity = rankOpportunity(evidence);
     const draft = resource;
-    return { observedAt: new Date().toISOString(), products, opportunityQueue: [opportunity],
+    const experiment = { ...commercial.experiment, metrics: products[0].checklistFunnel, decision: experimentDecision(commercial.experiment, products[0].checklistFunnel), indexingVerified: false };
+    return { observedAt: new Date().toISOString(), products, opportunityQueue: [opportunity], commercialOpportunities: commercial.opportunities, experiment,
       candidates: registry.candidates, distributionDraft: { title: draft.title, publication: draft.publication }, economics: { ...economics(registry), verifiedTestReceiptCount: [...this.sql.exec('SELECT COUNT(*) AS n FROM test_receipts')][0].n }, scheduledJob: job,
-      measurement: 'Rolling 30-day event counts, not unique people or customers. Known bots and tagged test traffic excluded from production counts. Repeat events remain possible.',
+      measurement: 'Rolling 30-day event counts, not unique people, sessions or customers. Checklist funnel measured since 2026-10-11; earlier pageviews may include untagged operator traffic. Known bots, samples and tagged tests excluded. Repeat/spoofed events remain possible; intent is nonbinding, not a sale.',
       costs: { estimatedMonthlyPlatformUSD: 0, aiInferenceUSD: 0, paidServicesEnabled: false, quotaBehavior: 'Free limits fail closed; no upgrade automation.', unallocated: ['Codex development credits', 'Founder time'] } };
   }
   async runScheduled(invocation = 'cron') {
@@ -124,10 +135,13 @@ export class PortfolioStore extends DurableObject {
     this.put('productDraft', { ...registry.candidates[0], generatedAt: startedAt, templateReady: true, deploymentAllowed: false });
     this.put('distributionDraft', resourceDraft(opportunity));
     this.put('optimization', registry.products.map(p => ({ product: p.id, ...this.access(p.id) })));
+    const snapshot = this.snapshot();
+    this.put('experiment', { checkedAt: new Date().toISOString(), ...snapshot.experiment });
     this.sql.exec('DELETE FROM events WHERE day < ?', new Date(Date.now() - 90 * 86400000).toISOString().slice(0, 10));
     this.sql.exec('DELETE FROM channels WHERE day < ?', new Date(Date.now() - 90 * 86400000).toISOString().slice(0, 10));
+    this.sql.exec('DELETE FROM funnel WHERE day < ?', new Date(Date.now() - 90 * 86400000).toISOString().slice(0, 10));
     const result = { startedAt, completedAt: new Date().toISOString(), invocation, bootstrapRevision: this.env.BOOTSTRAP_REVISION, status: feedError ? 'partial' : 'completed', feedError,
-      source: this.get('evidenceSource', FEED), sourceQuotaRemaining: this.get('feedQuota', null), automation: ['health checks', 'public signal refresh', 'ranking', 'aggregate retention', 'threshold recommendations', 'unpublished resource draft'],
+      source: this.get('evidenceSource', FEED), sourceQuotaRemaining: this.get('feedQuota', null), experimentDecision: snapshot.experiment.decision, automation: ['health checks', 'public signal refresh', 'ranking', 'aggregate retention', 'threshold recommendations', 'attributed funnel monitoring', 'unpublished resource draft'],
       requiresApproval: ['new product publication', 'distribution publication', 'code deployment', 'live payments', 'spending', 'retiring independent products'] };
     this.put('job', result); return result;
   }
@@ -158,7 +172,11 @@ export default {
     if (request.method !== 'GET') return json({ error: 'Read-only public interface.' }, 405);
     try {
       if (path === '/health') return json({ ok: true, paymentsEnabled: false });
-      if (path === '/resources/sla-checklist' && publicationAllowed(resource, await resourceDigest(resource))) return new Response(resourceHTML(resource), { headers: { ...headers, 'Content-Type': 'text/html; charset=utf-8' } });
+      if (path === '/resources/sla-checklist' && publicationAllowed(resource, await resourceDigest(resource))) {
+        const measurement = traffic(request);
+        if (measurement) ctx.waitUntil(store(env).record({ product: 'proposal-preflight', event: 'resourceViews', ...measurement, channel: 'sla-checklist' }).catch(() => {}));
+        return new Response(resourceHTML(resource), { headers: { ...headers, 'Content-Type': 'text/html; charset=utf-8' } });
+      }
       if (path === '/api/portfolio') {
         const snapshot = await store(env).snapshot();
         if (snapshot.scheduledJob?.bootstrapRevision !== env.BOOTSTRAP_REVISION) ctx.waitUntil(store(env).runScheduled('initialization'));

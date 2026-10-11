@@ -125,7 +125,7 @@ test('Free beta completes the report journey without enabling payments', async t
 });
 test('Aggregate support/download events accept only a bounded enum and no document or contact fields', async t => {
   const { post } = await app(t);
-  for (const event of ['download', 'support']) assert.equal((await post('/api/events', { event })).status, 200);
+  for (const event of ['download', 'support', 'intent']) assert.equal((await post('/api/events', { event })).status, 200);
   assert.equal((await post('/api/events', { event: 'support', email: 'private@example.test' })).status, 400);
   assert.equal((await post('/api/events', { event: 'unknown' })).status, 400);
   assert.equal((await post('/api/events', { event: 'support' }, { Origin: 'https://evil.example' })).status, 403);

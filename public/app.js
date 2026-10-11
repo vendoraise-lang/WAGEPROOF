@@ -1,11 +1,15 @@
 const $ = id => document.getElementById(id);
 const STORAGE = 'preflight-draft-v1';
 let config = { paymentsAvailable: false }, report = null, active = null, busy = false;
+const source = new URLSearchParams(location.search).get('source') === 'sla-checklist' ? 'sla-checklist' : null;
+let sampleMode = false, intentRecorded = false;
 const message = (text, error = false) => { $('message').textContent = text; $('message').className = `message${error ? ' error' : ''}`; };
 function draft() { return { requirements: $('requirements').value, proposal: $('proposal').value }; }
 function browserKey() { return [...crypto.getRandomValues(new Uint8Array(32))].map(x => x.toString(16).padStart(2, '0')).join(''); }
 async function api(path, data) {
-  const response = await fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data), signal: AbortSignal.timeout(35000) });
+  const url = source ? `${path}?source=${source}` : path;
+  const sample = sampleMode || active?.proposal?.startsWith('FICTIONAL EXAMPLE');
+  const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(sample ? { 'X-Factory-Test': '1' } : {}) }, body: JSON.stringify(data), signal: AbortSignal.timeout(35000) });
   const value = await response.json();
   if (!response.ok) throw new Error(value.error || 'Request failed. Please try again.');
   return value;
@@ -29,6 +33,11 @@ function render(value, full = false) {
   }
   $('purchase').hidden = full;
   $('downloads').hidden = !full;
+  // Keep the existing journey working if an edge briefly serves the prior HTML during release.
+  if ($('price-interest')) {
+    $('price-interest').hidden = !full || !config.freeBeta;
+    $('price-interest').disabled = intentRecorded;
+  }
   $('checkout').textContent = config.paymentsAvailable ? (config.paymentMode === 'test' ? 'Try test checkout · no charge' : 'Get full report · $9') : 'Checkout not activated yet';
   $('checkout').disabled = !config.paymentsAvailable || busy;
 }
@@ -36,7 +45,7 @@ function remember(value) {
   try { sessionStorage.setItem(STORAGE, JSON.stringify(value)); }
   catch { throw new Error('Browser storage is unavailable. Enable session storage before checkout so your report can be recovered.'); }
 }
-function invalidate() { report = null; active = null; $('results').hidden = true; message(''); }
+function invalidate() { report = null; active = null; sampleMode = false; $('results').hidden = true; message(''); }
 $('requirements').addEventListener('input', invalidate); $('proposal').addEventListener('input', invalidate);
 $('review-form').addEventListener('submit', async event => {
   event.preventDefault(); if (busy) return;
@@ -48,7 +57,7 @@ $('review-form').addEventListener('submit', async event => {
 });
 $('sample').addEventListener('click', () => {
   if ($('requirements').value || $('proposal').value) if (!confirm('Replace the current text with a fictional example?')) return;
-  invalidate(); $('requirements').value = 'Provide a response within 30 minutes\nMaintain uptime of at least 99.9%\nDescribe the incident escalation process\nMaintain SOC 2 Type II certification\nProvide 24/7 support';
+  invalidate(); sampleMode = true; $('requirements').value = 'Provide a response within 30 minutes\nMaintain uptime of at least 99.9%\nDescribe the incident escalation process\nMaintain SOC 2 Type II certification\nProvide 24/7 support';
   $('proposal').value = 'FICTIONAL EXAMPLE — not a real vendor or certification.\nOur response time is 60 minutes.\nOur uptime commitment is 99.5%.\nOur incident escalation process is excellent.\nWe cannot claim SOC 2 Type II certification.\nOur team provides business-hours support.'; $('consent').checked = true;
 });
 $('clear').addEventListener('click', () => {
@@ -66,6 +75,12 @@ const csvCell = text => { let value = String(text); if (/^[\s\u0000-\u001f]*[=+@
 function download(content, type, name) { const url = URL.createObjectURL(new Blob([content], { type })); const a = document.createElement('a'); a.href = url; a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
 // Anonymous aggregate download event only; never send report or document contents.
 function trackDownload() { api('/api/events', { event: 'download' }).catch(() => {}); }
+$('price-interest')?.addEventListener('click', async () => {
+  if (!report || intentRecorded) return;
+  $('price-interest').disabled = true;
+  try { await api('/api/events', { event: 'intent' }); intentRecorded = true; message('Anonymous price-interest signal recorded. This is not an order or commitment; no payment or contact details were collected.'); }
+  catch (e) { $('price-interest').disabled = false; message(e.message, true); }
+});
 $('flag-problem').addEventListener('click', async () => {
   if (!confirm('Send an anonymous problem signal? No document text or contact details are sent, so we cannot reply individually.')) return;
   try { await api('/api/events', { event: 'support' }); message('Problem signal recorded. No document text or contact details were sent; individual replies are unavailable.'); }
