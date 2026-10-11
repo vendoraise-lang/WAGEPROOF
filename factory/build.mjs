@@ -16,6 +16,17 @@ for (const file of ['payments/lemon.js', 'seo.js', 'checker.js', 'server.js', 'w
   files[file] = text;
 }
 files['public/index.html'] = files['public/index.html'].replace('<title>', '<meta name="robots" content="noindex"><title>');
+// Candidate-specific demonstration input; the tested review engine is unchanged.
+if (candidate.demo) {
+  for (const key of ['requirements', 'proposal']) {
+    if (typeof candidate.demo[key] !== 'string') throw new Error('Invalid staging example');
+    const pattern = new RegExp("(\\$\\('" + key + "'\\)\\.value = )'[^']*'");
+    if (!pattern.test(files['public/app.js'])) throw new Error('Template sample marker unavailable');
+    files['public/app.js'] = files['public/app.js'].replace(pattern, (_, prefix) => prefix + JSON.stringify(candidate.demo[key]));
+  }
+}
+files['public/index.html'] = files['public/index.html'].replace('<body>', '<body><p class="wrap notice">UNPUBLISHED STAGING DEMO · fictional examples · no real payments</p>');
+
 files['wrangler.jsonc'] = JSON.stringify({ name: candidate.id, main: 'worker.js', compatibility_date: '2026-10-01', compatibility_flags: ['nodejs_compat'], workers_dev: true, services: [{ binding: 'FACTORY', service: 'business-factory', entrypoint: 'Analytics' }], assets: { directory: './public', binding: 'ASSETS', run_worker_first: true }, vars: { FREE_BETA: 'true', PAYMENT_MODE: 'test', LIVE_PAYMENTS_APPROVED: 'false', BUSINESS_JURISDICTION: 'Morocco', TARGET_MARKET: 'US' } }, null, 2);
 files['RESOURCE.txt'] = JSON.stringify(resourceDraft(rankOpportunity([])), null, 2);
 const digest = createHash('sha256').update(JSON.stringify(files)).digest('hex');

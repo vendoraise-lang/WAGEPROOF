@@ -28,7 +28,11 @@
       "publication": "draft",
       "offer": "Compare a short IT service agreement with explicit response, uptime and recovery requirements.",
       "approval": null,
-      "targetMarket": "US"
+      "targetMarket": "US",
+      "demo": {
+        "requirements": "Respond to critical incidents within 30 minutes\nMaintain uptime of at least 99.9%\nRecovery time objective (RTO) within 4 hours\nRecovery point objective (RPO) within 1 hour\nProvide 24/7 support",
+        "proposal": "FICTIONAL EXAMPLE \u2014 staging demonstration, not an actual vendor contract.\nOur critical incident response target is 60 minutes.\nWe commit to 99.5% uptime over the monthly measurement window.\nOur recovery time objective (RTO) is 8 hours.\nOur recovery point objective (RPO) is 30 minutes.\nOur support team operates during business hours Monday through Friday."
+      }
     }
   ],
   "costs": [],
